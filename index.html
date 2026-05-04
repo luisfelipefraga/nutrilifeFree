@@ -4,82 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NutriLife — Sua jornada para uma vida mais saudável</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Google Fonts: Sora + DM Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <nav id="navbar">
-    <div class="nav-inner">
-      <div class="logo" onclick="showPage('home')">
-        <div class="logo-icon">🥗</div>
-        <span>NutriLife</span>
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
+    <div class="container">
+      <a class="navbar-brand nl-brand" href="#" onclick="showPage('home'); return false;">
+        <span class="nl-logo-icon">🥗</span>
+        NutriLife
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item">
+            <button class="nav-link nl-nav-btn active" data-page="home" onclick="showPage('home')">
+              <i class="bi bi-house me-1"></i>Home
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link nl-nav-btn" data-page="nutri" onclick="showPage('nutri')">
+              <i class="bi bi-search me-1"></i>Nutrição
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link nl-nav-btn" data-page="calc" onclick="showPage('calc')">
+              <i class="bi bi-calculator me-1"></i>Calculadoras
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link nl-nav-btn" data-page="receitas" onclick="showPage('receitas')">
+              <i class="bi bi-book me-1"></i>Receitas
+            </button>
+          </li>
+        </ul>
       </div>
-      <div class="nav-links">
-        <button class="nav-btn active" data-page="home" onclick="showPage('home')">🏠 Home</button>
-        <button class="nav-btn" data-page="calc" onclick="showPage('calc')">🧮 Calculadoras</button>
-        <button class="nav-btn" data-page="nutri" onclick="showPage('nutri')">🥦 Nutrição</button>
-        <button class="nav-btn" data-page="receitas" onclick="showPage('receitas')">📖 Receitas</button>
-      </div>
-      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
-    </div>
-    <div class="mobile-menu" id="mobile-menu">
-      <button onclick="showPage('home');toggleMenu()">🏠 Home</button>
-      <button onclick="showPage('calc');toggleMenu()">🧮 Calculadoras</button>
-      <button onclick="showPage('nutri');toggleMenu()">🥦 Nutrição</button>
-      <button onclick="showPage('receitas');toggleMenu()">📖 Receitas</button>
     </div>
   </nav>
 
-  <!-- ===== HOME ===== -->
-  <div id="page-home" class="page active">
-    <section class="hero">
-      <div class="hero-badge">✨ Plataforma gratuita de nutrição</div>
-      <h1>Bem-vindo ao <span class="green">NutriLife</span></h1>
-      <p class="hero-sub">Sua plataforma completa para nutrição, cálculos de saúde e compartilhamento de receitas saudáveis.</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="showPage('nutri')">Começar Agora</button>
-        <button class="btn-outline" onclick="showPage('nutri')">Explorar Alimentos</button>
+  <!-- ===================== HOME ===================== -->
+  <div id="page-home" class="nl-page active">
+
+    <!-- Hero -->
+    <section class="nl-hero">
+      <div class="container text-center">
+        <div class="nl-hero-badge mb-3">✨ Plataforma nutricional completa</div>
+        <h1 class="nl-display">Cuide da sua saúde com <span class="nl-green">NutriLife</span></h1>
+        <p class="nl-hero-sub mx-auto">Pesquise alimentos, calcule seus macros, monitore seu IMC e conecte-se com uma comunidade engajada em bem-estar.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <button class="btn nl-btn-primary btn-lg" onclick="showPage('nutri')">Começar Agora</button>
+          <button class="btn nl-btn-outline btn-lg" onclick="showPage('nutri')">Explorar Alimentos</button>
+        </div>
       </div>
     </section>
 
-    <section class="info-section">
+    <!-- Seção calorias -->
+    <section class="py-5 bg-white">
       <div class="container">
-        <div class="info-grid">
-          <div class="info-text">
-            <div class="section-tag">📚 Entenda o básico</div>
-            <h2>O que são calorias e por que elas importam?</h2>
-            <p>Calorias são unidades de energia que o corpo obtém dos alimentos. Tudo que você come — carboidratos, proteínas e gorduras — fornece calorias que seu organismo usa para respirar, se mover e pensar.</p>
-            <p>O equilíbrio calórico é simples: quando você consome <strong>mais calorias do que gasta</strong>, o excesso é armazenado como gordura. Quando gasta <strong>mais do que consome</strong>, o corpo usa essa gordura como energia — e é assim que o emagrecimento acontece.</p>
-            <p>Conhecer suas necessidades calóricas diárias é o primeiro passo para qualquer objetivo: emagrecer, manter o peso ou ganhar massa muscular.</p>
-            <button class="btn-primary" onclick="showPage('calc')">Calcular minhas calorias →</button>
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <span class="nl-section-tag">📚 Entenda o básico</span>
+            <h2 class="nl-h2 mt-2">O que são calorias e por que elas importam?</h2>
+            <p class="text-muted">Calorias são unidades de energia que o corpo obtém dos alimentos. Carboidratos, proteínas e gorduras fornecem calorias que seu organismo usa para respirar, se mover e pensar.</p>
+            <p class="text-muted">O equilíbrio calórico é simples: quando você consome <strong class="text-dark">mais calorias do que gasta</strong>, o excesso é armazenado como gordura. Quando gasta <strong class="text-dark">mais do que consome</strong>, o corpo usa essa gordura como energia — e é assim que o emagrecimento acontece.</p>
+            <p class="text-muted">Conhecer suas necessidades calóricas diárias é o primeiro passo para qualquer objetivo: emagrecer, manter o peso ou ganhar massa muscular.</p>
+            <button class="btn nl-btn-primary mt-2" onclick="showPage('calc')">Calcular minhas calorias <i class="bi bi-arrow-right ms-1"></i></button>
           </div>
-          <div class="info-visual">
-            <div class="calorie-card">
-              <div class="cal-row">
-                <div class="cal-item deficit">
-                  <div class="cal-icon">📉</div>
-                  <div class="cal-label">Déficit calórico</div>
-                  <div class="cal-desc">Consome menos → emagrecimento</div>
+          <div class="col-lg-6">
+            <div class="nl-calorie-card p-4 rounded-3">
+              <div class="row g-3 mb-3">
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">📉</div>
+                    <div class="fw-600 small mt-1">Déficit</div>
+                    <div class="text-muted" style="font-size:12px">Consome menos → emagrecimento</div>
+                  </div>
                 </div>
-                <div class="cal-item balance">
-                  <div class="cal-icon">⚖️</div>
-                  <div class="cal-label">Equilíbrio</div>
-                  <div class="cal-desc">Consome = gasta → manutenção</div>
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">⚖️</div>
+                    <div class="fw-600 small mt-1">Equilíbrio</div>
+                    <div class="text-muted" style="font-size:12px">Consome = gasta → manutenção</div>
+                  </div>
                 </div>
-                <div class="cal-item surplus">
-                  <div class="cal-icon">📈</div>
-                  <div class="cal-label">Superávit</div>
-                  <div class="cal-desc">Consome mais → ganho de massa</div>
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">📈</div>
+                    <div class="fw-600 small mt-1">Superávit</div>
+                    <div class="text-muted" style="font-size:12px">Consome mais → ganho de massa</div>
+                  </div>
                 </div>
               </div>
-              <div class="macro-explainer">
-                <span class="macro-tag cal-tag">🔥 Calorias</span>
-                <span class="macro-tag prot-tag">💪 Proteínas — 4 kcal/g</span>
-                <span class="macro-tag carb-tag">⚡ Carbs — 4 kcal/g</span>
-                <span class="macro-tag fat-tag">🫙 Gorduras — 9 kcal/g</span>
-                <span class="macro-tag fib-tag">🌿 Fibras — ~2 kcal/g</span>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="nl-badge nl-badge-cal">🔥 Calorias</span>
+                <span class="nl-badge nl-badge-prot">💪 Proteínas — 4 kcal/g</span>
+                <span class="nl-badge nl-badge-carb">⚡ Carboidratos — 4 kcal/g</span>
+                <span class="nl-badge nl-badge-fat">🫙 Gorduras — 9 kcal/g</span>
+                <span class="nl-badge nl-badge-fib">🌿 Fibras — ~2 kcal/g</span>
               </div>
             </div>
           </div>
@@ -87,298 +120,384 @@
       </div>
     </section>
 
-    <section class="features-section">
+    <!-- Feature cards -->
+    <section class="py-5 nl-bg-light">
       <div class="container">
-        <h2 class="section-center">Tudo que você precisa</h2>
-        <p class="section-sub-center">Ferramentas gratuitas para cuidar da sua saúde</p>
-        <div class="features-grid">
-          <div class="feature-card" onclick="showPage('calc')">
-            <div class="feat-icon">🧮</div>
-            <h3>Calculadoras</h3>
-            <p>IMC e necessidade calórica diária com a fórmula de Harris-Benedict</p>
-            <span class="feat-link">Calcular →</span>
+        <h2 class="nl-h2 text-center mb-2">Tudo que você precisa</h2>
+        <p class="text-muted text-center mb-5">Ferramentas gratuitas para cuidar da sua saúde</p>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer" onclick="showPage('nutri')">
+              <div class="nl-feat-icon mb-3"><i class="bi bi-search"></i></div>
+              <h5 class="nl-card-title">Busca Nutricional</h5>
+              <p class="text-muted small">Encontre informações detalhadas de 55+ alimentos e monte sua refeição completa.</p>
+              <span class="nl-feat-link">Explorar <i class="bi bi-arrow-right"></i></span>
+            </div>
           </div>
-          <div class="feature-card featured" onclick="showPage('nutri')">
-            <div class="feat-icon">🔍</div>
-            <h3>Busca Nutricional</h3>
-            <p>Encontre informações de 50+ alimentos e monte sua refeição completa</p>
-            <span class="feat-link">Explorar →</span>
+          <div class="col-md-4">
+            <div class="nl-feat-card nl-feat-featured h-100 p-4 rounded-3 cursor-pointer" onclick="showPage('calc')">
+              <div class="nl-feat-icon mb-3"><i class="bi bi-calculator"></i></div>
+              <h5 class="nl-card-title">Calculadoras</h5>
+              <p class="text-muted small">Calcule IMC, TMB e necessidade calórica diária com a fórmula de Harris-Benedict.</p>
+              <span class="nl-feat-link">Calcular <i class="bi bi-arrow-right"></i></span>
+            </div>
           </div>
-          <div class="feature-card" onclick="showPage('receitas')">
-            <div class="feat-icon">📖</div>
-            <h3>Receitas</h3>
-            <p>Compartilhe e descubra receitas saudáveis da comunidade</p>
-            <span class="feat-link">Ver receitas →</span>
+          <div class="col-md-4">
+            <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer" onclick="showPage('receitas')">
+              <div class="nl-feat-icon mb-3"><i class="bi bi-book"></i></div>
+              <h5 class="nl-card-title">Receitas</h5>
+              <p class="text-muted small">Compartilhe e aprenda com a comunidade engajada em bem-estar.</p>
+              <span class="nl-feat-link">Participar <i class="bi bi-arrow-right"></i></span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <footer><div class="footer-inner"><div class="footer-logo"><span>🥗</span><strong>NutriLife</strong></div><p>© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div></footer>
+    <footer class="nl-footer py-4">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="nl-footer-brand"><span>🥗</span> <strong>NutriLife</strong></div>
+        <p class="mb-0 small">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p>
+      </div>
+    </footer>
   </div>
 
-  <!-- ===== CALCULADORAS ===== -->
-  <div id="page-calc" class="page">
-    <div class="page-header container">
-      <h1>Calculadoras</h1>
-      <p>Ferramentas para acompanhar sua saúde</p>
+  <!-- ===================== NUTRIÇÃO ===================== -->
+  <div id="page-nutri" class="nl-page">
+    <div class="container py-4">
+      <div class="nl-page-header mb-4">
+        <h1 class="nl-h1">Busca Nutricional</h1>
+        <p class="text-muted">Pesquise alimentos e monte sua refeição para calcular o total de nutrientes</p>
+      </div>
+      <div class="row g-4 align-items-start">
+        <!-- Busca -->
+        <div class="col-lg-8">
+          <div class="input-group mb-2">
+            <input type="text" class="form-control nl-input" id="food-search"
+              placeholder="Buscar alimento... ex: feijão, arroz, frango"
+              oninput="searchFoods()">
+            <button class="btn nl-btn-primary px-4" onclick="searchFoods()">
+              <i class="bi bi-search me-1"></i>Buscar
+            </button>
+          </div>
+          <p class="text-muted small mb-3" id="search-hint">
+            💡 Sugestões: feijão, arroz, frango, ovo, banana, maçã, leite, aveia, batata, atum, salmão...
+          </p>
+          <div id="search-results"></div>
+        </div>
+
+        <!-- Painel refeição -->
+        <div class="col-lg-4">
+          <div class="nl-meal-panel p-4 rounded-3 sticky-top" style="top:80px">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="nl-panel-title"><i class="bi bi-egg-fried me-2"></i>Sua Refeição</span>
+              <span class="nl-count-badge" id="meal-count">0 itens</span>
+            </div>
+            <div id="meal-items">
+              <p class="text-muted small text-center py-3">Adicione alimentos à sua refeição</p>
+            </div>
+            <div id="meal-totals-wrap">
+              <hr class="my-3">
+              <div class="d-flex justify-content-between align-items-baseline mb-3">
+                <span class="fw-700 nl-label-total">Total</span>
+                <span class="nl-kcal-total" id="total-kcal">0 kcal</span>
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6"><div class="nl-macro-pill nl-prot text-center p-2 rounded-2"><div class="nl-macro-val" id="t-prot">0g</div><div class="nl-macro-lbl">Proteínas</div></div></div>
+                <div class="col-6"><div class="nl-macro-pill nl-carb text-center p-2 rounded-2"><div class="nl-macro-val" id="t-carb">0g</div><div class="nl-macro-lbl">Carboidratos</div></div></div>
+                <div class="col-6"><div class="nl-macro-pill nl-fat text-center p-2 rounded-2"><div class="nl-macro-val" id="t-fat">0g</div><div class="nl-macro-lbl">Gorduras</div></div></div>
+                <div class="col-6"><div class="nl-macro-pill nl-fib text-center p-2 rounded-2"><div class="nl-macro-val" id="t-fib">0g</div><div class="nl-macro-lbl">Fibras</div></div></div>
+              </div>
+              <button class="btn nl-btn-ghost w-100" onclick="clearMeal()">Limpar refeição</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="container">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('imc')">📏 IMC</button>
-        <button class="tab" onclick="switchTab('tmb')">🔥 Necessidade Calórica</button>
+    <footer class="nl-footer py-4 mt-4">
+      <div class="container"><p class="mb-0 small text-center">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div>
+    </footer>
+  </div>
+
+  <!-- ===================== CALCULADORAS ===================== -->
+  <div id="page-calc" class="nl-page">
+    <div class="container py-4">
+      <div class="nl-page-header mb-4">
+        <h1 class="nl-h1">Calculadoras</h1>
+        <p class="text-muted">Ferramentas para acompanhar sua saúde</p>
       </div>
 
-      <div id="tab-imc" class="tab-content active">
-        <div class="calc-layout">
-          <div class="calc-card">
-            <h3>Calculadora de IMC</h3>
-            <p class="calc-desc">O Índice de Massa Corporal relaciona peso e altura para classificar o estado nutricional.</p>
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label>Altura (cm)</label>
-                <input type="number" id="imc-altura" placeholder="Ex: 175" min="100" max="250">
-              </div>
-              <div class="form-group">
-                <label>Peso (kg)</label>
-                <input type="number" id="imc-peso" placeholder="Ex: 70" min="30" max="300">
-              </div>
-            </div>
-            <div class="btn-row">
-              <button class="btn-primary" onclick="calcIMC()">Calcular IMC</button>
-              <button class="btn-ghost" onclick="clearIMC()">Limpar</button>
-            </div>
-            <div id="imc-result" class="result-box hidden">
-              <div class="result-number" id="imc-num">—</div>
-              <div class="result-label" id="imc-class">—</div>
-              <div class="imc-bar-wrap">
-                <div class="imc-bar">
-                  <div class="imc-seg seg-blue">Abaixo<br><small>&lt;18.5</small></div>
-                  <div class="imc-seg seg-green">Normal<br><small>18.5–25</small></div>
-                  <div class="imc-seg seg-yellow">Sobrepeso<br><small>25–30</small></div>
-                  <div class="imc-seg seg-orange">Obesidade I<br><small>30–35</small></div>
-                  <div class="imc-seg seg-red">Obeso II+<br><small>&gt;35</small></div>
+      <!-- Tabs -->
+      <ul class="nav nl-tabs mb-4" id="calcTabs">
+        <li class="nav-item">
+          <button class="nav-link nl-tab active" onclick="switchTab('imc', this)">
+            <i class="bi bi-rulers me-1"></i>Calculadora de IMC
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link nl-tab" onclick="switchTab('tmb', this)">
+            <i class="bi bi-fire me-1"></i>Necessidade Calórica
+          </button>
+        </li>
+      </ul>
+
+      <!-- IMC -->
+      <div id="tab-imc" class="nl-tab-pane active">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-7">
+            <div class="nl-card p-4 rounded-3">
+              <h3 class="nl-h3 mb-1">Calculadora de IMC</h3>
+              <p class="text-muted small mb-4">O Índice de Massa Corporal relaciona peso e altura para classificar o estado nutricional.</p>
+              <div class="row g-3 mb-3">
+                <div class="col-6">
+                  <label class="nl-label">Altura (cm)</label>
+                  <input type="number" class="form-control nl-input" id="imc-altura" placeholder="Ex: 175" min="100" max="250">
                 </div>
-                <div class="imc-pointer" id="imc-pointer" style="left:0%">▼</div>
+                <div class="col-6">
+                  <label class="nl-label">Peso (kg)</label>
+                  <input type="number" class="form-control nl-input" id="imc-peso" placeholder="Ex: 70" min="30" max="300">
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn nl-btn-primary" onclick="calcIMC()">Calcular IMC</button>
+                <button class="btn nl-btn-ghost" onclick="clearIMC()">Limpar</button>
+              </div>
+              <div id="imc-result" class="nl-result-box mt-4 d-none p-4 rounded-3">
+                <div class="nl-result-num" id="imc-num">—</div>
+                <div class="nl-result-label" id="imc-class">—</div>
+                <div class="nl-imc-bar-wrap mt-3">
+                  <div class="nl-imc-bar d-flex rounded-2 overflow-hidden">
+                    <div class="nl-imc-seg seg-blue flex-fill text-center py-2">Abaixo<br><small>&lt;18.5</small></div>
+                    <div class="nl-imc-seg seg-green flex-fill text-center py-2">Normal<br><small>18.5–25</small></div>
+                    <div class="nl-imc-seg seg-yellow flex-fill text-center py-2">Sobrepeso<br><small>25–30</small></div>
+                    <div class="nl-imc-seg seg-orange flex-fill text-center py-2">Obesid. I<br><small>30–35</small></div>
+                    <div class="nl-imc-seg seg-red flex-fill text-center py-2">Obeso II+<br><small>&gt;35</small></div>
+                  </div>
+                  <div class="nl-imc-pointer" id="imc-pointer" style="left:0%">▼</div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="calc-info">
-            <h4>Classificação</h4>
-            <table class="imc-table">
-              <tr><th>IMC</th><th>Classificação</th></tr>
-              <tr><td>&lt; 18,5</td><td class="c-blue">Abaixo do peso</td></tr>
-              <tr><td>18,5 – 24,9</td><td class="c-green">Peso normal ✓</td></tr>
-              <tr><td>25 – 29,9</td><td class="c-yellow">Sobrepeso</td></tr>
-              <tr><td>30 – 34,9</td><td class="c-orange">Obesidade I</td></tr>
-              <tr><td>35 – 39,9</td><td class="c-red">Obesidade II</td></tr>
-              <tr><td>≥ 40</td><td class="c-darkred">Obesidade III</td></tr>
-            </table>
-            <div class="info-note">⚠️ O IMC é uma referência. Consulte um profissional de saúde para avaliação completa.</div>
+          <div class="col-lg-5">
+            <div class="nl-card p-4 rounded-3">
+              <h6 class="nl-card-title mb-3">Classificação</h6>
+              <table class="table table-sm nl-imc-table mb-3">
+                <thead><tr><th>IMC</th><th>Classificação</th></tr></thead>
+                <tbody>
+                  <tr><td>&lt; 18,5</td><td class="c-blue">Abaixo do peso</td></tr>
+                  <tr><td>18,5 – 24,9</td><td class="c-green">Peso normal ✓</td></tr>
+                  <tr><td>25 – 29,9</td><td class="c-yellow">Sobrepeso</td></tr>
+                  <tr><td>30 – 34,9</td><td class="c-orange">Obesidade I</td></tr>
+                  <tr><td>35 – 39,9</td><td class="c-red">Obesidade II</td></tr>
+                  <tr><td>≥ 40</td><td class="c-darkred">Obesidade III</td></tr>
+                </tbody>
+              </table>
+              <div class="nl-alert-note">⚠️ O IMC é uma referência. Consulte um profissional de saúde para avaliação completa.</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="tab-tmb" class="tab-content">
-        <div class="calc-layout">
-          <div class="calc-card">
-            <h3>Necessidade Calórica Diária</h3>
-            <p class="calc-desc">Fórmula de Harris-Benedict: calcula sua TMB e o gasto calórico total com base na atividade.</p>
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label>Sexo</label>
-                <select id="tmb-sexo">
-                  <option value="m">Masculino</option>
-                  <option value="f">Feminino</option>
-                </select>
+      <!-- TMB -->
+      <div id="tab-tmb" class="nl-tab-pane">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-7">
+            <div class="nl-card p-4 rounded-3">
+              <h3 class="nl-h3 mb-1">Necessidade Calórica Diária</h3>
+              <p class="text-muted small mb-4">Fórmula de Harris-Benedict: calcula sua TMB e o gasto total com base na atividade física.</p>
+              <div class="row g-3 mb-3">
+                <div class="col-6">
+                  <label class="nl-label">Sexo</label>
+                  <select class="form-select nl-input" id="tmb-sexo">
+                    <option value="m">Masculino</option>
+                    <option value="f">Feminino</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="nl-label">Idade (anos)</label>
+                  <input type="number" class="form-control nl-input" id="tmb-idade" placeholder="Ex: 25">
+                </div>
+                <div class="col-6">
+                  <label class="nl-label">Altura (cm)</label>
+                  <input type="number" class="form-control nl-input" id="tmb-altura" placeholder="Ex: 175">
+                </div>
+                <div class="col-6">
+                  <label class="nl-label">Peso (kg)</label>
+                  <input type="number" class="form-control nl-input" id="tmb-peso" placeholder="Ex: 70">
+                </div>
+                <div class="col-12">
+                  <label class="nl-label">Nível de atividade física</label>
+                  <select class="form-select nl-input" id="tmb-atividade">
+                    <option value="1.2">Sedentário (sem exercício)</option>
+                    <option value="1.375">Levemente ativo (1–3 dias/sem)</option>
+                    <option value="1.55" selected>Moderadamente ativo (3–5 dias/sem)</option>
+                    <option value="1.725">Muito ativo (6–7 dias/sem)</option>
+                    <option value="1.9">Extremamente ativo (atleta)</option>
+                  </select>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Idade (anos)</label>
-                <input type="number" id="tmb-idade" placeholder="Ex: 25" min="15" max="100">
+              <div class="d-flex gap-2">
+                <button class="btn nl-btn-primary" onclick="calcTMB()">Calcular</button>
+                <button class="btn nl-btn-ghost" onclick="clearTMB()">Limpar</button>
               </div>
-              <div class="form-group">
-                <label>Altura (cm)</label>
-                <input type="number" id="tmb-altura" placeholder="Ex: 175" min="100" max="250">
-              </div>
-              <div class="form-group">
-                <label>Peso (kg)</label>
-                <input type="number" id="tmb-peso" placeholder="Ex: 70" min="30" max="300">
+              <div id="tmb-result" class="nl-result-box mt-4 d-none p-4 rounded-3">
+                <div class="row text-center mb-4 align-items-center">
+                  <div class="col-5">
+                    <div class="nl-result-num small-result" id="tmb-num">—</div>
+                    <div class="nl-result-label">TMB (basal)</div>
+                  </div>
+                  <div class="col-2 text-muted fs-4">→</div>
+                  <div class="col-5">
+                    <div class="nl-result-num" id="tdee-num">—</div>
+                    <div class="nl-result-label">Gasto total diário</div>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-4">
+                    <div class="nl-goal-card text-center p-3 rounded-3">
+                      <div class="fs-4">📉</div>
+                      <div class="nl-goal-title">Emagrecer</div>
+                      <div class="nl-goal-val" id="g-perda">—</div>
+                      <div class="nl-goal-sub">kcal/dia (−500)</div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="nl-goal-card nl-goal-active text-center p-3 rounded-3">
+                      <div class="fs-4">⚖️</div>
+                      <div class="nl-goal-title">Manter</div>
+                      <div class="nl-goal-val" id="g-manter">—</div>
+                      <div class="nl-goal-sub">kcal/dia</div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="nl-goal-card text-center p-3 rounded-3">
+                      <div class="fs-4">📈</div>
+                      <div class="nl-goal-title">Ganhar massa</div>
+                      <div class="nl-goal-val" id="g-ganho">—</div>
+                      <div class="nl-goal-sub">kcal/dia (+300)</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <label>Nível de atividade física</label>
-              <select id="tmb-atividade">
-                <option value="1.2">Sedentário (sem exercício)</option>
-                <option value="1.375">Levemente ativo (1–3 dias/sem)</option>
-                <option value="1.55" selected>Moderadamente ativo (3–5 dias/sem)</option>
-                <option value="1.725">Muito ativo (6–7 dias/sem)</option>
-                <option value="1.9">Extremamente ativo (atleta)</option>
+          </div>
+          <div class="col-lg-5">
+            <div class="nl-card p-4 rounded-3">
+              <h6 class="nl-card-title mb-3">Como funciona?</h6>
+              <div class="nl-steps">
+                <div class="d-flex gap-3 mb-3">
+                  <div class="nl-step-num flex-shrink-0">1</div>
+                  <div><strong>TMB</strong><p class="text-muted small mb-0">Calorias que seu corpo gasta em repouso absoluto — respirar, circulação, etc.</p></div>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                  <div class="nl-step-num flex-shrink-0">2</div>
+                  <div><strong>Fator de atividade</strong><p class="text-muted small mb-0">A TMB é multiplicada pelo nível de exercício para estimar o gasto real.</p></div>
+                </div>
+                <div class="d-flex gap-3">
+                  <div class="nl-step-num flex-shrink-0">3</div>
+                  <div><strong>Seu objetivo</strong><p class="text-muted small mb-0">−500 kcal/dia = ~0,5 kg/semana de perda. +300 = ganho de massa controlado.</p></div>
+                </div>
+              </div>
+              <div class="nl-alert-note mt-3">⚠️ Esses valores são estimativas. Um nutricionista pode personalizar com mais precisão.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="nl-footer py-4 mt-5">
+      <div class="container"><p class="mb-0 small text-center">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div>
+    </footer>
+  </div>
+
+  <!-- ===================== RECEITAS ===================== -->
+  <div id="page-receitas" class="nl-page">
+    <div class="container py-4">
+      <div class="nl-page-header mb-4">
+        <h1 class="nl-h1">Receitas da Comunidade</h1>
+        <p class="text-muted">Compartilhe e descubra receitas saudáveis</p>
+      </div>
+      <div class="row g-4 align-items-start">
+        <!-- Lista -->
+        <div class="col-lg-8">
+          <div class="row g-2 mb-4">
+            <div class="col-sm-7">
+              <input type="text" class="form-control nl-input" id="rec-search" placeholder="Buscar receitas..." oninput="filterReceitas()">
+            </div>
+            <div class="col-sm-5">
+              <select class="form-select nl-input" id="rec-cat" onchange="filterReceitas()">
+                <option value="">Todas categorias</option>
+                <option value="cafe">☕ Café da manhã</option>
+                <option value="almoco">🍽️ Almoço</option>
+                <option value="jantar">🌙 Jantar</option>
+                <option value="lanche">🥪 Lanche</option>
+                <option value="sobremesa">🍓 Sobremesa</option>
               </select>
             </div>
-            <div class="btn-row">
-              <button class="btn-primary" onclick="calcTMB()">Calcular</button>
-              <button class="btn-ghost" onclick="clearTMB()">Limpar</button>
+          </div>
+          <div id="receitas-list"></div>
+        </div>
+
+        <!-- Formulário -->
+        <div class="col-lg-4">
+          <div class="nl-card p-4 rounded-3 sticky-top" style="top:80px">
+            <h5 class="nl-h3 mb-4">📝 Publicar Receita</h5>
+            <div class="mb-3">
+              <label class="nl-label">Nome da receita *</label>
+              <input type="text" class="form-control nl-input" id="rec-nome" placeholder="Ex: Bowl proteico de atum">
             </div>
-            <div id="tmb-result" class="result-box hidden">
-              <div class="tmb-main">
-                <div class="tmb-stat">
-                  <div class="tmb-val" id="tmb-num">—</div>
-                  <div class="tmb-lbl">TMB (basal)</div>
-                </div>
-                <div class="tmb-arrow">→</div>
-                <div class="tmb-stat">
-                  <div class="tmb-val green" id="tdee-num">—</div>
-                  <div class="tmb-lbl">Gasto total diário</div>
-                </div>
+            <div class="row g-2 mb-3">
+              <div class="col-7">
+                <label class="nl-label">Categoria</label>
+                <select class="form-select nl-input" id="rec-categoria">
+                  <option value="cafe">☕ Café da manhã</option>
+                  <option value="almoco">🍽️ Almoço</option>
+                  <option value="jantar">🌙 Jantar</option>
+                  <option value="lanche">🥪 Lanche</option>
+                  <option value="sobremesa">🍓 Sobremesa</option>
+                </select>
               </div>
-              <div class="goal-grid">
-                <div class="goal-card">
-                  <div class="goal-icon">📉</div>
-                  <div class="goal-title">Emagrecer</div>
-                  <div class="goal-val" id="g-perda">—</div>
-                  <div class="goal-sub">kcal/dia (−500)</div>
-                </div>
-                <div class="goal-card goal-active">
-                  <div class="goal-icon">⚖️</div>
-                  <div class="goal-title">Manter peso</div>
-                  <div class="goal-val" id="g-manter">—</div>
-                  <div class="goal-sub">kcal/dia</div>
-                </div>
-                <div class="goal-card">
-                  <div class="goal-icon">📈</div>
-                  <div class="goal-title">Ganhar massa</div>
-                  <div class="goal-val" id="g-ganho">—</div>
-                  <div class="goal-sub">kcal/dia (+300)</div>
-                </div>
+              <div class="col-5">
+                <label class="nl-label">Tempo</label>
+                <input type="text" class="form-control nl-input" id="rec-tempo" placeholder="Ex: 20 min">
               </div>
             </div>
-          </div>
-          <div class="calc-info">
-            <h4>Como funciona?</h4>
-            <div class="info-steps">
-              <div class="info-step"><div class="step-num">1</div><div><strong>TMB</strong><p>Calorias que seu corpo gasta em repouso absoluto — respirar, circulação, etc.</p></div></div>
-              <div class="info-step"><div class="step-num">2</div><div><strong>Fator de atividade</strong><p>A TMB é multiplicada pelo seu nível de exercício para estimar o gasto real.</p></div></div>
-              <div class="info-step"><div class="step-num">3</div><div><strong>Seu objetivo</strong><p>−500 kcal/dia = ~0,5 kg/semana de perda. +300 = ganho de massa controlado.</p></div></div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="nl-label">Porções</label>
+                <input type="number" class="form-control nl-input" id="rec-porcoes" placeholder="Ex: 2">
+              </div>
+              <div class="col-6">
+                <label class="nl-label">Calorias (kcal)</label>
+                <input type="number" class="form-control nl-input" id="rec-kcal" placeholder="Ex: 450">
+              </div>
             </div>
-            <div class="info-note">⚠️ Esses valores são estimativas. Um nutricionista pode personalizar com mais precisão.</div>
+            <div class="mb-3">
+              <label class="nl-label">Ingredientes * (um por linha)</label>
+              <textarea class="form-control nl-input" id="rec-ingredientes" rows="4" placeholder="200g de frango&#10;1 xícara de arroz&#10;1 col. azeite"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="nl-label">Modo de preparo *</label>
+              <textarea class="form-control nl-input" id="rec-modo" rows="4" placeholder="1. Tempere o frango...&#10;2. Cozinhe o arroz..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="nl-label">Seu nome / apelido</label>
+              <input type="text" class="form-control nl-input" id="rec-autor" placeholder="Ex: Ana C.">
+            </div>
+            <button class="btn nl-btn-primary w-100" onclick="publicarReceita()">
+              <i class="bi bi-check-circle me-1"></i>Publicar Receita
+            </button>
+            <div id="rec-success" class="nl-success-msg mt-3 d-none">✅ Receita publicada com sucesso!</div>
           </div>
         </div>
       </div>
     </div>
-    <footer><div class="footer-inner"><p>© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div></footer>
+    <footer class="nl-footer py-4 mt-4">
+      <div class="container"><p class="mb-0 small text-center">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div>
+    </footer>
   </div>
 
-  <!-- ===== NUTRIÇÃO ===== -->
-  <div id="page-nutri" class="page">
-    <div class="page-header container">
-      <h1>Busca Nutricional</h1>
-      <p>Pesquise alimentos e monte sua refeição para calcular o total de nutrientes</p>
-    </div>
-    <div class="nutri-layout container">
-      <div class="nutri-left">
-        <div class="search-bar">
-          <input type="text" id="food-search" placeholder="Buscar alimento... ex: feijão, arroz, frango" oninput="searchFoods()">
-          <button class="btn-primary" onclick="searchFoods()">🔍 Buscar</button>
-        </div>
-        <div id="search-hint" class="search-hint">💡 Sugestões: feijão, arroz, frango, ovo, banana, maçã, leite, aveia, batata, pão, atum, salmão...</div>
-        <div id="search-results"></div>
-      </div>
-      <div class="meal-panel">
-        <div class="meal-header">
-          <span>🍽️ Sua Refeição</span>
-          <span class="meal-count" id="meal-count">0 itens</span>
-        </div>
-        <div id="meal-items"><div class="meal-empty">Adicione alimentos à sua refeição</div></div>
-        <div class="meal-totals">
-          <div class="total-row-meal">
-            <span class="total-lbl">Total</span>
-            <span class="total-kcal" id="total-kcal">0 kcal</span>
-          </div>
-          <div class="macro-grid-4">
-            <div class="macro-pill prot-bg"><span class="mpill-val" id="t-prot">0g</span><span class="mpill-lbl">Proteínas</span></div>
-            <div class="macro-pill carb-bg"><span class="mpill-val" id="t-carb">0g</span><span class="mpill-lbl">Carboidratos</span></div>
-            <div class="macro-pill fat-bg"><span class="mpill-val" id="t-fat">0g</span><span class="mpill-lbl">Gorduras</span></div>
-            <div class="macro-pill fib-bg"><span class="mpill-val" id="t-fib">0g</span><span class="mpill-lbl">Fibras</span></div>
-          </div>
-          <button class="btn-ghost full-w" onclick="clearMeal()">Limpar refeição</button>
-        </div>
-      </div>
-    </div>
-    <footer><div class="footer-inner"><p>© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div></footer>
-  </div>
-
-  <!-- ===== RECEITAS ===== -->
-  <div id="page-receitas" class="page">
-    <div class="page-header container">
-      <h1>Receitas da Comunidade</h1>
-      <p>Compartilhe e descubra receitas saudáveis</p>
-    </div>
-    <div class="receitas-layout container">
-      <div class="receitas-left">
-        <div class="rec-filters">
-          <input type="text" id="rec-search" placeholder="Buscar receitas..." oninput="filterReceitas()">
-          <select id="rec-cat" onchange="filterReceitas()">
-            <option value="">Todas categorias</option>
-            <option value="cafe">☕ Café da manhã</option>
-            <option value="almoco">🍽️ Almoço</option>
-            <option value="jantar">🌙 Jantar</option>
-            <option value="lanche">🥪 Lanche</option>
-            <option value="sobremesa">🍓 Sobremesa</option>
-          </select>
-        </div>
-        <div id="receitas-list"></div>
-      </div>
-      <div class="rec-form-panel">
-        <h3>📝 Publicar Receita</h3>
-        <div class="form-group">
-          <label>Nome da receita *</label>
-          <input type="text" id="rec-nome" placeholder="Ex: Bowl proteico de atum">
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Categoria</label>
-            <select id="rec-categoria">
-              <option value="cafe">☕ Café da manhã</option>
-              <option value="almoco">🍽️ Almoço</option>
-              <option value="jantar">🌙 Jantar</option>
-              <option value="lanche">🥪 Lanche</option>
-              <option value="sobremesa">🍓 Sobremesa</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Tempo de preparo</label>
-            <input type="text" id="rec-tempo" placeholder="Ex: 20 min">
-          </div>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Porções</label>
-            <input type="number" id="rec-porcoes" placeholder="Ex: 2" min="1">
-          </div>
-          <div class="form-group">
-            <label>Calorias aprox. (kcal)</label>
-            <input type="number" id="rec-kcal" placeholder="Ex: 450">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Ingredientes (um por linha) *</label>
-          <textarea id="rec-ingredientes" rows="4" placeholder="200g de frango grelhado&#10;1 xícara de arroz integral&#10;1 col. sopa de azeite"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Modo de preparo *</label>
-          <textarea id="rec-modo" rows="5" placeholder="1. Tempere o frango...&#10;2. Cozinhe o arroz...&#10;3. Monte o prato..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Seu nome / apelido</label>
-          <input type="text" id="rec-autor" placeholder="Ex: Ana C.">
-        </div>
-        <button class="btn-primary full-w" onclick="publicarReceita()">✅ Publicar Receita</button>
-        <div id="rec-success" class="rec-success hidden">✅ Receita publicada com sucesso!</div>
-      </div>
-    </div>
-    <footer><div class="footer-inner"><p>© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p></div></footer>
-  </div>
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
