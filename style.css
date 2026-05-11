@@ -427,3 +427,63 @@ body {
   .nl-tab { flex: 1; text-align: center; }
   .food-qty-row .nl-btn-primary { font-size: 13px; padding: 8px 12px; }
 }
+
+/* ---- NAVBAR AJUSTADA ---- */
+.nl-navbar {
+    background: rgba(255,255,255,0.96) !important;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--nl-neutral-200);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    /* Removido height fixo para permitir expansão do menu mobile */
+    min-height: var(--nl-nav-h); 
+}
+
+/* Garante que os itens do menu no mobile tenham espaçamento e não fiquem colados */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: #fff;
+        margin-top: 10px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: var(--nl-shadow-md);
+        border: 1px solid var(--nl-neutral-200);
+    }
+    
+    .nl-nav-btn {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+}
+
+/* ---- RESPONSIVIDADE HOME ---- */
+.nl-display {
+    font-family: var(--font-display);
+    /* Ajuste do clamp para telas muito pequenas */
+    font-size: clamp(28px, 8vw, 52px); 
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    color: var(--nl-neutral-900);
+}
+
+.nl-hero-sub {
+    font-size: clamp(15px, 4vw, 17px);
+    color: var(--nl-neutral-600);
+    max-width: 540px;
+    line-height: 1.6;
+    margin: 16px auto 32px;
+}
+
+/* Ajuste para botões não ocuparem a tela toda no mobile, mas ficarem confortáveis */
+@media (max-width: 576px) {
+    .nl-btn-primary.btn-lg {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .nl-hero {
+        padding: 40px 0 30px;
+    }
+}

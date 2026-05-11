@@ -10,42 +10,75 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
-        <div class="container">
-            <a class="navbar-brand nl-brand" href="index.html"><span>🥗</span> NutriLife</a>
-            <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link nl-nav-btn" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link nl-nav-btn active" href="nutricao.html">Nutrição</a></li>
-                    <li class="nav-item"><a class="nav-link nl-nav-btn" href="calculadoras.html">Calculadoras</a></li>
-                    <li class="nav-item"><a class="nav-link nl-nav-btn" href="receitas.html">Receitas</a></li>
-                </ul>
-            </div>
+    <div class="container">
+        <a class="navbar-brand nl-brand d-flex align-items-center" href="index.html">
+            <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2">
+            NutriLife
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto gap-1">
+                <li class="nav-item"><a class="nav-link nl-nav-btn active" href="index.html"><i class="bi bi-house me-1"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link nl-nav-btn" href="nutricao.html"><i class="bi bi-search me-1"></i>Nutrição</a></li>
+                <li class="nav-item"><a class="nav-link nl-nav-btn" href="calculadoras.html"><i class="bi bi-calculator me-1"></i>Calculadoras</a></li>
+                <li class="nav-item"><a class="nav-link nl-nav-btn" href="receitas.html"><i class="bi bi-book me-1"></i>Receitas</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container py-5 mt-5">
         <div class="nl-page-header mb-4">
             <h1 class="nl-h1">Busca Nutricional</h1>
             <p class="text-muted">Pesquise alimentos e monte sua refeição</p>
         </div>
+        
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control nl-input" id="food-search" placeholder="Buscar alimento..." oninput="searchFoods()">
-                    <button class="btn nl-btn-primary">Buscar</button>
+                    <input type="text" class="form-control nl-input" id="food-search" placeholder="Buscar alimento (ex: frango, arroz)..." oninput="searchFoods()">
+                    <button class="btn nl-btn-primary" onclick="searchFoods()"><i class="bi bi-search"></i></button>
                 </div>
-                <div id="search-results"></div>
+                
+                <p id="search-hint" class="text-muted small">Digite o nome de um alimento para começar.</p>
+                
+                <div id="search-results" class="row g-3"></div>
             </div>
+
             <div class="col-lg-4">
-                <div class="nl-meal-panel p-4 rounded-3 shadow-sm">
-                    <span class="nl-panel-title">Sua Refeição</span>
-                    <div id="meal-items" class="my-3"></div>
-                    <div id="total-kcal" class="fw-bold">Total: 0 kcal</div>
+                <div class="nl-meal-panel p-4 rounded-3 shadow-sm bg-white border">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 fw-bold">Sua Refeição</h5>
+                        <span id="meal-count" class="badge bg-success">0 itens</span>
+                    </div>
+                    
+                    <div id="meal-items" class="my-3 border-top border-bottom py-2" style="min-height: 50px;">
+                        </div>
+                    
+                    <div class="meal-totals">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Total Calorias:</span>
+                            <span id="total-kcal" class="fw-bold">0 kcal</span>
+                        </div>
+                        <div class="row g-2 text-center small mt-2">
+                            <div class="col-3">Prot: <span id="t-prot">0g</span></div>
+                            <div class="col-3">Carb: <span id="t-carb">0g</span></div>
+                            <div class="col-3">Gord: <span id="t-fat">0g</span></div>
+                            <div class="col-3">Fibra: <span id="t-fib">0g</span></div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-outline-danger btn-sm w-100 mt-3" onclick="clearMeal()">Limpar Refeição</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="data.js"></script>
     <script src="app.js"></script>
 </body>
