@@ -1,489 +1,550 @@
-/* ============================================
-   NutriLife — Custom CSS sobre Bootstrap 5
-   Paleta: style guide 2025
-   ============================================ */
+/* ============================================================
+   style.css — NutriLife
+   Baseado em Bootstrap 5.3 + customizações próprias
+   Fontes: Sora (títulos) + DM Sans (corpo)
+   ============================================================ */
 
-/* ---- TOKENS ---- */
-:root {
-  --nl-green:        #0DB864;
-  --nl-green-dark:   #0A9B52;
-  --nl-green-vivo:   #4CCB74;
-  --nl-green-suave:  #8DFB65;
-  --nl-green-pale:   #E8F9EF;
-  --nl-green-min:    #F0FDF6;
-
-  --nl-neutral-50:   #F7F8FA;
-  --nl-neutral-100:  #EFF1F5;
-  --nl-neutral-200:  #E2E5EC;
-  --nl-neutral-400:  #9AA3B2;
-  --nl-neutral-600:  #5A6478;
-  --nl-neutral-800:  #1C2230;
-  --nl-neutral-900:  #0F1318;
-
-  --nl-cal:   #E8723A;
-  --nl-prot:  #378ADD;
-  --nl-carb:  #EF9F27;
-  --nl-fat:   #E24B4A;
-  --nl-fib:   #3B6D11;
-
-  --nl-nav-h: 64px;
-  --nl-radius: 12px;
-  --nl-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --nl-shadow-md: 0 4px 24px rgba(0,0,0,0.11);
-
-  --font-display: 'Sora', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
-}
-
-/* ---- BASE ---- */
+/* ---------- RESET & BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-body {
-  font-family: var(--font-body);
-  background: var(--nl-neutral-50);
-  color: var(--nl-neutral-800);
-  font-size: 15px;
-}
-.fw-600 { font-weight: 600 !important; }
-.fw-700 { font-weight: 700 !important; }
-.nl-green { color: var(--nl-green) !important; }
-.nl-bg-light { background: var(--nl-neutral-50); }
-.cursor-pointer { cursor: pointer; }
 
-/* ---- NAVBAR ---- */
-.nl-navbar {
-  background: rgba(255,255,255,0.96) !important;
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--nl-neutral-200);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  height: var(--nl-nav-h);
+:root {
+  --nl-green:        #16a34a;
+  --nl-green-light:  #dcfce7;
+  --nl-green-mid:    #4ade80;
+  --nl-bg:           #f8fafc;
+  --nl-bg-card:      #ffffff;
+  --nl-border:       #e2e8f0;
+  --nl-text:         #0f172a;
+  --nl-text-muted:   #64748b;
+  --nl-navbar-bg:    #ffffff;
+  --nl-shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --nl-shadow-md:    0 4px 16px rgba(0,0,0,.10);
+  --nl-radius:       12px;
+  --nl-radius-sm:    8px;
 }
-.nl-brand {
-  font-family: var(--font-display);
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--nl-text);
+  background: var(--nl-bg);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ---------- TIPOGRAFIA ---------- */
+.nl-display {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--nl-text);
+}
+
+.nl-h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  font-size: 18px;
-  color: var(--nl-green-dark) !important;
+  color: var(--nl-text);
+}
+
+.nl-h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--nl-text);
+}
+
+.nl-h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--nl-text);
+}
+
+.nl-green  { color: var(--nl-green); }
+.fw-600    { font-weight: 600; }
+.fw-700    { font-weight: 700; }
+
+/* ---------- NAVBAR ---------- */
+.nl-navbar {
+  background: var(--nl-navbar-bg);
+  border-bottom: 1px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+  padding: 10px 0;
+}
+
+.nl-brand {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--nl-green) !important;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
-.nl-logo-icon { font-size: 24px; }
+
+.nl-logo-icon { font-size: 1.3rem; }
+
 .nl-nav-btn {
-  font-family: var(--font-body);
-  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
   font-weight: 500;
-  color: var(--nl-neutral-600) !important;
+  font-size: 0.9rem;
+  color: var(--nl-text-muted) !important;
+  background: none;
   border: none;
-  background: transparent;
   border-radius: 8px;
-  padding: 7px 14px;
-  transition: background 0.15s, color 0.15s;
+  padding: 6px 14px;
   cursor: pointer;
-  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .15s, color .15s;
 }
-.nl-nav-btn:hover { background: var(--nl-neutral-100); color: var(--nl-neutral-800) !important; }
-.nl-nav-btn.active { background: var(--nl-green-pale) !important; color: var(--nl-green-dark) !important; }
 
-/* ---- PAGES ---- */
-.nl-page { display: none; padding-top: var(--nl-nav-h); animation: nlFadeIn 0.22s ease; }
-.nl-page.active { display: block; }
-@keyframes nlFadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
-
-/* ---- TYPOGRAPHY ---- */
-.nl-display {
-  font-family: var(--font-display);
-  font-size: clamp(30px, 5vw, 52px);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -1px;
-  color: var(--nl-neutral-900);
+.nl-nav-btn:hover,
+.nl-nav-btn.active {
+  background: var(--nl-green-light);
+  color: var(--nl-green) !important;
 }
-.nl-h1 { font-family: var(--font-display); font-size: 30px; font-weight: 700; letter-spacing: -0.5px; }
-.nl-h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -0.4px; }
-.nl-h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
-.nl-card-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--nl-neutral-800); }
-.nl-label { font-size: 13px; font-weight: 500; color: var(--nl-neutral-600); display: block; margin-bottom: 5px; }
-.nl-label-total { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
 
-/* ---- HERO ---- */
+/* ---------- HERO ---------- */
 .nl-hero {
-  padding: 80px 0 64px;
-  background: linear-gradient(155deg, #f0fdf6 0%, var(--nl-neutral-50) 55%);
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+  padding: 100px 0 72px;
+  position: relative;
+  overflow: hidden;
 }
+
+.nl-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(22,163,74,.08) 0%, transparent 70%);
+}
+
 .nl-hero-badge {
   display: inline-block;
-  background: var(--nl-green-pale);
-  color: var(--nl-green-dark);
-  border: 1px solid rgba(13,184,100,0.22);
-  border-radius: 99px;
-  padding: 5px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: var(--font-display);
-}
-.nl-hero-sub {
-  font-size: 17px;
-  color: var(--nl-neutral-600);
-  max-width: 540px;
-  line-height: 1.65;
-  margin: 16px auto 32px;
+  background: #fff;
+  border: 1px solid var(--nl-border);
+  color: var(--nl-green);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 100px;
+  box-shadow: var(--nl-shadow-sm);
 }
 
-/* ---- SECTION TAGS ---- */
+.nl-hero-sub {
+  font-size: 1.1rem;
+  color: var(--nl-text-muted);
+  max-width: 560px;
+  margin-top: 14px;
+  margin-bottom: 28px;
+}
+
+/* ---------- SEÇÃO TAG ---------- */
 .nl-section-tag {
   display: inline-block;
-  background: var(--nl-green-pale);
-  color: var(--nl-green-dark);
-  border-radius: 99px;
-  padding: 4px 14px;
-  font-size: 13px;
-  font-weight: 500;
-}
-.nl-page-header { padding-top: 20px; }
-
-/* ---- BUTTONS ---- */
-.nl-btn-primary {
-  background: var(--nl-green) !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: var(--nl-radius) !important;
-  font-family: var(--font-display);
+  font-size: 0.82rem;
   font-weight: 600;
-  box-shadow: 0 2px 10px rgba(13,184,100,0.28);
-  transition: background 0.15s, transform 0.1s, box-shadow 0.15s !important;
+  color: var(--nl-green);
+  background: var(--nl-green-light);
+  padding: 4px 12px;
+  border-radius: 100px;
 }
-.nl-btn-primary:hover {
-  background: var(--nl-green-dark) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(13,184,100,0.35) !important;
-}
-.nl-btn-primary:active { transform: scale(0.98) !important; }
 
-.nl-btn-outline {
-  background: transparent !important;
-  color: var(--nl-neutral-700, #555) !important;
-  border: 1.5px solid var(--nl-neutral-200) !important;
-  border-radius: var(--nl-radius) !important;
-  font-family: var(--font-display);
-  font-weight: 500;
-  transition: background 0.15s, border-color 0.15s !important;
-}
-.nl-btn-outline:hover { background: var(--nl-neutral-100) !important; border-color: var(--nl-neutral-400) !important; }
-
-.nl-btn-ghost {
-  background: var(--nl-neutral-100) !important;
-  color: var(--nl-neutral-600) !important;
-  border: 1px solid var(--nl-neutral-200) !important;
-  border-radius: var(--nl-radius) !important;
-  font-family: var(--font-body);
-  transition: background 0.15s !important;
-}
-.nl-btn-ghost:hover { background: var(--nl-neutral-200) !important; }
-
-/* ---- FORMS ---- */
-.nl-input {
-  border: 1.5px solid var(--nl-neutral-200) !important;
-  border-radius: 8px !important;
-  font-family: var(--font-body);
-  font-size: 15px;
-  padding: 10px 14px;
-  background: #fff !important;
-  color: var(--nl-neutral-800) !important;
-  transition: border-color 0.15s;
-}
-.nl-input:focus {
-  border-color: var(--nl-green) !important;
-  box-shadow: 0 0 0 3px rgba(13,184,100,0.12) !important;
-  outline: none;
-}
-.input-group .nl-input { border-radius: 8px 0 0 8px !important; }
-.input-group .nl-btn-primary { border-radius: 0 8px 8px 0 !important; }
-
-/* ---- CARDS ---- */
-.nl-card {
-  background: #fff;
-  border: 1px solid var(--nl-neutral-200);
-  box-shadow: var(--nl-shadow);
-}
+/* ---------- CALORIE CARD (home) ---------- */
 .nl-calorie-card {
-  background: var(--nl-neutral-50);
-  border: 1px solid var(--nl-neutral-200);
+  background: var(--nl-bg);
+  border: 1px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
 }
+
 .nl-bal-card {
   background: #fff;
-  border: 1px solid var(--nl-neutral-200);
+  border: 1px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+  transition: transform .2s;
 }
+.nl-bal-card:hover { transform: translateY(-2px); }
 
-/* Feature cards */
+/* ---------- BADGES MACROS ---------- */
+.nl-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.nl-badge-cal  { background: #fef3c7; color: #92400e; }
+.nl-badge-prot { background: #dbeafe; color: #1e40af; }
+.nl-badge-carb { background: #fef9c3; color: #713f12; }
+.nl-badge-fat  { background: #fce7f3; color: #9d174d; }
+.nl-badge-fib  { background: #d1fae5; color: #065f46; }
+
+/* ---------- FEATURE CARDS (home) ---------- */
+.nl-bg-light { background: var(--nl-bg); }
+
 .nl-feat-card {
   background: #fff;
-  border: 1px solid var(--nl-neutral-200);
-  box-shadow: var(--nl-shadow);
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  border: 1.5px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+  transition: transform .2s, box-shadow .2s;
 }
-.nl-feat-card:hover { border-color: var(--nl-green); transform: translateY(-3px); box-shadow: var(--nl-shadow-md); }
-.nl-feat-featured { border-color: var(--nl-green); box-shadow: 0 0 0 3px rgba(13,184,100,0.1), var(--nl-shadow); }
+.nl-feat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--nl-shadow-md);
+}
+.nl-feat-featured {
+  border-color: var(--nl-green);
+  background: linear-gradient(135deg, #f0fdf4, #fff);
+}
 .nl-feat-icon {
-  width: 48px; height: 48px;
-  background: var(--nl-green-pale);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  color: var(--nl-green-dark);
-}
-.nl-feat-link { font-size: 14px; color: var(--nl-green); font-weight: 600; }
-
-/* ---- BADGES ---- */
-.nl-badge { padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-.nl-badge-cal  { background: #fdf0e8; color: #9c4a1a; }
-.nl-badge-prot { background: #e6f1fb; color: #185fa5; }
-.nl-badge-carb { background: #fdf3e0; color: #8a5c00; }
-.nl-badge-fat  { background: #fdeaea; color: #a32d2d; }
-.nl-badge-fib  { background: #eaf3de; color: var(--nl-fib); }
-
-/* ---- TABS (Calculadoras) ---- */
-.nl-tabs {
-  background: var(--nl-neutral-100);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nl-green-light);
+  color: var(--nl-green);
   border-radius: 10px;
-  padding: 4px;
-  width: fit-content;
+  font-size: 1.2rem;
+}
+.nl-card-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--nl-text);
+}
+.nl-feat-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--nl-green);
+}
+
+/* ---------- PAGE HEADER ---------- */
+.nl-page-header {
+  border-bottom: 1px solid var(--nl-border);
+  padding-bottom: 16px;
+}
+
+/* ---------- BOTÕES ---------- */
+.nl-btn-primary {
+  background: var(--nl-green);
+  color: #fff !important;
   border: none;
-  gap: 4px;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 10px 22px;
+  transition: background .2s, transform .1s;
 }
-.nl-tab {
-  font-family: var(--font-display);
-  font-size: 14px;
+.nl-btn-primary:hover {
+  background: #15803d;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.nl-btn-outline {
+  background: #fff;
+  color: var(--nl-green) !important;
+  border: 2px solid var(--nl-green);
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 10px 22px;
+  transition: background .2s;
+}
+.nl-btn-outline:hover {
+  background: var(--nl-green-light);
+}
+
+.nl-btn-ghost {
+  background: var(--nl-bg);
+  color: var(--nl-text-muted) !important;
+  border: 1.5px solid var(--nl-border);
+  border-radius: 10px;
   font-weight: 500;
-  color: var(--nl-neutral-600) !important;
-  border: none !important;
-  border-radius: 8px !important;
   padding: 9px 20px;
-  background: transparent !important;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background .15s;
+}
+.nl-btn-ghost:hover {
+  background: #f1f5f9;
+  color: var(--nl-text) !important;
+}
+
+.nl-btn-add {
+  background: var(--nl-green-light);
+  color: var(--nl-green);
+  border: 1.5px solid var(--nl-green);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.nl-btn-add:hover { background: #bbf7d0; }
+
+.nl-btn-remove {
+  color: #ef4444;
+  background: #fee2e2;
+  border: none;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.9rem;
+  transition: background .15s;
+}
+.nl-btn-remove:hover { background: #fecaca; }
+
+/* ---------- INPUT ---------- */
+.nl-input {
+  border: 1.5px solid var(--nl-border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 9px 14px;
+  transition: border-color .15s, box-shadow .15s;
+  background: #fff;
+  color: var(--nl-text);
+}
+.nl-input:focus {
+  border-color: var(--nl-green);
+  box-shadow: 0 0 0 3px rgba(22,163,74,.12);
+  outline: none;
+}
+
+.nl-qty-input { padding: 6px 10px !important; font-size: 0.88rem !important; }
+
+.nl-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--nl-text-muted);
+  margin-bottom: 4px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+/* ---------- BUSCA: cards de alimentos ---------- */
+.nl-food-card {
+  background: #fff;
+  border: 1.5px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+  transition: box-shadow .2s;
+}
+.nl-food-card:hover { box-shadow: var(--nl-shadow-md); }
+
+.nl-food-name { font-weight: 700; font-size: 1rem; color: var(--nl-text); }
+.nl-food-kcal { font-family: 'Sora', sans-serif; font-weight: 700; color: var(--nl-green); font-size: 1.05rem; }
+.nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: var(--nl-green-light); color: var(--nl-green); border-radius: 100px; padding: 2px 9px; }
+
+.nl-macro-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.nl-prot-tag { background: #dbeafe; color: #1e40af; }
+.nl-carb-tag { background: #fef9c3; color: #713f12; }
+.nl-fat-tag  { background: #fce7f3; color: #9d174d; }
+.nl-fib-tag  { background: #d1fae5; color: #065f46; }
+
+/* ---------- PAINEL REFEIÇÃO ---------- */
+.nl-meal-panel {
+  background: #fff;
+  border: 1.5px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+}
+
+.nl-panel-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--nl-text); }
+
+.nl-count-badge {
+  background: var(--nl-green-light);
+  color: var(--nl-green);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.nl-meal-item-name { font-weight: 600; font-size: 0.9rem; }
+
+.nl-label-total { font-size: 0.9rem; }
+.nl-kcal-total {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--nl-green);
+}
+
+.nl-macro-pill { border: 1px solid var(--nl-border); background: var(--nl-bg); }
+.nl-macro-val  { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700; }
+.nl-macro-lbl  { font-size: 0.7rem; color: var(--nl-text-muted); margin-top: 2px; }
+
+.nl-prot { border-top: 3px solid #3b82f6 !important; }
+.nl-carb { border-top: 3px solid #eab308 !important; }
+.nl-fat  { border-top: 3px solid #f97316 !important; }
+.nl-fib  { border-top: 3px solid #22c55e !important; }
+
+/* ---------- EMPTY STATE ---------- */
+.nl-empty-state { padding: 40px 0; }
+
+/* ---------- CALCULADORAS: TABS ---------- */
+.nl-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--nl-border);
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.nl-tab {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--nl-text-muted) !important;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 18px;
+  margin-bottom: -2px;
   cursor: pointer;
+  border-radius: 0;
+  transition: color .15s, border-color .15s;
 }
-.nl-tab.active { background: #fff !important; color: var(--nl-green-dark) !important; box-shadow: var(--nl-shadow); }
+.nl-tab.active,
+.nl-tab:hover {
+  color: var(--nl-green) !important;
+  border-bottom-color: var(--nl-green);
+}
+
 .nl-tab-pane { display: none; }
-.nl-tab-pane.active { display: block; animation: nlFadeIn 0.2s ease; }
+.nl-tab-pane.active { display: block; }
 
-/* ---- IMC BAR ---- */
-.nl-imc-bar-wrap { position: relative; padding-bottom: 24px; }
-.nl-imc-bar { height: 48px; }
-.nl-imc-seg { font-size: 10px; font-weight: 600; line-height: 1.3; }
-.nl-imc-seg small { font-weight: 400; font-size: 9px; }
-.seg-blue   { background: #dbeafe; color: #1e40af; }
-.seg-green  { background: #dcfce7; color: #166534; }
-.seg-yellow { background: #fef9c3; color: #854d0e; }
-.seg-orange { background: #ffedd5; color: #9a3412; }
-.seg-red    { background: #fee2e2; color: #991b1b; }
-.nl-imc-pointer {
-  position: absolute; bottom: 0; font-size: 18px; color: var(--nl-neutral-800);
-  transform: translateX(-50%);
-  transition: left 0.5s cubic-bezier(0.34,1.56,0.64,1);
+/* ---------- CALCULADORAS: CARDS ---------- */
+.nl-card {
+  background: #fff;
+  border: 1.5px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
 }
 
-/* Result box */
+/* ---------- RESULTADO ---------- */
 .nl-result-box {
-  background: var(--nl-neutral-50);
-  border: 1px solid var(--nl-neutral-200);
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1.5px solid #86efac;
 }
+
 .nl-result-num {
-  font-family: var(--font-display);
-  font-size: 48px;
+  font-family: 'Sora', sans-serif;
+  font-size: 2.8rem;
   font-weight: 800;
   color: var(--nl-green);
   line-height: 1;
 }
-.nl-result-num.small-result { font-size: 32px; }
-.nl-result-label { font-size: 16px; color: var(--nl-neutral-600); margin-top: 4px; }
+.nl-result-num.small-result { font-size: 2rem; }
+.nl-result-label { font-size: 0.85rem; color: var(--nl-text-muted); margin-top: 4px; }
 
-/* IMC table */
-.nl-imc-table th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--nl-neutral-600); background: var(--nl-neutral-50); }
-.nl-imc-table td { font-size: 14px; }
-.c-blue    { color: #1e40af; font-weight: 600; }
-.c-green   { color: #166534; font-weight: 600; }
-.c-yellow  { color: #854d0e; font-weight: 600; }
-.c-orange  { color: #9a3412; font-weight: 600; }
-.c-red     { color: #991b1b; font-weight: 600; }
-.c-darkred { color: #7f1d1d; font-weight: 600; }
+/* ---------- IMC BAR ---------- */
+.nl-imc-bar-wrap { position: relative; }
 
-/* TMB goals */
-.nl-goal-card { background: #fff; border: 1.5px solid var(--nl-neutral-200); }
-.nl-goal-active { border-color: var(--nl-green) !important; background: var(--nl-green-pale) !important; }
-.nl-goal-title { font-size: 12px; font-weight: 600; color: var(--nl-neutral-600); margin: 6px 0; }
-.nl-goal-val { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--nl-neutral-800); }
-.nl-goal-sub { font-size: 11px; color: var(--nl-neutral-400); margin-top: 2px; }
+.nl-imc-bar { font-size: 0.7rem; font-weight: 600; color: #fff; }
+.seg-blue   { background: #3b82f6; }
+.seg-green  { background: #22c55e; }
+.seg-yellow { background: #eab308; color: #422006; }
+.seg-orange { background: #f97316; }
+.seg-red    { background: #ef4444; }
 
-/* Steps */
-.nl-step-num {
-  width: 28px; height: 28px;
-  background: var(--nl-green-pale); color: var(--nl-green-dark);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+.nl-imc-pointer {
+  position: absolute;
+  bottom: -20px;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+  color: var(--nl-text);
+  transition: left .4s ease;
 }
 
-/* Alert note */
+/* ---------- IMC TABLE ---------- */
+.nl-imc-table { font-size: 0.85rem; }
+.nl-imc-table th { font-weight: 700; font-size: 0.8rem; color: var(--nl-text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.c-blue    { color: #3b82f6; font-weight: 600; }
+.c-green   { color: #16a34a; font-weight: 600; }
+.c-yellow  { color: #ca8a04; font-weight: 600; }
+.c-orange  { color: #ea580c; font-weight: 600; }
+.c-red     { color: #dc2626; font-weight: 600; }
+.c-darkred { color: #991b1b; font-weight: 600; }
+
+/* ---------- ALERTA NOTE ---------- */
 .nl-alert-note {
   background: #fffbeb;
   border: 1px solid #fde68a;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 12px;
   color: #78350f;
-  line-height: 1.5;
+  font-size: 0.82rem;
+  padding: 10px 14px;
+  border-radius: 8px;
 }
 
-/* ---- NUTRIÇÃO ---- */
-.food-result-card {
+/* ---------- STEPS (TMB) ---------- */
+.nl-step-num {
+  width: 28px;
+  height: 28px;
+  background: var(--nl-green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ---------- GOAL CARDS (TMB) ---------- */
+.nl-goal-card {
   background: #fff;
-  border: 1px solid var(--nl-neutral-200);
-  border-radius: var(--nl-radius);
-  padding: 20px;
-  margin-bottom: 14px;
-  box-shadow: var(--nl-shadow);
-  transition: border-color 0.15s;
+  border: 1.5px solid var(--nl-border);
+  box-shadow: var(--nl-shadow-sm);
+  transition: transform .2s;
 }
-.food-result-card:hover { border-color: var(--nl-green-vivo); }
-.food-name { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 2px; }
-.food-cat { font-size: 12px; color: var(--nl-neutral-400); margin-bottom: 10px; }
+.nl-goal-card:hover { transform: translateY(-2px); }
+.nl-goal-active { border-color: var(--nl-green); background: var(--nl-green-light); }
+.nl-goal-title { font-size: 0.78rem; font-weight: 600; color: var(--nl-text-muted); margin-top: 6px; }
+.nl-goal-val   { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--nl-green); margin-top: 4px; }
+.nl-goal-sub   { font-size: 0.7rem; color: var(--nl-text-muted); }
 
-.fbadge { padding: 3px 9px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-.fbadge-cal  { background: #fdf0e8; color: #9c4a1a; }
-.fbadge-prot { background: #e6f1fb; color: #185fa5; }
-.fbadge-carb { background: #fdf3e0; color: #8a5c00; }
-.fbadge-fat  { background: #fdeaea; color: #a32d2d; }
-.fbadge-fib  { background: #eaf3de; color: var(--nl-fib); }
-
-.food-qty-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.food-qty-row label { font-size: 13px; color: var(--nl-neutral-600); }
-.qty-input { width: 84px; padding: 7px 10px; border: 1.5px solid var(--nl-neutral-200); border-radius: 8px; font-size: 14px; text-align: center; outline: none; font-family: var(--font-body); }
-.qty-input:focus { border-color: var(--nl-green); box-shadow: 0 0 0 3px rgba(13,184,100,0.1); }
-.detail-toggle { background: none; border: none; color: var(--nl-green); font-size: 13px; cursor: pointer; padding: 6px 0 0; display: block; font-family: var(--font-body); }
-.food-details { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--nl-neutral-100); grid-template-columns: 1fr 1fr; gap: 5px 20px; }
-.food-details.open { display: grid; }
-.fd-row { display: flex; justify-content: space-between; font-size: 13px; }
-.fd-lbl { color: var(--nl-neutral-600); }
-.fd-val { font-weight: 600; }
-
-/* Meal panel */
-.nl-meal-panel {
-  background: #fff;
-  border: 1px solid var(--nl-neutral-200);
-  box-shadow: var(--nl-shadow);
-}
-.nl-panel-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
-.nl-count-badge { background: var(--nl-green-pale); color: var(--nl-green-dark); padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-.nl-kcal-total { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--nl-green); }
-.meal-item-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--nl-neutral-100); }
-.mi-name { font-size: 14px; font-weight: 500; }
-.mi-sub { font-size: 12px; color: var(--nl-neutral-400); }
-.mi-remove { background: none; border: none; font-size: 18px; color: var(--nl-neutral-400); cursor: pointer; line-height: 1; transition: color 0.15s; padding: 0 4px; }
-.mi-remove:hover { color: var(--nl-fat); }
-
-.nl-macro-pill { border-radius: 8px; padding: 10px; }
-.nl-prot { background: #e6f1fb; }
-.nl-carb { background: #fdf3e0; }
-.nl-fat  { background: #fdeaea; }
-.nl-fib  { background: #eaf3de; }
-.nl-macro-val { font-family: var(--font-display); font-size: 16px; font-weight: 700; }
-.nl-prot .nl-macro-val { color: #185fa5; }
-.nl-carb .nl-macro-val { color: #8a5c00; }
-.nl-fat  .nl-macro-val { color: #a32d2d; }
-.nl-fib  .nl-macro-val { color: var(--nl-fib); }
-.nl-macro-lbl { font-size: 11px; color: var(--nl-neutral-500, #888); }
-
-/* ---- RECEITAS ---- */
-.rec-card {
-  background: #fff;
-  border: 1px solid var(--nl-neutral-200);
-  border-radius: var(--nl-radius);
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: var(--nl-shadow);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.rec-card:hover { border-color: var(--nl-green-vivo); box-shadow: var(--nl-shadow-md); }
-.rec-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
-.rec-cat-badge { background: var(--nl-green-pale); color: var(--nl-green-dark); padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 500; white-space: nowrap; }
-.rec-meta { font-size: 13px; color: var(--nl-neutral-400); }
-.rec-meta span + span::before { content: ' · '; }
-.rec-section-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--nl-neutral-400); margin: 12px 0 4px; display: block; }
-.rec-ingredients, .rec-steps { font-size: 14px; color: var(--nl-neutral-700, #555); line-height: 1.7; white-space: pre-line; }
-.rec-kcal-badge { background: #fdf0e8; color: #9c4a1a; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-.rec-empty { text-align: center; padding: 48px 24px; color: var(--nl-neutral-400); }
-.nl-success-msg { background: var(--nl-green-pale); color: var(--nl-green-dark); padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 500; text-align: center; }
-
-/* ---- FOOTER ---- */
-.nl-footer { background: var(--nl-neutral-900); color: var(--nl-neutral-400); }
-.nl-footer-brand { font-family: var(--font-display); font-size: 15px; color: #fff; display: flex; align-items: center; gap: 8px; }
-
-/* ---- RESPONSIVE TWEAKS ---- */
-@media (max-width: 576px) {
-  .nl-hero { padding: 60px 0 48px; }
-  .nl-display { font-size: 28px; }
-  .nl-result-num { font-size: 40px; }
-  .nl-tabs { flex-wrap: wrap; width: 100%; }
-  .nl-tab { flex: 1; text-align: center; }
-  .food-qty-row .nl-btn-primary { font-size: 13px; padding: 8px 12px; }
+/* ---------- RECEITAS ---------- */
+.nl-success-msg {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-align: center;
 }
 
-/* ---- NAVBAR AJUSTADA ---- */
-.nl-navbar {
-    background: rgba(255,255,255,0.96) !important;
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--nl-neutral-200);
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-    /* Removido height fixo para permitir expansão do menu mobile */
-    min-height: var(--nl-nav-h); 
+/* ---------- FOOTER ---------- */
+.nl-footer {
+  background: var(--nl-text);
+  color: #94a3b8;
+  font-size: 0.85rem;
 }
+.nl-footer-brand { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 6px; }
+.nl-footer strong { color: #fff; }
 
-/* Garante que os itens do menu no mobile tenham espaçamento e não fiquem colados */
-@media (max-width: 991.98px) {
-    .navbar-collapse {
-        background: #fff;
-        margin-top: 10px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: var(--nl-shadow-md);
-        border: 1px solid var(--nl-neutral-200);
-    }
-    
-    .nl-nav-btn {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 5px;
-    }
-}
+/* ---------- CURSOR ---------- */
+.cursor-pointer { cursor: pointer; }
 
-/* ---- RESPONSIVIDADE HOME ---- */
-.nl-display {
-    font-family: var(--font-display);
-    /* Ajuste do clamp para telas muito pequenas */
-    font-size: clamp(28px, 8vw, 52px); 
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -1px;
-    color: var(--nl-neutral-900);
-}
-
-.nl-hero-sub {
-    font-size: clamp(15px, 4vw, 17px);
-    color: var(--nl-neutral-600);
-    max-width: 540px;
-    line-height: 1.6;
-    margin: 16px auto 32px;
-}
-
-/* Ajuste para botões não ocuparem a tela toda no mobile, mas ficarem confortáveis */
-@media (max-width: 576px) {
-    .nl-btn-primary.btn-lg {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-    }
-    
-    .nl-hero {
-        padding: 40px 0 30px;
-    }
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 768px) {
+  .nl-hero { padding: 90px 0 50px; }
+  .nl-meal-panel { position: static !important; }
+  .nl-result-num { font-size: 2rem; }
+  .nl-goal-val   { font-size: 1rem; }
 }

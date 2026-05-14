@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriLife — Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
-    <!-- FAVICON -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriLife — Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- FAVICON -->
     <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/apple-icon-72x72.png">
@@ -27,53 +27,158 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
     <div class="container">
-        <a class="navbar-brand nl-brand d-flex align-items-center" href="index.html">
+      <a class="navbar-brand nl-brand d-flex align-items-center" href="index.html">
             <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2">
             NutriLife
         </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto gap-1">
-                <li class="nav-item"><a class="nav-link nl-nav-btn active" href="index.html"><i class="bi bi-house me-1"></i>Home</a></li>
-                <li class="nav-item"><a class="nav-link nl-nav-btn" href="nutricao.html"><i class="bi bi-search me-1"></i>Nutrição</a></li>
-                <li class="nav-item"><a class="nav-link nl-nav-btn" href="calculadoras.html"><i class="bi bi-calculator me-1"></i>Calculadoras</a></li>
-                <li class="nav-item"><a class="nav-link nl-nav-btn" href="receitas.html"><i class="bi bi-book me-1"></i>Receitas</a></li>
-            </ul>
-        </div>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item">
+            <a class="nav-link nl-nav-btn active" href="index.html">
+              <i class="bi bi-house me-1"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nl-nav-btn" href="nutricao.html">
+              <i class="bi bi-search me-1"></i>Nutrição
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nl-nav-btn" href="calculadoras.html">
+              <i class="bi bi-calculator me-1"></i>Calculadoras
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nl-nav-btn" href="receitas.html">
+              <i class="bi bi-book me-1"></i>Receitas
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<section class="nl-hero mt-5 pt-5">
-    <div class="container text-center py-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <div class="nl-hero-badge mb-3">✨ Plataforma nutricional completa</div>
-                <h1 class="nl-display">Cuide da sua saúde com <span class="nl-green">NutriLife</span></h1>
-                <p class="nl-hero-sub mx-auto">Pesquise alimentos, calcule seus macros e monitore seu bem-estar.</p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="nutricao.html" class="btn nl-btn-primary btn-lg px-5">Começar Agora</a>
+  <!-- ===================== CONTEÚDO HOME ===================== -->
+  <div style="padding-top: 72px;">
+
+    <!-- Hero -->
+    <section class="nl-hero">
+      <div class="container text-center">
+        <div class="nl-hero-badge mb-3">✨ Plataforma nutricional completa</div>
+        <h1 class="nl-display">Cuide da sua saúde com <span class="nl-green">NutriLife</span></h1>
+        <p class="nl-hero-sub mx-auto">Pesquise alimentos, calcule seus macros, monitore seu IMC e conecte-se com uma comunidade engajada em bem-estar.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="nutricao.html" class="btn nl-btn-primary btn-lg">Começar Agora</a>
+          <a href="nutricao.html" class="btn nl-btn-outline btn-lg">Explorar Alimentos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção calorias -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <span class="nl-section-tag">📚 Entenda o básico</span>
+            <h2 class="nl-h2 mt-2">O que são calorias e por que elas importam?</h2>
+            <p class="text-muted">Calorias são unidades de energia que o corpo obtém dos alimentos. Carboidratos, proteínas e gorduras fornecem calorias que seu organismo usa para respirar, se mover e pensar.</p>
+            <p class="text-muted">O equilíbrio calórico é simples: quando você consome <strong class="text-dark">mais calorias do que gasta</strong>, o excesso é armazenado como gordura. Quando gasta <strong class="text-dark">mais do que consome</strong>, o corpo usa essa gordura como energia — e é assim que o emagrecimento acontece.</p>
+            <p class="text-muted">Conhecer suas necessidades calóricas diárias é o primeiro passo para qualquer objetivo: emagrecer, manter o peso ou ganhar massa muscular.</p>
+            <a href="calculadoras.html" class="btn nl-btn-primary mt-2">Calcular minhas calorias <i class="bi bi-arrow-right ms-1"></i></a>
+          </div>
+          <div class="col-lg-6">
+            <div class="nl-calorie-card p-4 rounded-3">
+              <div class="row g-3 mb-3">
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">📉</div>
+                    <div class="fw-600 small mt-1">Déficit</div>
+                    <div class="text-muted" style="font-size:12px">Consome menos → emagrecimento</div>
+                  </div>
                 </div>
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">⚖️</div>
+                    <div class="fw-600 small mt-1">Equilíbrio</div>
+                    <div class="text-muted" style="font-size:12px">Consome = gasta → manutenção</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="nl-bal-card text-center p-3 rounded-3">
+                    <div class="fs-2">📈</div>
+                    <div class="fw-600 small mt-1">Superávit</div>
+                    <div class="text-muted" style="font-size:12px">Consome mais → ganho de massa</div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="nl-badge nl-badge-cal">🔥 Calorias</span>
+                <span class="nl-badge nl-badge-prot">💪 Proteínas — 4 kcal/g</span>
+                <span class="nl-badge nl-badge-carb">⚡ Carboidratos — 4 kcal/g</span>
+                <span class="nl-badge nl-badge-fat">🫙 Gorduras — 9 kcal/g</span>
+                <span class="nl-badge nl-badge-fib">🌿 Fibras — ~2 kcal/g</span>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
+
+    <!-- Feature cards -->
+    <section class="py-5 nl-bg-light">
+      <div class="container">
+        <h2 class="nl-h2 text-center mb-2">Tudo que você precisa</h2>
+        <p class="text-muted text-center mb-5">Ferramentas gratuitas para cuidar da sua saúde</p>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <a href="nutricao.html" class="text-decoration-none">
+              <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer">
+                <div class="nl-feat-icon mb-3"><i class="bi bi-search"></i></div>
+                <h5 class="nl-card-title">Busca Nutricional</h5>
+                <p class="text-muted small">Encontre informações detalhadas de 55+ alimentos e monte sua refeição completa.</p>
+                <span class="nl-feat-link">Explorar <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="calculadoras.html" class="text-decoration-none">
+              <div class="nl-feat-card nl-feat-featured h-100 p-4 rounded-3 cursor-pointer">
+                <div class="nl-feat-icon mb-3"><i class="bi bi-calculator"></i></div>
+                <h5 class="nl-card-title">Calculadoras</h5>
+                <p class="text-muted small">Calcule IMC, TMB e necessidade calórica diária com a fórmula de Harris-Benedict.</p>
+                <span class="nl-feat-link">Calcular <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="receitas.html" class="text-decoration-none">
+              <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer">
+                <div class="nl-feat-icon mb-3"><i class="bi bi-book"></i></div>
+                <h5 class="nl-card-title">Receitas</h5>
+                <p class="text-muted small">Compartilhe e aprenda com a comunidade engajada em bem-estar.</p>
+                <span class="nl-feat-link">Participar <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer class="nl-footer py-4">
-        <div class="container text-center">
-            <p class="mb-0 small">© 2025 NutriLife · Sua jornada saudável 🌱</p>
-        </div>
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="nl-footer-brand"><span>🥗</span> <strong>NutriLife</strong></div>
+        <p class="mb-0 small">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p>
+      </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
