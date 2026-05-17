@@ -38,13 +38,7 @@
         }
       });
     })();
-    (function () {
-      const savedTheme = localStorage.getItem('nl-theme') || 'light';
-      if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
-      }
-    })();
-  </script> 
+  </script>
 </head>
 <body>
 
@@ -182,9 +176,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
-
   <script>
-    // Sticky panel apenas em telas grandes
+    // Sticky panel apenas em telas grandes (Exclusivo da página de Nutrição)
     function updateMealPanelSticky() {
       const panel = document.getElementById('meal-panel');
       if (!panel) return;
@@ -199,60 +192,7 @@
     updateMealPanelSticky();
     window.addEventListener('resize', updateMealPanelSticky);
 
-    function updateRecFormSticky() {
-      const panel = document.getElementById('rec-form-panel');
-      if (!panel) return;
-      if (window.innerWidth >= 992) {
-        panel.style.position = 'sticky';
-        panel.style.top = '80px';
-      } else {
-        panel.style.position = 'static';
-        panel.style.top = '';
-      }
-    }
-    updateRecFormSticky();
-    window.addEventListener('resize', updateRecFormSticky);
-
-    function updateIcon(theme) {
-      const icon = document.getElementById('dark-mode-icon');
-      if (!icon) return;
-      if (theme === 'dark') {
-        icon.className = 'bi bi-sun-fill';
-      } else {
-        icon.className = 'bi bi-moon-fill';
-      }
-    }
-
-    function toggleDarkMode() {
-      const htmlEl = document.documentElement;
-      const bodyEl = document.body;
-      let currentTheme = htmlEl.getAttribute('data-bs-theme');
-      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      // Sincroniza as duas abordagens (Bootstrap 5.3 + Seu CSS customizado)
-      htmlEl.setAttribute('data-bs-theme', newTheme);
-      if (newTheme === 'dark') {
-        bodyEl.classList.add('dark-mode');
-      } else {
-        bodyEl.classList.remove('dark-mode');
-      }
-      
-      localStorage.setItem('theme', newTheme);
-      updateIcon(newTheme);
-    }
-
-    // Alinha o estado inicial da UI perfeitamente com os dados salvos
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
-      updateIcon(currentTheme);
-      
-      if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
-    });
-
+    // Ajusta padding-top do conteúdo conforme altura real da navbar
     function ajustarPaddingNavbar() {
       var nav = document.querySelector('.nl-navbar');
       var wrap = document.querySelector('[style*="padding-top"]');

@@ -38,14 +38,7 @@
         }
       });
     })();
-    (function () {
-      const savedTheme = localStorage.getItem('nl-theme') || 'light';
-      if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
-      }
-    })();
-  </script>  
-
+  </script>
 </head>
 <body>
 
@@ -298,46 +291,7 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
-    function updateIcon(theme) {
-      const icon = document.getElementById('dark-mode-icon');
-      if (!icon) return;
-      if (theme === 'dark') {
-        icon.className = 'bi bi-sun-fill';
-      } else {
-        icon.className = 'bi bi-moon-fill';
-      }
-    }
-
-    function toggleDarkMode() {
-      const htmlEl = document.documentElement;
-      const bodyEl = document.body;
-      let currentTheme = htmlEl.getAttribute('data-bs-theme');
-      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      // Sincroniza as duas abordagens (Bootstrap 5.3 + Seu CSS customizado)
-      htmlEl.setAttribute('data-bs-theme', newTheme);
-      if (newTheme === 'dark') {
-        bodyEl.classList.add('dark-mode');
-      } else {
-        bodyEl.classList.remove('dark-mode');
-      }
-      
-      localStorage.setItem('theme', newTheme);
-      updateIcon(newTheme);
-    }
-
-    // Alinha o estado inicial da UI perfeitamente com os dados salvos
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
-      updateIcon(currentTheme);
-      
-      if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
-    });
-
+    // Ajusta padding-top do conteúdo conforme altura real da navbar
     function ajustarPaddingNavbar() {
       var nav = document.querySelector('.nl-navbar');
       var wrap = document.querySelector('[style*="padding-top"]');
@@ -348,5 +302,5 @@
     document.querySelector('[data-bs-toggle="collapse"]')?.addEventListener('click', function() {
       setTimeout(ajustarPaddingNavbar, 350);
     });
-  </script>
+</script>
 </body>
