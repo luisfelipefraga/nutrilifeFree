@@ -18,6 +18,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --nl-text:         #0f172a;
   --nl-text-muted:   #64748b;
   --nl-navbar-bg:    #ffffff;
+  --nl-badge-bg:     var(--nl-green-light);
   --nl-shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
   --nl-shadow-md:    0 4px 16px rgba(0,0,0,.10);
   --nl-radius:       12px;
@@ -92,7 +93,7 @@ body {
   border: 1.5px solid var(--nl-border);
   border-radius: 8px;
   padding: 6px 10px;
-  background: #fff;
+  background: var(--nl-navbar-bg);
 }
 .nl-navbar .navbar-toggler:focus {
   box-shadow: 0 0 0 3px rgba(22,163,74,.15);
@@ -104,10 +105,6 @@ body {
   height: 1.2em;
 }
 
-/* Menu mobile expandido */
-.nl-navbar .navbar-collapse {
-  background: #fff;
-}
 @media (max-width: 991px) {
   /* Garante que o menu não vaze para fora da viewport */
   .nl-navbar {
@@ -124,8 +121,10 @@ body {
     margin-top: 10px;
     padding: 10px 0 4px;
     width: 100%;
+    background: var(--nl-navbar-bg);
     /* Sombra para separar visualmente o menu do conteúdo */
     box-shadow: 0 8px 16px rgba(0,0,0,.08);
+    background: var(--nl-navbar-bg);
   }
   .nl-navbar .navbar-nav {
     gap: 2px !important;
@@ -210,7 +209,7 @@ body {
 }
 
 .nl-bal-card {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
   transition: transform .2s;
@@ -236,7 +235,7 @@ body {
 .nl-bg-light { background: var(--nl-bg); }
 
 .nl-feat-card {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1.5px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
   transition: transform .2s, box-shadow .2s;
@@ -381,7 +380,7 @@ body {
 
 /* ---------- BUSCA: cards de alimentos ---------- */
 .nl-food-card {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1.5px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
   transition: box-shadow .2s;
@@ -390,7 +389,7 @@ body {
 
 .nl-food-name { font-weight: 700; font-size: 1rem; color: var(--nl-text); }
 .nl-food-kcal { font-family: 'Sora', sans-serif; font-weight: 700; color: var(--nl-green); font-size: 1.05rem; white-space: nowrap; }
-.nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: var(--nl-green-light); color: var(--nl-green); border-radius: 100px; padding: 2px 9px; }
+.nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: var(--nl-badge-bg); color: var(--nl-green); border-radius: 100px; padding: 2px 9px; }
 
 .nl-macro-tag {
   display: inline-block;
@@ -403,7 +402,7 @@ body {
 .nl-prot-tag { background: #dbeafe; color: #1e40af; }
 .nl-carb-tag { background: #fef9c3; color: #713f12; }
 .nl-fat-tag  { background: #fce7f3; color: #9d174d; }
-.nl-fib-tag  { background: #d1fae5; color: #065f46; }
+.nl-fib-tag  { background: var(--nl-badge-bg); color: #065f46; }
 
 /* Linha de adicionar ao carrinho — responsiva */
 .nl-add-row {
@@ -416,7 +415,7 @@ body {
 
 /* ---------- PAINEL REFEIÇÃO ---------- */
 .nl-meal-panel {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1.5px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
 }
@@ -754,6 +753,7 @@ body.dark-mode {
   --nl-text:         #f8fafc; /* Texto claro */
   --nl-text-muted:   #94a3b8; /* Texto secundário claro */
   --nl-navbar-bg:    #1e293b; /* Navbar escura */
+  --nl-badge-bg:     #14532d; 
 }
 
 /* Garante transições suaves ao alternar o tema */
@@ -777,4 +777,8 @@ body.dark-mode input::placeholder {
 body.dark-mode .modal-content {
   background-color: #1e293b;
   color: #f8fafc;
+}
+
+body.dark-mode .nl-navbar .navbar-toggler {
+  background: var(--nl-bg-card);
 }

@@ -331,43 +331,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ---------- DARK MODE LOGIC ---------- */
 
-// Função executada imediatamente ao carregar o script para evitar "piscada" branca
 function initDarkMode() {
   const savedTheme = localStorage.getItem('nl-theme');
   const body = document.body;
+  const html = document.documentElement; // Captura a tag html para o Bootstrap
   const btn = document.getElementById('btn-dark-mode');
 
   if (savedTheme === 'dark') {
     body.classList.add('dark-mode');
+    html.setAttribute('data-bs-theme', 'dark'); // Força o Bootstrap a entrar em Dark Mode
     if (btn) btn.innerHTML = '<i class="bi bi-sun-fill"></i>';
   } else {
     body.classList.remove('dark-mode');
+    html.setAttribute('data-bs-theme', 'light'); // Força o Bootstrap a entrar em Light Mode
     if (btn) btn.innerHTML = '<i class="bi bi-moon-fill"></i>';
   }
 }
 
 function toggleDarkMode() {
   const body = document.body;
+  const html = document.documentElement; // Captura a tag html para o Bootstrap
   const btn = document.getElementById('btn-dark-mode');
   
   body.classList.toggle('dark-mode');
   
   if (body.classList.contains('dark-mode')) {
     localStorage.setItem('nl-theme', 'dark');
-    if (btn) btn.innerHTML = '<i class="bi bi-sun-fill"></i>'; // Ícone de Sol para voltar pro Light
+    html.setAttribute('data-bs-theme', 'dark'); // Atualiza o Bootstrap para Dark
+    if (btn) btn.innerHTML = '<i class="bi bi-sun-fill"></i>';
   } else {
     localStorage.setItem('nl-theme', 'light');
-    if (btn) btn.innerHTML = '<i class="bi bi-moon-fill"></i>'; // Ícone de Lua para ir pro Dark
+    html.setAttribute('data-bs-theme', 'light'); // Atualiza o Bootstrap para Light
+    if (btn) btn.innerHTML = '<i class="bi bi-moon-fill"></i>';
   }
 }
-
-// Inicializa o tema quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-  initDarkMode();
-  
-  // Adiciona o ouvinte de clique no botão do tema (se ele existir na página)
-  const btn = document.getElementById('btn-dark-mode');
-  if (btn) {
-    btn.addEventListener('click', toggleDarkMode);
-  }
-});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +9,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <!-- FAVICON -->
+  
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('nl-theme') || 'light';
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      // Como o body ainda não existe aqui, adicionamos um listener rápido para injetar a classe imediatamente
+      document.addEventListener("DOMContentLoaded", function() {
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark-mode');
+        }
+      });
+    })();
+  </script>
+
   <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/apple-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon/apple-icon-76x76.png">
   <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicon/apple-icon-114x114.png">
   <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicon/apple-icon-144x144.png">
+  <link class="apple-touch-icon" sizes="144x144" href="assets/img/favicon/apple-icon-144x144.png">
   <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon/apple-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-icon-180x180.png">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon/android-icon-192x192.png">
@@ -27,19 +40,26 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('nl-theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+      }
+    })();
+  </script>
 </head>
 <body>
-
-  <!-- ===================== NAVBAR ===================== -->
+  
   <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
     <div class="container">
 
-      <a class="navbar-brand nl-brand d-flex align-items-center" href="index.html">
+      <a class="navbar-brand nl-brand" href="index.html">
         <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2">
         NutriLife
       </a>
 
-      <!-- BOTÃO HAMBÚRGUER — obrigatório para mobile -->
       <button class="navbar-toggler" type="button"
               data-bs-toggle="collapse" data-bs-target="#navMenu"
               aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menu">
@@ -47,7 +67,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-1">
+        <ul class="navbar-nav ms-auto gap-1 align-items-center">
           <li class="nav-item">
             <a class="nav-link nl-nav-btn active" href="index.html">
               <i class="bi bi-house me-1"></i>Home
@@ -68,10 +88,10 @@
               <i class="bi bi-book me-1"></i>Receitas
             </a>
           </li>
-          <li class="nav-item">
-            <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;">
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;" onclick="toggleDarkMode()">
               <i class="bi bi-moon-fill"></i>
-            </button>
+          </button>
           </li>
         </ul>
       </div>
@@ -79,10 +99,8 @@
     </div>
   </nav>
 
-  <!-- ===================== CONTEÚDO HOME ===================== -->
   <div style="padding-top: 72px;">
 
-    <!-- Hero -->
     <section class="nl-hero">
       <div class="container text-center">
         <div class="nl-hero-badge mb-3">✨ Plataforma nutricional completa</div>
@@ -95,49 +113,49 @@
       </div>
     </section>
 
-    <!-- Seção calorias -->
-    <section class="py-5 bg-white">
+    <section class="py-5">
       <div class="container">
         <div class="row align-items-center g-4 g-lg-5">
           <div class="col-lg-6">
             <span class="nl-section-tag">📚 Entenda o básico</span>
             <h2 class="nl-h2 mt-2">O que são calorias e por que elas importam?</h2>
-            <p class="text-muted">Calorias são unidades de energia que o corpo obtém dos alimentos. Carboidratos, proteínas e gorduras fornecem calorias que seu organismo usa para respirar, se mover e pensar.</p>
-            <p class="text-muted">O equilíbrio calórico é simples: quando você consome <strong class="text-dark">mais calorias do que gasta</strong>, o excesso é armazenado como gordura. Quando gasta <strong class="text-dark">mais do que consome</strong>, o corpo usa essa gordura como energia — e é assim que o emagrecimento acontece.</p>
-            <p class="text-muted">Conhecer suas necessidades calóricas diárias é o primeiro passo para qualquer objetivo: emagrecer, manter o peso ou ganhar massa muscular.</p>
+            <p class="opacity-75">Calorias são unidades de energia que o corpo obtém dos alimentos. Carboidratos, proteínas e gorduras fornecem calorias que seu organismo usa para respirar, se mover e pensar.</p>
+            <p class="opacity-75">O equilíbrio calórico é simples: quando você consome <strong>mais calorias do que gasta</strong>, o excesso é armazenado como gordura. Quando gasta <strong>mais do que consome</strong>, o corpo usa essa gordura como energia — e é assim que o emagrecimento acontece.</p>
+            <p class="opacity-75">Conhecer suas necessidades calóricas diárias é o primeiro passo para qualquer objetivo: emagrecer, manter o peso ou ganhar massa muscular.</p>
             <a href="calculadoras.html" class="btn nl-btn-primary mt-2">Calcular minhas calorias <i class="bi bi-arrow-right ms-1"></i></a>
           </div>
+          
           <div class="col-lg-6">
             <div class="nl-calorie-card p-4 rounded-3">
               <div class="row g-3 mb-3">
                 <div class="col-4">
-                  <div class="nl-bal-card text-center p-3 rounded-3">
+                  <div class="nl-bal-card text-center p-3 rounded-3 h-100 d-flex flex-column justify-content-center">
                     <div class="fs-2">📉</div>
-                    <div class="fw-600 small mt-1">Déficit</div>
-                    <div class="text-muted" style="font-size:12px">Consome menos → emagrecimento</div>
+                    <div class="fw-semibold small mt-1">Déficit</div>
+                    <div class="opacity-75" style="font-size:12px">Consome menos → emagrecimento</div>
                   </div>
                 </div>
                 <div class="col-4">
-                  <div class="nl-bal-card text-center p-3 rounded-3">
+                  <div class="nl-bal-card text-center p-3 rounded-3 h-100 d-flex flex-column justify-content-center">
                     <div class="fs-2">⚖️</div>
-                    <div class="fw-600 small mt-1">Equilíbrio</div>
-                    <div class="text-muted" style="font-size:12px">Consome = gasta → manutenção</div>
+                    <div class="fw-semibold small mt-1">Equilíbrio</div>
+                    <div class="opacity-75" style="font-size:12px">Consome = gasta → manutenção</div>
                   </div>
                 </div>
                 <div class="col-4">
-                  <div class="nl-bal-card text-center p-3 rounded-3">
+                  <div class="nl-bal-card text-center p-3 rounded-3 h-100 d-flex flex-column justify-content-center">
                     <div class="fs-2">📈</div>
-                    <div class="fw-600 small mt-1">Superávit</div>
-                    <div class="text-muted" style="font-size:12px">Consome mais → ganho de massa</div>
+                    <div class="fw-semibold small mt-1">Superávit</div>
+                    <div class="opacity-75" style="font-size:12px">Consome mais → ganho de massa</div>
                   </div>
                 </div>
               </div>
-              <div class="d-flex flex-wrap gap-2">
+              <div class="d-flex flex-wrap gap-2 justify-content-center">
                 <span class="nl-badge nl-badge-cal">🔥 Calorias</span>
-                <span class="nl-badge nl-badge-prot">💪 Proteínas — 4 kcal/g</span>
-                <span class="nl-badge nl-badge-carb">⚡ Carboidratos — 4 kcal/g</span>
-                <span class="nl-badge nl-badge-fat">🫙 Gorduras — 9 kcal/g</span>
-                <span class="nl-badge nl-badge-fib">🌿 Fibras — ~2 kcal/g</span>
+                <span class="nl-badge nl-badge-prot">💪 Proteínas</span>
+                <span class="nl-badge nl-badge-carb">⚡ Carboidratos</span>
+                <span class="nl-badge nl-badge-fat">🫙 Gorduras</span>
+                <span class="nl-badge nl-badge-fib">🌿 Fibras</span>
               </div>
             </div>
           </div>
@@ -145,38 +163,37 @@
       </div>
     </section>
 
-    <!-- Feature cards -->
-    <section class="py-5 nl-bg-light">
+    <section class="py-5 nl-bg">
       <div class="container">
         <h2 class="nl-h2 text-center mb-2">Tudo que você precisa</h2>
-        <p class="text-muted text-center mb-5">Ferramentas gratuitas para cuidar da sua saúde</p>
+        <p class="opacity-75 text-center mb-5">Ferramentas gratuitas para cuidar da sua saúde</p>
         <div class="row g-4">
           <div class="col-md-4">
             <a href="nutricao.html" class="text-decoration-none">
-              <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer">
+              <div class="nl-feat-card h-100 p-4 rounded-3">
                 <div class="nl-feat-icon mb-3"><i class="bi bi-search"></i></div>
                 <h5 class="nl-card-title">Busca Nutricional</h5>
-                <p class="text-muted small">Encontre informações detalhadas de 200+ alimentos e monte sua refeição completa.</p>
+                <p class="opacity-75 small">Encontre informações detalhadas de 200+ alimentos e monte sua refeição completa.</p>
                 <span class="nl-feat-link">Explorar <i class="bi bi-arrow-right"></i></span>
               </div>
             </a>
           </div>
           <div class="col-md-4">
             <a href="calculadoras.html" class="text-decoration-none">
-              <div class="nl-feat-card nl-feat-featured h-100 p-4 rounded-3 cursor-pointer">
+              <div class="nl-feat-card h-100 p-4 rounded-3">
                 <div class="nl-feat-icon mb-3"><i class="bi bi-calculator"></i></div>
                 <h5 class="nl-card-title">Calculadoras</h5>
-                <p class="text-muted small">Calcule IMC, TMB e necessidade calórica diária com a fórmula de Harris-Benedict.</p>
+                <p class="opacity-75 small">Calcule IMC, TMB e necessidade calórica diária com a fórmula de Harris-Benedict.</p>
                 <span class="nl-feat-link">Calcular <i class="bi bi-arrow-right"></i></span>
               </div>
             </a>
           </div>
           <div class="col-md-4">
             <a href="receitas.html" class="text-decoration-none">
-              <div class="nl-feat-card h-100 p-4 rounded-3 cursor-pointer">
+              <div class="nl-feat-card h-100 p-4 rounded-3">
                 <div class="nl-feat-icon mb-3"><i class="bi bi-book"></i></div>
                 <h5 class="nl-card-title">Receitas</h5>
-                <p class="text-muted small">Compartilhe e aprenda com a comunidade engajada em bem-estar.</p>
+                <p class="opacity-75 small">Compartilhe e aprenda com a comunidade engajada em bem-estar.</p>
                 <span class="nl-feat-link">Participar <i class="bi bi-arrow-right"></i></span>
               </div>
             </a>
@@ -188,15 +205,57 @@
     <footer class="nl-footer py-4">
       <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div class="nl-footer-brand"><span>🥗</span> <strong>NutriLife</strong></div>
-        <p class="mb-0 small">© 2025 NutriLife · Sua jornada para uma vida mais saudável 🌱</p>
+        <p class="mb-0 small">© 2026 NutriLife · Sua jornada para uma vida mais saudável 🌱</p>
       </div>
     </footer>
 
   </div>
 
-  <script src=https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  
   <script>
-    // Ajusta padding-top do conteúdo conforme altura real da navbar
+    function updateIcon(theme) {
+      const icon = document.getElementById('dark-mode-icon');
+      if (!icon) return;
+      if (theme === 'dark') {
+        icon.className = 'bi bi-sun-fill';
+      } else {
+        icon.className = 'bi bi-moon-fill';
+      }
+    }
+
+    function toggleDarkMode() {
+      const htmlEl = document.documentElement;
+      const bodyEl = document.body;
+      let currentTheme = htmlEl.getAttribute('data-bs-theme');
+      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Sincroniza as duas abordagens (Bootstrap 5.3 + Seu CSS customizado)
+      htmlEl.setAttribute('data-bs-theme', newTheme);
+      if (newTheme === 'dark') {
+        bodyEl.classList.add('dark-mode');
+      } else {
+        bodyEl.classList.remove('dark-mode');
+      }
+      
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    }
+
+    // Alinha o estado inicial da UI perfeitamente com os dados salvos
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+      updateIcon(currentTheme);
+      
+      if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    });
+
     function ajustarPaddingNavbar() {
       var nav = document.querySelector('.nl-navbar');
       var wrap = document.querySelector('[style*="padding-top"]');
