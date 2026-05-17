@@ -5,6 +5,7 @@
    ============================================================ */
 
 /* ---------- RESET & BASE ---------- */
+html, body { overflow-x: hidden; max-width: 100%; }
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
@@ -34,7 +35,7 @@ body {
 /* ---------- TIPOGRAFIA ---------- */
 .nl-display {
   font-family: 'Sora', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(1.7rem, 5vw, 3.25rem);
   font-weight: 800;
   line-height: 1.15;
   color: var(--nl-text);
@@ -42,21 +43,21 @@ body {
 
 .nl-h1 {
   font-family: 'Sora', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.3rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--nl-text);
 }
 
 .nl-h2 {
   font-family: 'Sora', sans-serif;
-  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.2rem, 2.5vw, 1.75rem);
   font-weight: 700;
   color: var(--nl-text);
 }
 
 .nl-h3 {
   font-family: 'Sora', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--nl-text);
 }
@@ -86,6 +87,54 @@ body {
 
 .nl-logo-icon { font-size: 1.3rem; }
 
+/* Botão hambúrguer customizado */
+.nl-navbar .navbar-toggler {
+  border: 1.5px solid var(--nl-border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: #fff;
+}
+.nl-navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(22,163,74,.15);
+  outline: none;
+}
+.nl-navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%2316a34a' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  width: 1.2em;
+  height: 1.2em;
+}
+
+/* Menu mobile expandido */
+.nl-navbar .navbar-collapse {
+  background: #fff;
+}
+@media (max-width: 991px) {
+  /* Garante que o menu não vaze para fora da viewport */
+  .nl-navbar {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+  .nl-navbar .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .nl-navbar .navbar-collapse {
+    border-top: 1px solid var(--nl-border);
+    margin-top: 10px;
+    padding: 10px 0 4px;
+    width: 100%;
+    /* Sombra para separar visualmente o menu do conteúdo */
+    box-shadow: 0 8px 16px rgba(0,0,0,.08);
+  }
+  .nl-navbar .navbar-nav {
+    gap: 2px !important;
+  }
+  .nl-navbar .nav-item {
+    width: 100%;
+  }
+}
+
 .nl-nav-btn {
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
@@ -94,10 +143,10 @@ body {
   background: none;
   border: none;
   border-radius: 8px;
-  padding: 6px 14px;
+  padding: 8px 14px;
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  display: block;
   transition: background .15s, color .15s;
 }
 
@@ -135,7 +184,7 @@ body {
 }
 
 .nl-hero-sub {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--nl-text-muted);
   max-width: 560px;
   margin-top: 14px;
@@ -297,6 +346,7 @@ body {
   justify-content: center;
   padding: 0;
   font-size: 0.9rem;
+  flex-shrink: 0;
   transition: background .15s;
 }
 .nl-btn-remove:hover { background: #fecaca; }
@@ -339,7 +389,7 @@ body {
 .nl-food-card:hover { box-shadow: var(--nl-shadow-md); }
 
 .nl-food-name { font-weight: 700; font-size: 1rem; color: var(--nl-text); }
-.nl-food-kcal { font-family: 'Sora', sans-serif; font-weight: 700; color: var(--nl-green); font-size: 1.05rem; }
+.nl-food-kcal { font-family: 'Sora', sans-serif; font-weight: 700; color: var(--nl-green); font-size: 1.05rem; white-space: nowrap; }
 .nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: var(--nl-green-light); color: var(--nl-green); border-radius: 100px; padding: 2px 9px; }
 
 .nl-macro-tag {
@@ -348,11 +398,21 @@ body {
   font-weight: 500;
   padding: 3px 8px;
   border-radius: 6px;
+  white-space: nowrap;
 }
 .nl-prot-tag { background: #dbeafe; color: #1e40af; }
 .nl-carb-tag { background: #fef9c3; color: #713f12; }
 .nl-fat-tag  { background: #fce7f3; color: #9d174d; }
 .nl-fib-tag  { background: #d1fae5; color: #065f46; }
+
+/* Linha de adicionar ao carrinho — responsiva */
+.nl-add-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nl-add-row .nl-label { margin-bottom: 0; }
 
 /* ---------- PAINEL REFEIÇÃO ---------- */
 .nl-meal-panel {
@@ -397,7 +457,7 @@ body {
 /* ---------- CALCULADORAS: TABS ---------- */
 .nl-tabs {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   border-bottom: 2px solid var(--nl-border);
   padding-bottom: 0;
   flex-wrap: wrap;
@@ -406,16 +466,17 @@ body {
 .nl-tab {
   font-family: 'DM Sans', sans-serif;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--nl-text-muted) !important;
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
-  padding: 10px 18px;
+  padding: 10px 14px;
   margin-bottom: -2px;
   cursor: pointer;
   border-radius: 0;
   transition: color .15s, border-color .15s;
+  white-space: nowrap;
 }
 .nl-tab.active,
 .nl-tab:hover {
@@ -450,9 +511,9 @@ body {
 .nl-result-label { font-size: 0.85rem; color: var(--nl-text-muted); margin-top: 4px; }
 
 /* ---------- IMC BAR ---------- */
-.nl-imc-bar-wrap { position: relative; }
+.nl-imc-bar-wrap { position: relative; padding-bottom: 24px; }
 
-.nl-imc-bar { font-size: 0.7rem; font-weight: 600; color: #fff; }
+.nl-imc-bar { font-size: 0.65rem; font-weight: 600; color: #fff; }
 .seg-blue   { background: #3b82f6; }
 .seg-green  { background: #22c55e; }
 .seg-yellow { background: #eab308; color: #422006; }
@@ -461,7 +522,7 @@ body {
 
 .nl-imc-pointer {
   position: absolute;
-  bottom: -20px;
+  bottom: 0;
   transform: translateX(-50%);
   font-size: 1.1rem;
   color: var(--nl-text);
@@ -492,6 +553,7 @@ body {
 .nl-step-num {
   width: 28px;
   height: 28px;
+  min-width: 28px;
   background: var(--nl-green);
   color: #fff;
   font-weight: 700;
@@ -514,8 +576,8 @@ body {
 .nl-goal-card:hover { transform: translateY(-2px); }
 .nl-goal-active { border-color: var(--nl-green); background: var(--nl-green-light); }
 .nl-goal-title { font-size: 0.78rem; font-weight: 600; color: var(--nl-text-muted); margin-top: 6px; }
-.nl-goal-val   { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--nl-green); margin-top: 4px; }
-.nl-goal-sub   { font-size: 0.7rem; color: var(--nl-text-muted); }
+.nl-goal-val   { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 1rem; color: var(--nl-green); margin-top: 4px; }
+.nl-goal-sub   { font-size: 0.68rem; color: var(--nl-text-muted); }
 
 /* ---------- RECEITAS ---------- */
 .nl-success-msg {
@@ -541,10 +603,145 @@ body {
 /* ---------- CURSOR ---------- */
 .cursor-pointer { cursor: pointer; }
 
-/* ---------- RESPONSIVIDADE ---------- */
-@media (max-width: 768px) {
-  .nl-hero { padding: 90px 0 50px; }
-  .nl-meal-panel { position: static !important; }
-  .nl-result-num { font-size: 2rem; }
-  .nl-goal-val   { font-size: 1rem; }
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+/* --- Tablets: 768px – 991px --- */
+@media (max-width: 991px) {
+
+  /* Painel de refeição deixa de ser sticky e vai abaixo da busca */
+  .nl-meal-panel {
+    position: static !important;
+  }
+
+  /* Hero menos padding */
+  .nl-hero {
+    padding: 90px 0 52px;
+  }
+
+  /* TMB result: setas viram linha separada */
+  #tmb-result .col-2 {
+    display: none;
+  }
+  #tmb-result .col-5 {
+    width: 50%;
+  }
+}
+
+/* --- Mobile: até 767px --- */
+@media (max-width: 767px) {
+
+  /* Hero compacto */
+  .nl-hero {
+    padding: 80px 0 44px;
+    text-align: center;
+  }
+  .nl-hero-sub {
+    font-size: 0.95rem;
+  }
+  .nl-hero .d-flex {
+    justify-content: center;
+  }
+
+  /* Botões hero empilham */
+  .nl-hero .btn {
+    width: 100%;
+  }
+
+  /* Painel de refeição vira accordion no mobile */
+  .nl-meal-panel {
+    position: static !important;
+  }
+
+  /* Cards de macro — 2 colunas (já está no Bootstrap col-6) */
+
+  /* Food card: linha de adicionar empilha */
+  .nl-add-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nl-add-row .nl-btn-add {
+    width: 100%;
+  }
+  .nl-add-row input[type="number"] {
+    width: 100% !important;
+  }
+
+  /* Tags de macro — quebra em 2x2 */
+  .nl-food-card .row.g-2 .col-3 {
+    width: 50%;
+  }
+
+  /* Calculadoras: inputs full width */
+  #tab-imc .col-6,
+  #tab-tmb .col-6 {
+    width: 100%;
+  }
+
+  /* Goals TMB: empilham em coluna única */
+  #tmb-result .col-4 {
+    width: 100%;
+  }
+
+  /* IMC bar — texto menor */
+  .nl-imc-bar {
+    font-size: 0.55rem;
+  }
+  .nl-imc-seg small {
+    display: none;
+  }
+
+  /* Tabs: ocupam toda largura */
+  .nl-tabs {
+    gap: 2px;
+  }
+  .nl-tab {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+
+  /* Página interna: padding-top menor */
+  .nl-page-content {
+    padding-top: calc(64px + 1rem) !important;
+  }
+
+  /* Número de resultado menor */
+  .nl-result-num {
+    font-size: 2.2rem;
+  }
+  .nl-result-num.small-result {
+    font-size: 1.6rem;
+  }
+
+  /* Receitas: form vai abaixo da lista */
+  #receitas-list + .col-lg-4 {
+    margin-top: 1rem;
+  }
+
+  /* Footer centraliza */
+  .nl-footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* --- Telas muito pequenas: até 400px --- */
+@media (max-width: 400px) {
+  .nl-hero {
+    padding: 72px 0 36px;
+  }
+  .nl-display {
+    font-size: 1.5rem;
+  }
+  .nl-tab {
+    font-size: 0.75rem;
+    padding: 7px 8px;
+  }
+  .nl-goal-val {
+    font-size: 0.9rem;
+  }
+  .nl-kcal-total {
+    font-size: 1.2rem;
+  }
 }
