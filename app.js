@@ -328,3 +328,46 @@ function publicarReceita() {
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('receitas-list')) filterReceitas();
 });
+
+/* ---------- DARK MODE LOGIC ---------- */
+
+// Função executada imediatamente ao carregar o script para evitar "piscada" branca
+function initDarkMode() {
+  const savedTheme = localStorage.getItem('nl-theme');
+  const body = document.body;
+  const btn = document.getElementById('btn-dark-mode');
+
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    if (btn) btn.innerHTML = '<i class="bi bi-sun-fill"></i>';
+  } else {
+    body.classList.remove('dark-mode');
+    if (btn) btn.innerHTML = '<i class="bi bi-moon-fill"></i>';
+  }
+}
+
+function toggleDarkMode() {
+  const body = document.body;
+  const btn = document.getElementById('btn-dark-mode');
+  
+  body.classList.toggle('dark-mode');
+  
+  if (body.classList.contains('dark-mode')) {
+    localStorage.setItem('nl-theme', 'dark');
+    if (btn) btn.innerHTML = '<i class="bi bi-sun-fill"></i>'; // Ícone de Sol para voltar pro Light
+  } else {
+    localStorage.setItem('nl-theme', 'light');
+    if (btn) btn.innerHTML = '<i class="bi bi-moon-fill"></i>'; // Ícone de Lua para ir pro Dark
+  }
+}
+
+// Inicializa o tema quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+  initDarkMode();
+  
+  // Adiciona o ouvinte de clique no botão do tema (se ele existir na página)
+  const btn = document.getElementById('btn-dark-mode');
+  if (btn) {
+    btn.addEventListener('click', toggleDarkMode);
+  }
+});
