@@ -27,6 +27,24 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('nl-theme') || 'light';
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      // Como o body ainda não existe aqui, adicionamos um listener rápido para injetar a classe imediatamente
+      document.addEventListener("DOMContentLoaded", function() {
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark-mode');
+        }
+      });
+    })();
+    (function () {
+      const savedTheme = localStorage.getItem('nl-theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+      }
+    })();
+  </script> 
 </head>
 <body>
 
@@ -38,6 +56,10 @@
         <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2">
         NutriLife
       </a>
+
+      <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;" onclick="toggleDarkMode()">
+        <i class="bi bi-moon-fill"></i>
+      </button>
 
       <!-- BOTÃO HAMBÚRGUER -->
       <button class="navbar-toggler" type="button"
@@ -68,11 +90,7 @@
               <i class="bi bi-book me-1"></i>Receitas
             </a>
           </li>
-          <li class="nav-item">
-            <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;">
-              <i class="bi bi-moon-fill"></i>
-            </button>
-          </li>
+          
         </ul>
       </div>
 
@@ -180,9 +198,61 @@
     }
     updateMealPanelSticky();
     window.addEventListener('resize', updateMealPanelSticky);
-  </script>
-  <script>
-    // Ajusta padding-top do conteúdo conforme altura real da navbar
+
+    function updateRecFormSticky() {
+      const panel = document.getElementById('rec-form-panel');
+      if (!panel) return;
+      if (window.innerWidth >= 992) {
+        panel.style.position = 'sticky';
+        panel.style.top = '80px';
+      } else {
+        panel.style.position = 'static';
+        panel.style.top = '';
+      }
+    }
+    updateRecFormSticky();
+    window.addEventListener('resize', updateRecFormSticky);
+
+    function updateIcon(theme) {
+      const icon = document.getElementById('dark-mode-icon');
+      if (!icon) return;
+      if (theme === 'dark') {
+        icon.className = 'bi bi-sun-fill';
+      } else {
+        icon.className = 'bi bi-moon-fill';
+      }
+    }
+
+    function toggleDarkMode() {
+      const htmlEl = document.documentElement;
+      const bodyEl = document.body;
+      let currentTheme = htmlEl.getAttribute('data-bs-theme');
+      let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Sincroniza as duas abordagens (Bootstrap 5.3 + Seu CSS customizado)
+      htmlEl.setAttribute('data-bs-theme', newTheme);
+      if (newTheme === 'dark') {
+        bodyEl.classList.add('dark-mode');
+      } else {
+        bodyEl.classList.remove('dark-mode');
+      }
+      
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    }
+
+    // Alinha o estado inicial da UI perfeitamente com os dados salvos
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+      updateIcon(currentTheme);
+      
+      if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    });
+
     function ajustarPaddingNavbar() {
       var nav = document.querySelector('.nl-navbar');
       var wrap = document.querySelector('[style*="padding-top"]');

@@ -488,7 +488,7 @@ body {
 
 /* ---------- CALCULADORAS: CARDS ---------- */
 .nl-card {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1.5px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
 }
@@ -567,7 +567,7 @@ body {
 
 /* ---------- GOAL CARDS (TMB) ---------- */
 .nl-goal-card {
-  background: #fff;
+  background: var(--nl-bg-card);
   border: 1.5px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
   transition: transform .2s;
@@ -625,6 +625,12 @@ body {
   }
   #tmb-result .col-5 {
     width: 50%;
+  }
+  .nl-navbar #btn-dark-mode {
+    order: 2; /* Faz o botão de tema se posicionar logo antes do hambúrguer */
+  }
+  .nl-navbar .navbar-toggler {
+    order: 3;
   }
 }
 
@@ -786,4 +792,16 @@ body.dark-mode .nl-navbar .navbar-toggler {
 /* Sobrescreve o Dark Mode especificamente para o título do Hero */
 body.dark-mode .nl-display {
   color: #0f172a !important; /* Cor escura padrão (quase preto) */
+}
+
+body.dark-mode .nl-footer {
+  background-color: var(--nl-bg-card) !important; /* Adota o fundo escuro do card ou --nl-bg se preferir */
+  color: var(--nl-text) !important;              /* Garante que o texto fique claro */
+  border-top: 1px solid var(--nl-border);        /* Opcional: adiciona uma linha sutil divisória */
+}
+
+/* Ajusta o texto muted ou parágrafos de copyright dentro do footer */
+body.dark-mode .nl-footer p, 
+body.dark-mode .nl-footer .opacity-75 {
+  color: var(--nl-text-muted) !important;
 }
