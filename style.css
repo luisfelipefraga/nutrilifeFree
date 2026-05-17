@@ -782,3 +782,8 @@ body.dark-mode .modal-content {
 body.dark-mode .nl-navbar .navbar-toggler {
   background: var(--nl-bg-card);
 }
+
+/* Sobrescreve o Dark Mode especificamente para o título do Hero */
+body.dark-mode .nl-display {
+  color: #0f172a !important; /* Cor escura padrão (quase preto) */
+}
