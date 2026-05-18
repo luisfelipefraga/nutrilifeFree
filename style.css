@@ -31,6 +31,20 @@ body {
   background: var(--nl-bg);
   font-size: 15px;
   line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+/* Garante que o footer empurre a si mesmo para o final caso o conteúdo seja curto */
+.nl-footer {
+  margin-top: auto;
+  width: 100%;
 }
 
 /* ---------- TIPOGRAFIA ---------- */
@@ -73,6 +87,15 @@ body {
   border-bottom: 1px solid var(--nl-border);
   box-shadow: var(--nl-shadow-sm);
   padding: 10px 0;
+  height: 70px !important;
+  display: flex;
+  align-items: center;
+}
+
+body > div[style*="padding-top"], 
+.nl-hero,
+div[style*="padding-top"] {
+  padding-top: 70px !important;
 }
 
 .nl-brand {
@@ -602,6 +625,102 @@ body {
 /* ---------- CURSOR ---------- */
 .cursor-pointer { cursor: pointer; }
 
+
+
+/* ---------- DARK MODE VARIABLES ---------- */
+body.dark-mode {
+  --nl-bg:           #0f172a; /* Fundo escuro */
+  --nl-bg-card:      #1e293b; /* Cards escuros */
+  --nl-border:       #334155; /* Bordas mais escuras */
+  --nl-text:         #f8fafc; /* Texto claro */
+  --nl-text-muted:   #94a3b8; /* Texto secundário claro */
+  --nl-navbar-bg:    #1e293b; /* Navbar escura */
+  --nl-badge-bg:     #14532d; 
+}
+
+/* Garante transições suaves ao alternar o tema */
+body, .nl-navbar, .nl-food-card, .nl-footer, .card, input, select, textarea {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ajustes finos adicionais para componentes escuros */
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode textarea {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+body.dark-mode input::placeholder {
+  color: #64748b;
+}
+
+body.dark-mode .modal-content {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+body.dark-mode .nl-navbar .navbar-toggler {
+  background: var(--nl-bg-card);
+}
+
+/* Sobrescreve o Dark Mode especificamente para o título do Hero */
+body.dark-mode .nl-display {
+  color: #0f172a !important; /* Cor escura padrão (quase preto) */
+}
+
+body.dark-mode .nl-footer {
+  background-color: var(--nl-bg-card) !important; /* Adota o fundo escuro do card ou --nl-bg se preferir */
+  color: var(--nl-text) !important;              /* Garante que o texto fique claro */
+  border-top: 1px solid var(--nl-border);        /* Opcional: adiciona uma linha sutil divisória */
+}
+
+/* Ajusta o texto muted ou parágrafos de copyright dentro do footer */
+body.dark-mode .nl-footer p, 
+body.dark-mode .nl-footer .opacity-75 {
+  color: var(--nl-text-muted) !important;
+}
+
+/* Limita o tamanho da lista e cria a barra de rolagem interna confortável */
+.nl-scrollable-results {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Customização sutil da barra de rolagem interna */
+.nl-scrollable-results::-webkit-scrollbar {
+  width: 6px;
+}
+.nl-scrollable-results::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+body.dark-mode .nl-scrollable-results::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Controla a exibição das informações extras do card */
+.nl-food-details {
+  display: none; /* Escondido por padrão */
+}
+.nl-food-details.show {
+  display: flex !important; /* Exibe quando clicado */
+}
+
+/* Ajuste para o fundo do bloco de totais no dark mode */
+body.dark-mode .dark-inside-card {
+  background-color: #1e293b !important;
+  color: #f8fafc;
+}
+
+.nl-card-desc {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+
 /* ============================================================
    RESPONSIVIDADE
    ============================================================ */
@@ -751,57 +870,33 @@ body {
   }
 }
 
-/* ---------- DARK MODE VARIABLES ---------- */
-body.dark-mode {
-  --nl-bg:           #0f172a; /* Fundo escuro */
-  --nl-bg-card:      #1e293b; /* Cards escuros */
-  --nl-border:       #334155; /* Bordas mais escuras */
-  --nl-text:         #f8fafc; /* Texto claro */
-  --nl-text-muted:   #94a3b8; /* Texto secundário claro */
-  --nl-navbar-bg:    #1e293b; /* Navbar escura */
-  --nl-badge-bg:     #14532d; 
+@media (max-width: 575.98px) {
+  /* Faz os 3 cards se empilharem ou adotarem um visual mais compacto */
+  .nl-bal-card {
+    padding: 12px !important;
+    flex-direction: row !important; /* Coloca o emoji ao lado do texto no mobile */
+    justify-content: flex-start !important;
+    gap: 12px;
+    text-align: left !important;
+  }
+  
+  .nl-bal-card .fs-3 {
+    font-size: 1.5rem !important;
+  }
+  
+  .nl-card-desc {
+    margin-top: 0 !important;
+    display: inline;
+  }
+  
+  /* Melhora o espaçamento das tags de macros embaixo */
+  .nl-tags-container {
+    gap: 6px !important;
+  }
+  
+  .nl-badge {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
 }
 
-/* Garante transições suaves ao alternar o tema */
-body, .nl-navbar, .nl-food-card, .nl-footer, .card, input, select, textarea {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Ajustes finos adicionais para componentes escuros */
-body.dark-mode input, 
-body.dark-mode select, 
-body.dark-mode textarea {
-  background-color: #1e293b;
-  color: #f8fafc;
-  border-color: #334155;
-}
-
-body.dark-mode input::placeholder {
-  color: #64748b;
-}
-
-body.dark-mode .modal-content {
-  background-color: #1e293b;
-  color: #f8fafc;
-}
-
-body.dark-mode .nl-navbar .navbar-toggler {
-  background: var(--nl-bg-card);
-}
-
-/* Sobrescreve o Dark Mode especificamente para o título do Hero */
-body.dark-mode .nl-display {
-  color: #0f172a !important; /* Cor escura padrão (quase preto) */
-}
-
-body.dark-mode .nl-footer {
-  background-color: var(--nl-bg-card) !important; /* Adota o fundo escuro do card ou --nl-bg se preferir */
-  color: var(--nl-text) !important;              /* Garante que o texto fique claro */
-  border-top: 1px solid var(--nl-border);        /* Opcional: adiciona uma linha sutil divisória */
-}
-
-/* Ajusta o texto muted ou parágrafos de copyright dentro do footer */
-body.dark-mode .nl-footer p, 
-body.dark-mode .nl-footer .opacity-75 {
-  color: var(--nl-text-muted) !important;
-}

@@ -28,17 +28,24 @@
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script>
-    (function () {
-      const savedTheme = localStorage.getItem('nl-theme') || 'light';
-      document.documentElement.setAttribute('data-bs-theme', savedTheme);
-      // Como o body ainda não existe aqui, adicionamos um listener rápido para injetar a classe imediatamente
-      document.addEventListener("DOMContentLoaded", function() {
-        if (savedTheme === 'dark') {
-          document.body.classList.add('dark-mode');
-        }
-      });
-    })();
-  </script>
+  (function () {
+    const savedTheme = localStorage.getItem('nl-theme') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    
+    // Executa assim que o HTML estiver pronto na tela
+    document.addEventListener("DOMContentLoaded", function() {
+      const iconEl = document.querySelector('#btn-dark-mode i');
+      
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-sun-fill'; // Garante o Sol no Dark Mode
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-moon-fill'; // Garante a Lua no Light Mode
+      }
+    });
+  })();
+</script>
 </head>
 <body>
 
@@ -90,82 +97,80 @@
 
     </div>
   </nav>
+  <main class="flex-grow-1" style="padding-top: 72px;">
+    <!-- ===================== CONTEÚDO NUTRIÇÃO ===================== -->
+    <section>
+      <div class="container py-4" style="padding-top: calc(72px + 1.5rem) !important;">
 
-  <!-- ===================== CONTEÚDO NUTRIÇÃO ===================== -->
-  <div class="container py-4" style="padding-top: calc(72px + 1.5rem) !important;">
-
-    <div class="nl-page-header mb-4">
-      <h1 class="nl-h1">Busca Nutricional</h1>
-      <p class="text-muted">Pesquise alimentos e monte sua refeição para calcular o total de nutrientes</p>
-    </div>
-
-    <div class="row g-4 align-items-start">
-
-      <!-- Busca — ocupa toda a largura em mobile, 8 colunas em desktop -->
-      <div class="col-12 col-lg-8">
-        <div class="input-group mb-2">
-          <input type="text" class="form-control nl-input" id="food-search"
-            placeholder="Buscar alimento... ex: feijão, arroz, frango"
-            oninput="searchFoods()">
-          <button class="btn nl-btn-primary px-3 px-md-4" onclick="searchFoods()">
-            <i class="bi bi-search me-1"></i><span class="d-none d-sm-inline">Buscar</span>
-          </button>
+        <div class="nl-page-header mb-4">
+          <h1 class="nl-h1">Busca Nutricional</h1>
+          <p class="text-muted">Pesquise alimentos e monte sua refeição para calcular o total de nutrientes</p>
         </div>
-        <p class="text-muted small mb-3">
-          💡 Sugestões: feijão, arroz, frango, ovo, banana, maçã, leite, aveia, batata, atum, salmão...
-        </p>
-        <div id="search-results"></div>
-      </div>
+        <div class="row g-4 align-items-start">
+          <!-- Painel refeição — abaixo em mobile, lateral em desktop -->
+          <div class="col-12 col-lg-4">
+            <div class="nl-meal-panel p-4 rounded-3" id="meal-panel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="nl-panel-title"><i class="bi bi-egg-fried me-2"></i>Sua Refeição</span>
+                <span class="nl-count-badge" id="meal-count">0 itens</span>
+              </div>
+              <div id="meal-items">
+                <p class="text-muted small text-center py-3">Adicione alimentos à sua refeição</p>
+              </div>
+              <hr class="my-3">
+              <div class="d-flex justify-content-between align-items-baseline mb-3">
+                <span class="fw-700 nl-label-total">Total</span>
+                <span class="nl-kcal-total" id="total-kcal">0 kcal</span>
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <div class="nl-macro-pill nl-prot text-center p-2 rounded-2">
+                    <div class="nl-macro-val" id="t-prot">0g</div>
+                    <div class="nl-macro-lbl">Proteínas</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="nl-macro-pill nl-carb text-center p-2 rounded-2">
+                    <div class="nl-macro-val" id="t-carb">0g</div>
+                    <div class="nl-macro-lbl">Carboidratos</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="nl-macro-pill nl-fat text-center p-2 rounded-2">
+                    <div class="nl-macro-val" id="t-fat">0g</div>
+                    <div class="nl-macro-lbl">Gorduras</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="nl-macro-pill nl-fib text-center p-2 rounded-2">
+                    <div class="nl-macro-val" id="t-fib">0g</div>
+                    <div class="nl-macro-lbl">Fibras</div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn nl-btn-ghost w-100" onclick="clearMeal()">Limpar refeição</button>
+            </div>
+          </div> 
 
-      <!-- Painel refeição — abaixo em mobile, lateral em desktop -->
-      <div class="col-12 col-lg-4">
-        <div class="nl-meal-panel p-4 rounded-3" id="meal-panel">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="nl-panel-title"><i class="bi bi-egg-fried me-2"></i>Sua Refeição</span>
-            <span class="nl-count-badge" id="meal-count">0 itens</span>
-          </div>
-          <div id="meal-items">
-            <p class="text-muted small text-center py-3">Adicione alimentos à sua refeição</p>
-          </div>
-          <hr class="my-3">
-          <div class="d-flex justify-content-between align-items-baseline mb-3">
-            <span class="fw-700 nl-label-total">Total</span>
-            <span class="nl-kcal-total" id="total-kcal">0 kcal</span>
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <div class="nl-macro-pill nl-prot text-center p-2 rounded-2">
-                <div class="nl-macro-val" id="t-prot">0g</div>
-                <div class="nl-macro-lbl">Proteínas</div>
-              </div>
+          <!-- Busca — ocupa toda a largura em mobile, 8 colunas em desktop -->
+          <div class="col-12 col-lg-8">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control nl-input" id="food-search"
+                placeholder="Buscar alimento... ex: feijão, arroz, frango"
+                oninput="searchFoods()">
+              <button class="btn nl-btn-primary px-3 px-md-4" onclick="searchFoods()">
+                <i class="bi bi-search me-1"></i><span class="d-none d-sm-inline">Buscar</span>
+              </button>
             </div>
-            <div class="col-6">
-              <div class="nl-macro-pill nl-carb text-center p-2 rounded-2">
-                <div class="nl-macro-val" id="t-carb">0g</div>
-                <div class="nl-macro-lbl">Carboidratos</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="nl-macro-pill nl-fat text-center p-2 rounded-2">
-                <div class="nl-macro-val" id="t-fat">0g</div>
-                <div class="nl-macro-lbl">Gorduras</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="nl-macro-pill nl-fib text-center p-2 rounded-2">
-                <div class="nl-macro-val" id="t-fib">0g</div>
-                <div class="nl-macro-lbl">Fibras</div>
-              </div>
-            </div>
+            <p class="text-muted small mb-3">
+              💡 Sugestões: feijão, arroz, frango, ovo, banana, maçã, leite, aveia, batata, atum, salmão...
+            </p>
+            <div id="search-results" class="nl-scrollable-results flex-grow-1"></div>
           </div>
-          <button class="btn nl-btn-ghost w-100" onclick="clearMeal()">Limpar refeição</button>
         </div>
       </div>
-
-    </div>
-
-  </div>
-
+    </section>
+  </main>
   <footer class="nl-footer py-4 mt-4">
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
       <div class="nl-footer-brand"> <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2"><strong>NutriLife</strong></div>

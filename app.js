@@ -12,7 +12,10 @@ function searchFoods() {
   const container = document.getElementById('search-results');
   if (!container) return;
 
-  if (!q) { container.innerHTML = ''; return; }
+  if (!q) { 
+    container.innerHTML = `<p class="text-muted text-center py-4">Digite algo acima para pesquisar...</p>`; 
+    return; 
+  }
 
   const results = FOODS.filter(f =>
     f.name.toLowerCase().includes(q) ||
@@ -34,27 +37,38 @@ function searchFoods() {
         <div class="d-flex align-items-center gap-2 flex-wrap">
           <span class="nl-food-name">${f.name}</span>
           <span class="nl-food-cat">${f.category || ''}</span>
+          </div>
+          <span class="nl-food-kcal flex-shrink-0">${f.cal} kcal</span>
         </div>
-        <span class="nl-food-kcal flex-shrink-0">${f.cal} kcal</span>
-      </div>
-      <div class="row g-2 mb-3">
-        <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-prot-tag">💪 Prot: ${f.prot}g</span></div>
-        <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-carb-tag">⚡ Carb: ${f.carb}g</span></div>
-        <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fat-tag">🫙 Gord: ${f.fat}g</span></div>
-        <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fib-tag">🌿 Fib: ${f.fib}g</span></div>
-      </div>
       <div class="nl-add-row">
         <label class="nl-label mb-0" style="white-space:nowrap">Qtd (g):</label>
         <input type="number" class="form-control nl-input nl-qty-input" id="qty-${f.id}"
           value="100" min="1" max="2000" style="width:90px; flex-shrink:0">
+        <button class="btn btn-sm btn-outline-secondary py-1" onclick="toggleDetails(${f.id})">
+            <i class="bi bi-info-circle"></i> Detalhes
+          </button>  
         <button class="btn nl-btn-add flex-grow-1 flex-sm-grow-0" onclick="addToMeal(${f.id})">
           <i class="bi bi-plus-circle me-1"></i>Adicionar à refeição
         </button>
       </div>
       <div class="text-muted mt-1" style="font-size:11px">* valores por 100g</div>
-    </div>
+      <div id="details-${f.id}" class="nl-food-details row g-2 mt-2 pt-2 border-top small text-muted">
+          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-prot-tag">💪 Prot: ${f.prot}g</span></div>
+          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-carb-tag">⚡ Carb: ${f.carb}g</span></div>
+          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fat-tag">🫙 Gord: ${f.fat}g</span></div>
+          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fib-tag">🌿 Fib: ${f.fib}g</span></div>
+        </div>
+  </div>
   `).join('');
 }
+
+function toggleDetails(id) {
+    const detailsDiv = document.getElementById(`details-${id}`);
+      if (detailsDiv) {
+        detailsDiv.classList.toggle('show');
+      }    
+  }
+
 
 function addToMeal(id) {
   const food = FOODS.find(f => f.id === id);

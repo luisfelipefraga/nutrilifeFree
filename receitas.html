@@ -28,17 +28,24 @@
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script>
-    (function () {
-      const savedTheme = localStorage.getItem('nl-theme') || 'light';
-      document.documentElement.setAttribute('data-bs-theme', savedTheme);
-      // Como o body ainda não existe aqui, adicionamos um listener rápido para injetar a classe imediatamente
-      document.addEventListener("DOMContentLoaded", function() {
-        if (savedTheme === 'dark') {
-          document.body.classList.add('dark-mode');
-        }
-      });
-    })();
-  </script>
+  (function () {
+    const savedTheme = localStorage.getItem('nl-theme') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    
+    // Executa assim que o HTML estiver pronto na tela
+    document.addEventListener("DOMContentLoaded", function() {
+      const iconEl = document.querySelector('#btn-dark-mode i');
+      
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-sun-fill'; // Garante o Sol no Dark Mode
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-moon-fill'; // Garante a Lua no Light Mode
+      }
+    });
+  })();
+</script>
 </head>
 <body>
 
@@ -89,105 +96,107 @@
 
     </div>
   </nav>
+  <main class="flex-grow-1" style="padding-top: 72px;">
+    <section>
+      <!-- ===================== CONTEÚDO RECEITAS ===================== -->
+      <div class="container py-4" style="padding-top: calc(72px + 1.5rem) !important;">
 
-  <!-- ===================== CONTEÚDO RECEITAS ===================== -->
-  <div class="container py-4" style="padding-top: calc(72px + 1.5rem) !important;">
-
-    <div class="nl-page-header mb-4">
-      <h1 class="nl-h1">Receitas da Comunidade</h1>
-      <p class="text-muted">Compartilhe e descubra receitas saudáveis</p>
-    </div>
-
-    <div class="row g-4 align-items-start">
-
-      <!-- Lista de receitas -->
-      <div class="col-12 col-lg-8">
-        <div class="row g-2 mb-4">
-          <div class="col-12 col-sm-7">
-            <input type="text" class="form-control nl-input" id="rec-search"
-              placeholder="Buscar receitas..." oninput="filterReceitas()">
-          </div>
-          <div class="col-12 col-sm-5">
-            <select class="form-select nl-input" id="rec-cat" onchange="filterReceitas()">
-              <option value="">Todas categorias</option>
-              <option value="cafe">☕ Café da manhã</option>
-              <option value="almoco">🍽️ Almoço</option>
-              <option value="jantar">🌙 Jantar</option>
-              <option value="lanche">🥪 Lanche</option>
-              <option value="sobremesa">🍓 Sobremesa</option>
-            </select>
-          </div>
+        <div class="nl-page-header mb-4">
+          <h1 class="nl-h1">Receitas da Comunidade</h1>
+          <p class="text-muted">Compartilhe e descubra receitas saudáveis</p>
         </div>
-        <div id="receitas-list"></div>
-      </div>
 
-      <!-- Formulário publicar -->
-      <div class="col-12 col-lg-4">
-        <div class="nl-card p-4 rounded-3" id="rec-form-panel">
-          <h5 class="nl-h3 mb-4">📝 Publicar Receita</h5>
+        <div class="row g-4 align-items-start">
 
-          <div class="mb-3">
-            <label class="nl-label">Nome da receita *</label>
-            <input type="text" class="form-control nl-input" id="rec-nome"
-              placeholder="Ex: Bowl proteico de atum">
-          </div>
-
-          <div class="row g-2 mb-3">
-            <div class="col-12 col-sm-7">
-              <label class="nl-label">Categoria</label>
-              <select class="form-select nl-input" id="rec-categoria">
-                <option value="cafe">☕ Café da manhã</option>
-                <option value="almoco">🍽️ Almoço</option>
-                <option value="jantar">🌙 Jantar</option>
-                <option value="lanche">🥪 Lanche</option>
-                <option value="sobremesa">🍓 Sobremesa</option>
-              </select>
+          <!-- Lista de receitas -->
+          <div class="col-12 col-lg-8">
+            <div class="row g-2 mb-4">
+              <div class="col-12 col-sm-7">
+                <input type="text" class="form-control nl-input" id="rec-search"
+                  placeholder="Buscar receitas..." oninput="filterReceitas()">
+              </div>
+              <div class="col-12 col-sm-5">
+                <select class="form-select nl-input" id="rec-cat" onchange="filterReceitas()">
+                  <option value="">Todas categorias</option>
+                  <option value="cafe">☕ Café da manhã</option>
+                  <option value="almoco">🍽️ Almoço</option>
+                  <option value="jantar">🌙 Jantar</option>
+                  <option value="lanche">🥪 Lanche</option>
+                  <option value="sobremesa">🍓 Sobremesa</option>
+                </select>
+              </div>
             </div>
-            <div class="col-12 col-sm-5">
-              <label class="nl-label">Tempo</label>
-              <input type="text" class="form-control nl-input" id="rec-tempo" placeholder="Ex: 20 min">
+            <div id="receitas-list"></div>
+          </div>
+
+          <!-- Formulário publicar -->
+          <div class="col-12 col-lg-4">
+            <div class="nl-card p-4 rounded-3" id="rec-form-panel">
+              <h5 class="nl-h3 mb-4">📝 Publicar Receita</h5>
+
+              <div class="mb-3">
+                <label class="nl-label">Nome da receita *</label>
+                <input type="text" class="form-control nl-input" id="rec-nome"
+                  placeholder="Ex: Bowl proteico de atum">
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-12 col-sm-7">
+                  <label class="nl-label">Categoria</label>
+                  <select class="form-select nl-input" id="rec-categoria">
+                    <option value="cafe">☕ Café da manhã</option>
+                    <option value="almoco">🍽️ Almoço</option>
+                    <option value="jantar">🌙 Jantar</option>
+                    <option value="lanche">🥪 Lanche</option>
+                    <option value="sobremesa">🍓 Sobremesa</option>
+                  </select>
+                </div>
+                <div class="col-12 col-sm-5">
+                  <label class="nl-label">Tempo</label>
+                  <input type="text" class="form-control nl-input" id="rec-tempo" placeholder="Ex: 20 min">
+                </div>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label class="nl-label">Porções</label>
+                  <input type="number" class="form-control nl-input" id="rec-porcoes" placeholder="Ex: 2">
+                </div>
+                <div class="col-6">
+                  <label class="nl-label">Calorias (kcal)</label>
+                  <input type="number" class="form-control nl-input" id="rec-kcal" placeholder="Ex: 450">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="nl-label">Ingredientes * (um por linha)</label>
+                <textarea class="form-control nl-input" id="rec-ingredientes" rows="4"
+                  placeholder="200g de frango&#10;1 xícara de arroz&#10;1 col. azeite"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="nl-label">Modo de preparo *</label>
+                <textarea class="form-control nl-input" id="rec-modo" rows="4"
+                  placeholder="1. Tempere o frango...&#10;2. Cozinhe o arroz..."></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="nl-label">Seu nome / apelido</label>
+                <input type="text" class="form-control nl-input" id="rec-autor" placeholder="Ex: Ana C.">
+              </div>
+
+              <button class="btn nl-btn-primary w-100" onclick="publicarReceita()">
+                <i class="bi bi-check-circle me-1"></i>Publicar Receita
+              </button>
+              <div id="rec-success" class="nl-success-msg mt-3 d-none">✅ Receita publicada com sucesso!</div>
             </div>
           </div>
 
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="nl-label">Porções</label>
-              <input type="number" class="form-control nl-input" id="rec-porcoes" placeholder="Ex: 2">
-            </div>
-            <div class="col-6">
-              <label class="nl-label">Calorias (kcal)</label>
-              <input type="number" class="form-control nl-input" id="rec-kcal" placeholder="Ex: 450">
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="nl-label">Ingredientes * (um por linha)</label>
-            <textarea class="form-control nl-input" id="rec-ingredientes" rows="4"
-              placeholder="200g de frango&#10;1 xícara de arroz&#10;1 col. azeite"></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label class="nl-label">Modo de preparo *</label>
-            <textarea class="form-control nl-input" id="rec-modo" rows="4"
-              placeholder="1. Tempere o frango...&#10;2. Cozinhe o arroz..."></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label class="nl-label">Seu nome / apelido</label>
-            <input type="text" class="form-control nl-input" id="rec-autor" placeholder="Ex: Ana C.">
-          </div>
-
-          <button class="btn nl-btn-primary w-100" onclick="publicarReceita()">
-            <i class="bi bi-check-circle me-1"></i>Publicar Receita
-          </button>
-          <div id="rec-success" class="nl-success-msg mt-3 d-none">✅ Receita publicada com sucesso!</div>
         </div>
+
       </div>
-
-    </div>
-
-  </div>
-
+    </section>
+  </main>
   <footer class="nl-footer py-4 mt-4">
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
       <div class="nl-footer-brand"><img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2"> <strong>NutriLife</strong></div>
