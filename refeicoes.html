@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriLife — Refeições</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon/apple-icon-120x120.png">
+  <link class="apple-touch-icon" sizes="144x144" href="assets/img/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="assets/img/favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="style.css">
+  <script>
+  (function () {
+    const savedTheme = localStorage.getItem('nl-theme') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    
+    // Executa assim que o HTML estiver pronto na tela
+    document.addEventListener("DOMContentLoaded", function() {
+      const iconEl = document.querySelector('#btn-dark-mode i');
+      
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-sun-fill'; // Garante o Sol no Dark Mode
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (iconEl) iconEl.className = 'bi bi-moon-fill'; // Garante a Lua no Light Mode
+      }
+    });
+  })();
+</script>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg nl-navbar fixed-top">
+    <div class="container">
+
+    <a class="navbar-brand nl-brand" href="index.html">
+      <img src="assets/img/logo/logo.png" alt="NutriLife Logo" width="35" height="35" class="d-inline-block align-top me-2">
+      NutriLife
+    </a>
+
+    <div class="d-flex align-items-center gap-2 ms-auto order-lg-last">
+      
+      <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" 
+              style="width: 36px; height: 36px; display: inline-flex; align-items: center;justify-content: center;" 
+              onclick="toggleDarkMode()">
+        <i class="bi bi-moon-fill"></i>
+      </button>
+
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navMenu"
+              aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menu" style="justify-content: center;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    </div>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1 align-items-center mt-3 mt-lg-0 me-lg-3">
+        <li class="nav-item">
+          <a class="nav-link nl-nav-btn" href="index.html">
+            <i class="bi bi-house me-1"></i>Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nl-nav-btn" href="nutricao.html">
+            <i class="bi bi-search me-1"></i>Nutrição
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nl-nav-btn" href="calculadoras.html">
+            <i class="bi bi-calculator me-1"></i>Calculadoras
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nl-nav-btn active" href="refeicoes.html">
+            <i class="bi bi-book me-1"></i>Refeições
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    </div>
+</nav>
+
+  <main class="flex-grow-1 container py-4 style="padding-top: 90px !important;">
+    
+    <div class="nl-page-header mb-4">
+      <span class="nl-section-tag mb-2">Planejamento</span>
+      <h1 class="nl-h1">Minha Rotina Semanal</h1>
+      <p class="text-muted m-0">Visualize e organize os alimentos montados na aba de nutrição ao longo da sua semana.</p>
+    </div>
+
+    <div class="row g-4" id="semana-refeicoes-container">
+      
+      </div>
+  </main>
+
+  <footer class="nl-footer py-4 mt-5">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="nl-footer-brand">
+        <img src="assets/img/logo/logo.png" alt="NutriLife" width="24" height="24">
+        <strong>NutriLife</strong>
+      </div>
+      <p class="m-0 opacity-75">&copy; 2026 NutriLife. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+    // Inicialização e Renderização Base dos Dias da Semana
+    const diasSemana = [
+      "Segunda-feira", "Terça-feira", "Quarta-feira", 
+      "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
+    ];
+
+    const categorias = [
+      { id: "cafe", nome: "Café da Manhã", icone: "bi-cup-hot", cor: "text-success" },
+      { id: "lanche", nome: "Lanche", icone: "bi-apple", cor: "text-warning" },
+      { id: "almoco", nome: "Almoço", icone: "bi-sun", cor: "text-success" },
+      { id: "janta", nome: "Jantar", icone: "bi-moon-stars", cor: "text-info" }
+    ];
+
+    function renderizarEstruturaSemana() {
+      const container = document.getElementById('semana-refeicoes-container');
+      container.innerHTML = '';
+
+      diasSemana.forEach(dia => {
+        let categoriasHTML = '';
+        
+        categorias.forEach(cat => {
+          categoriasHTML += `
+            <div class="nl-periodo-bloco mb-3" data-categoria="${cat.id}">
+              <h6 class="nl-label mb-1 fw-bold ${cat.cor}">
+                <i class="bi ${cat.icone} me-1"></i>${cat.nome}
+              </h6>
+              <div class="text-muted fs-7 ps-3 placeholder-alimento">
+                Nenhum alimento adicionado
+              </div>
+            </div>
+          `;
+        });
+
+        const cardDia = `
+          <div class="col-12 col-md-6 col-xl-4">
+            <div class="nl-card p-3 rounded-3 h-100">
+              <h3 class="nl-h3 border-bottom pb-2 mb-3 d-flex justify-content-between align-items-center">
+                <span>${dia}</span>
+                <span class="badge bg-success-subtle text-success fs-7 d-none">0 kcal</span>
+              </h3>
+              ${categoriasHTML}
+            </div>
+          </div>
+        `;
+        container.innerHTML += cardDia;
+      });
+    }
+
+    // Gerenciador do Dark Mode acoplado ao seu sistema de classes locais
+    function toggleDarkMode() {
+      const body = document.body;
+      const icon = document.querySelector('#btn-dark-mode i');
+      
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        icon.className = 'bi bi-sun-fill';
+        localStorage.setItem('nl-theme', 'dark');
+      } else {
+        icon.className = 'bi bi-moon-fill';
+        localStorage.setItem('nl-theme', 'light');
+      }
+    }
+
+    // Carrega o tema salvo ao abrir a página
+    document.addEventListener('DOMContentLoaded', () => {
+      renderizarEstruturaSemana();
+      
+      if (localStorage.getItem('nl-theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('#btn-dark-mode i').className = 'bi bi-sun-fill';
+      }
+    });
+  </script>
+    
+
+</body>
+</html>

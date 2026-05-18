@@ -95,7 +95,7 @@ body {
 body > div[style*="padding-top"], 
 .nl-hero,
 div[style*="padding-top"] {
-  padding-top: 70px !important;
+  padding-top: 20px !important;
 }
 
 .nl-brand {
@@ -181,7 +181,7 @@ div[style*="padding-top"] {
 /* ---------- HERO ---------- */
 .nl-hero {
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
-  padding: 100px 0 72px;
+  padding: 40px 0;
   position: relative;
   overflow: hidden;
 }
@@ -701,6 +701,11 @@ body.dark-mode .nl-scrollable-results::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Deixa as descrições limpas no Dark Mode */
+body.dark-mode .placeholder-alimento {
+  color: var(--nl-text-muted) !important;
+}
+
 /* Controla a exibição das informações extras do card */
 .nl-food-details {
   display: none; /* Escondido por padrão */
@@ -720,10 +725,33 @@ body.dark-mode .dark-inside-card {
   line-height: 1.3;
 }
 
+.fs-7 {
+  font-size: 0.825rem !important;
+}
+.nl-periodo-bloco {
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
 
 /* ============================================================
    RESPONSIVIDADE
    ============================================================ */
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+    background-color: var(--nl-navbar-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 0.5rem; 
+    width: 100%;
+  }
+
+  /* O botão permanece no fluxo nativo do Bootstrap flexbox */
+  .navbar-toggler {
+    z-index: 1050;
+  }
+}
 
 /* --- Tablets: 768px – 991px --- */
 @media (max-width: 991px) {
@@ -735,7 +763,7 @@ body.dark-mode .dark-inside-card {
 
   /* Hero menos padding */
   .nl-hero {
-    padding: 90px 0 52px;
+    padding: 90px 0;
   }
 
   /* TMB result: setas viram linha separada */
@@ -899,4 +927,5 @@ body.dark-mode .dark-inside-card {
     padding: 6px 10px !important;
   }
 }
+
 
