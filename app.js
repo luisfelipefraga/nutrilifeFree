@@ -254,6 +254,41 @@ function renderizarEstruturaSemana() {
   });
 }
 
+function exportarRotinaParaPDF() {
+  const elementoContainer = document.getElementById('semana-refeicoes-container');
+
+  if (!elementoContainer || elementoContainer.children.length === 0) {
+    alert("Não há dados de refeições para exportar.");
+    return;
+  }
+
+  // Verifica se o usuário está com o Dark Mode ativo para fazer um ajuste fino temporário
+  const isDarkMode = document.body.classList.contains('dark-mode');
+
+  // Configurações avançadas do PDF impresso
+  const configuracoes = {
+    margin:       [15, 12, 15, 12], // Margens: topo, esquerda, baixo, direita (em mm)
+    filename:     'NutriLife_Rotina_Semanal.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { 
+      scale: 2, // Aumenta a resolução do texto e dos badges
+      useCORS: true, 
+      backgroundColor: isDarkMode ? '#121212' : '#faf8f5' // Respeita a cor de fundo do seu tema
+    },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } // Paisagem (horizontal) funciona melhor para tabelas/cards semanais
+  };
+
+  // Executa o fluxo de geração e download automático
+  html2pdf()
+    .set(configuracoes)
+    .from(elementoContainer)
+    .save()
+    .catch(erro => {
+      console.error("Erro na geração do PDF: ", erro);
+      alert("Ocorreu um erro ao gerar o seu PDF. Verifique o console.");
+    });
+}
+
 /**
  * Gerenciador global do Dark Mode (Funciona em todas as páginas)
  */

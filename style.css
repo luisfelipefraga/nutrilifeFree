@@ -747,6 +747,13 @@ body.dark-mode .dark-inside-card {
    RESPONSIVIDADE
    ============================================================ */
 
+@media print {
+  .nl-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
 @media (max-width: 991.98px) {
     .navbar-collapse {
     background-color: var(--nl-navbar-bg);

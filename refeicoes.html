@@ -103,6 +103,9 @@
     <div class="nl-page-header mb-4">
       <h1 class="nl-h1">Minha Rotina Semanal</h1>
       <p class="text-muted m-0">Visualize e organize os alimentos montados na aba de nutrição ao longo da sua semana.</p>
+      <button class="btn btn-outline-danger btn-sm mt-3 d-inline-flex align-items-center gap-2" onclick="exportarRotinaParaPDF()">
+        <i class="bi bi-file-earmark-pdf-fill"></i> Exportar Rotina em PDF
+      </button>
     </div>
 
     <div class="row g-4" id="semana-refeicoes-container">
@@ -122,6 +125,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="app.js"></script>
   
   <script>
