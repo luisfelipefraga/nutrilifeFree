@@ -99,10 +99,10 @@
 
     </div>
 </nav>
-  <main class="flex-grow-1" style="padding-top: 72px;">
+  <main class="flex-grow-1 topMainPages">
     <!-- ===================== CONTEÚDO NUTRIÇÃO ===================== -->
     <section>
-      <div class="container py-4" style="padding-top: calc(72px + 1.5rem) !important;">
+      <div class="container py-4">
 
         <div class="nl-page-header mb-4">
           <h1 class="nl-h1">Busca Nutricional</h1>
@@ -150,7 +150,41 @@
                   </div>
                 </div>
               </div>
-              <button class="btn nl-btn-ghost w-100" onclick="clearMeal()">Limpar refeição</button>
+              <button class="btn btn-outline-danger w-100 mb-3" onclick="clearMeal()">Limpar refeição</button>
+              <div class="border-top pt-3 mt-3">
+                <p class="nl-label mb-2 fw-bold text-start"><i class="bi bi-calendar-plus me-1"></i>Adicionar à Rotina Semanal</p>
+                
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label for="select-dia-semana" class="visually-hidden">Dia da Semana</label>
+                    <select class="form-select form-select-sm" id="select-dia-semana">
+                      <option value="" disabled selected>Escolha o dia</option>
+                      <option value="Segunda-feira">Segunda-feira</option>
+                      <option value="Terça-feira">Terça-feira</option>
+                      <option value="Quarta-feira">Quarta-feira</option>
+                      <option value="Quinta-feira">Quinta-feira</option>
+                      <option value="Sexta-feira">Sexta-feira</option>
+                      <option value="Sábado">Sábado</option>
+                      <option value="Domingo">Domingo</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6">
+                    <label for="select-categoria-refeicao" class="visually-hidden">Tipo de Refeição</label>
+                    <select class="form-select form-select-sm" id="select-categoria-refeicao">
+                      <option value="" disabled selected>Refeição</option>
+                      <option value="cafe">Café da Manhã</option>
+                      <option value="lanche">Lanche</option>
+                      <option value="almoco">Almoço</option>
+                      <option value="janta">Jantar</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button class="btn btn-success btn-sm w-100 d-flex align-items-center justify-content-center gap-1" onclick="salvarRefeicaoNaRotina()">
+                  <i class="bi bi-check-circle-fill"></i> Salvar na Rotina
+                </button>
+              </div>
             </div>
           </div> 
 

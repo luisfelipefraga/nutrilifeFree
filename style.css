@@ -178,6 +178,10 @@ div[style*="padding-top"] {
   color: var(--nl-green) !important;
 }
 
+.topMainPages {
+  padding-top: calc(72px + 1.5rem) !important;
+}
+
 /* ---------- HERO ---------- */
 .nl-hero {
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
@@ -199,7 +203,7 @@ div[style*="padding-top"] {
   border: 1px solid var(--nl-border);
   color: var(--nl-green);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 600px;
   padding: 5px 14px;
   border-radius: 100px;
   box-shadow: var(--nl-shadow-sm);
@@ -733,6 +737,12 @@ body.dark-mode .dark-inside-card {
   transition: border-color 0.2s ease;
 }
 
+#btn-dark-mode {
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+}
+
 /* ============================================================
    RESPONSIVIDADE
    ============================================================ */
@@ -743,7 +753,7 @@ body.dark-mode .dark-inside-card {
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    margin-top: 0.5rem; 
+    margin-top: .5rem; 
     width: 100%;
   }
 

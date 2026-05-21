@@ -146,6 +146,153 @@ function clearMeal() {
   renderMeal();
 }
 
+function salvarRefeicaoNaRotina() {
+  const diaSelecionado = document.getElementById('select-dia-semana').value;
+  const categoriaSelecionada = document.getElementById('select-categoria-refeicao').value;
+
+  if (!diaSelecionado || !categoriaSelecionada) {
+    alert("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.");
+    return;
+  }
+
+  if (!meal || meal.length === 0) {
+    alert("Sua refeição está vazia! Adicione alimentos na busca antes de salvar.");
+    return;
+  }
+
+  let rotinaSemanal = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+
+  if (!rotinaSemanal[diaSelecionado]) {
+    rotinaSemanal[diaSelecionado] = {};
+  }
+
+  // Mapeia usando as propriedades reais do seu app.js (name, qty, cal)
+  rotinaSemanal[diaSelecionado][categoriaSelecionada] = {
+    alimentos: [...meal], 
+    totalKcal: Math.round(meal.reduce((total, item) => total + (item.cal || 0), 0))
+  };
+
+  localStorage.setItem('nl-rotina-semanal', JSON.stringify(rotinaSemanal));
+
+  alert(`Sucesso! Sua refeição foi salva na ${diaSelecionado} no bloco de ${document.getElementById('select-categoria-refeicao').options[document.getElementById('select-categoria-refeicao').selectedIndex].text}.`);
+  
+  document.getElementById('select-dia-semana').selectedIndex = 0;
+  document.getElementById('select-categoria-refeicao').selectedIndex = 0;
+}
+
+// ==========================================================================
+// MÓDULO: ROTINA SEMANAL DE REFEIÇÕES (NutriLife)
+// ==========================================================================
+
+const diasSemana = [
+  "Segunda-feira", "Terça-feira", "Quarta-feira", 
+  "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
+];
+
+const categoriasRefeicao = [
+  { id: "cafe", nome: "Café da Manhã", icone: "bi-cup-hot", cor: "text-success" },
+  { id: "lanche", nome: "Lanche", icone: "bi-apple", cor: "text-warning" },
+  { id: "almoco", nome: "Almoço", icone: "bi-sun", cor: "text-success" },
+  { id: "janta", nome: "Jantar", icone: "bi-moon-stars", cor: "text-info" }
+];
+
+function renderizarEstruturaSemana() {
+  const container = document.getElementById('semana-refeicoes-container');
+  if (!container) return; 
+
+  container.innerHTML = '';
+  const rotinaSemanal = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+
+  diasSemana.forEach(dia => {
+    let categoriesHTML = '';
+    let totalKcalDia = 0;
+    const dadosDoDia = rotinaSemanal[dia] || {};
+
+    categoriasRefeicao.forEach(cat => {
+      const refeicaoSalva = dadosDoDia[cat.id];
+      let conteudoAlimentosHTML = `<div class="text-muted fs-7 ps-3 placeholder-alimento">Nenhum alimento adicionado</div>`;
+
+      if (refeicaoSalva && refeicaoSalva.alimentos && refeicaoSalva.alimentos.length > 0) {
+        totalKcalDia += refeicaoSalva.totalKcal || 0;
+        conteudoAlimentosHTML = '<ul class="list-unstyled ps-3 m-0">';
+        
+        refeicaoSalva.alimentos.forEach(alimento => {
+          conteudoAlimentosHTML += `
+            <li class="fs-7 mb-1 d-flex justify-content-between align-items-center">
+              <span>• ${alimento.name} <small class="text-muted">(${alimento.qty || 0}g)</small></span>
+              <span class="text-muted fw-medium fs-8">${alimento.cal || 0} kcal</span>
+            </li>
+          `;
+        });
+        conteudoAlimentosHTML += '</ul>';
+      }
+
+      categoriesHTML += `
+        <div class="nl-periodo-bloco mb-3" data-categoria="${cat.id}">
+          <h6 class="nl-label mb-1 fw-bold ${cat.cor}">
+            <i class="bi ${cat.icone} me-1"></i>${cat.nome}
+          </h6>
+          ${conteudoAlimentosHTML}
+        </div>
+      `;
+    });
+
+    const badgeClasse = totalKcalDia > 0 ? "badge bg-success-subtle text-success fs-7" : "badge bg-success-subtle text-success fs-7 d-none";
+
+    const cardDia = `
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="nl-card p-3 rounded-3 h-100">
+          <h3 class="nl-h3 border-bottom pb-2 mb-3 d-flex justify-content-between align-items-center">
+            <span>${dia}</span>
+            <span class="${badgeClasse}">${totalKcalDia} kcal</span>
+          </h3>
+          ${categoriesHTML}
+        </div>
+      </div>
+    `;
+    container.innerHTML += cardDia;
+  });
+}
+
+/**
+ * Gerenciador global do Dark Mode (Funciona em todas as páginas)
+ */
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const body = document.body;
+  const icon = document.querySelector('#btn-dark-mode i');
+  
+  body.classList.toggle('dark-mode');
+  
+  if (body.classList.contains('dark-mode')) {
+    html.setAttribute('data-bs-theme', 'dark');
+    if (icon) icon.className = 'bi bi-sun-fill';
+    localStorage.setItem('nl-theme', 'dark');
+  } else {
+    html.setAttribute('data-bs-theme', 'light');
+    if (icon) icon.className = 'bi bi-moon-fill';
+    localStorage.setItem('nl-theme', 'light');
+  }
+}
+
+// Inicialização única para eventos disparados após o carregamento do DOM
+document.addEventListener('DOMContentLoaded', () => {
+  // Executa a renderização (a função interna possui o tratamento para não quebrar outras páginas)
+  renderizarEstruturaSemana();
+  
+  // Sincroniza o ícone do Dark Mode baseado no tema que a função autoexecutável do HTML aplicou
+  const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+  const iconEl = document.querySelector('#btn-dark-mode i');
+  
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (iconEl) iconEl.className = 'bi bi-sun-fill';
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (iconEl) iconEl.className = 'bi bi-moon-fill';
+  }
+});
+
 /* ---------- CALCULADORA IMC ---------- */
 
 function calcIMC() {
