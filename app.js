@@ -53,10 +53,10 @@ function searchFoods() {
       </div>
       <div class="text-muted mt-1" style="font-size:11px">* valores por 100g</div>
       <div id="details-${f.id}" class="nl-food-details row g-2 mt-2 pt-2 border-top small text-muted">
-          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-prot-tag">💪 Prot: ${f.prot}g</span></div>
-          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-carb-tag">⚡ Carb: ${f.carb}g</span></div>
-          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fat-tag">🫙 Gord: ${f.fat}g</span></div>
-          <div class="col-6 col-sm-3"><span class="nl-macro-tag nl-fib-tag">🌿 Fib: ${f.fib}g</span></div>
+          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-prot-tag">💪 Prot: ${f.prot}g</span></div>
+          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-carb-tag">⚡ Carb: ${f.carb}g</span></div>
+          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-fat-tag">🫙 Gord: ${f.fat}g</span></div>
+          <div class="col-2 col-sm-"><span class="nl-macro-tag nl-fib-tag">🌿 Fib: ${f.fib}g</span></div>
         </div>
   </div>
   `).join('');

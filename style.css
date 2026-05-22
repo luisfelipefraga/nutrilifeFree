@@ -17,6 +17,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --nl-border:       #e2e8f0;
   --nl-text:         #0f172a;
   --nl-text-muted:   #64748b;
+  --nl-color-car:    #88E788;
   --nl-navbar-bg:    #ffffff;
   --nl-badge-bg:     var(--nl-green-light);
   --nl-shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
@@ -334,21 +335,19 @@ div[style*="padding-top"] {
 }
 
 .nl-btn-ghost {
-  background: var(--nl-bg);
-  color: var(--nl-text-muted) !important;
-  border: 1.5px solid var(--nl-border);
+  color: #ef4444;
+  border: 1.5px solid #ef4444;;
   border-radius: 10px;
   font-weight: 500;
   padding: 9px 20px;
   transition: background .15s;
 }
 .nl-btn-ghost:hover {
-  background: #f1f5f9;
+  background: #ef4444;
   color: var(--nl-text) !important;
 }
 
 .nl-btn-add {
-  background: var(--nl-green-light);
   color: var(--nl-green);
   border: 1.5px solid var(--nl-green);
   border-radius: 8px;
@@ -358,15 +357,15 @@ div[style*="padding-top"] {
   white-space: nowrap;
   transition: background .15s;
 }
-.nl-btn-add:hover { background: #bbf7d0; }
+.nl-btn-add:hover { background: var(--nl-green); }
 
 .nl-btn-remove {
   color: #ef4444;
-  background: #fee2e2;
-  border: none;
-  border-radius: 6px;
+  border: 1.5px solid #ef4444;
+  border-radius: 8px;
   width: 28px;
   height: 28px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -375,7 +374,7 @@ div[style*="padding-top"] {
   flex-shrink: 0;
   transition: background .15s;
 }
-.nl-btn-remove:hover { background: #fecaca; }
+.nl-btn-remove:hover { background: #ef4444; }
 
 /* ---------- INPUT ---------- */
 .nl-input {
@@ -405,6 +404,13 @@ div[style*="padding-top"] {
   letter-spacing: .04em;
 }
 
+#textAdd {
+  font-family: 'Sora', sans-serif;
+  font-weight: 900; 
+  font-size: 0.75rem;
+  color: var(--nl-text);
+}
+
 /* ---------- BUSCA: cards de alimentos ---------- */
 .nl-food-card {
   background: var(--nl-bg-card);
@@ -416,7 +422,7 @@ div[style*="padding-top"] {
 
 .nl-food-name { font-weight: 700; font-size: 1rem; color: var(--nl-text); }
 .nl-food-kcal { font-family: 'Sora', sans-serif; font-weight: 700; color: var(--nl-green); font-size: 1.05rem; white-space: nowrap; }
-.nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: var(--nl-badge-bg); color: var(--nl-green); border-radius: 100px; padding: 2px 9px; }
+.nl-food-cat  { font-size: 0.75rem; font-weight: 500; background: #16a34a; border-radius: 100px; padding: 2px 9px; }
 
 .nl-macro-tag {
   display: inline-block;
@@ -429,7 +435,7 @@ div[style*="padding-top"] {
 .nl-prot-tag { background: #dbeafe; color: #1e40af; }
 .nl-carb-tag { background: #fef9c3; color: #713f12; }
 .nl-fat-tag  { background: #fce7f3; color: #9d174d; }
-.nl-fib-tag  { background: var(--nl-badge-bg); color: #065f46; }
+.nl-fib-tag  { background: #8bffde; color: #047526; }
 
 /* Linha de adicionar ao carrinho — responsiva */
 .nl-add-row {
@@ -528,12 +534,12 @@ div[style*="padding-top"] {
 
 .nl-result-num {
   font-family: 'Sora', sans-serif;
-  font-size: 2.8rem;
+  font-size: 2.0rem;
   font-weight: 800;
   color: var(--nl-green);
   line-height: 1;
 }
-.nl-result-num.small-result { font-size: 2rem; }
+.nl-result-num.small-result { font-size: 1.3rem; }
 .nl-result-label { font-size: 0.85rem; color: var(--nl-text-muted); margin-top: 4px; }
 
 /* ---------- IMC BAR ---------- */
@@ -556,8 +562,23 @@ div[style*="padding-top"] {
 }
 
 /* ---------- IMC TABLE ---------- */
-.nl-imc-table { font-size: 0.85rem; }
-.nl-imc-table th { font-weight: 700; font-size: 0.8rem; color: var(--nl-text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.nl-imc-table { 
+  font-size: 0.85rem;
+  --bs-table-bg: transparent; /* Força o Bootstrap a deixar o fundo transparente */
+  border-color: rgba(255, 255, 255, 0.1); /* Deixa as linhas divisórias sutis */
+}
+.nl-imc-table th { 
+  font-weight: 700; 
+  font-size: 0.8rem; 
+  color: var(--nl-text-muted); 
+  text-transform: uppercase; 
+  letter-spacing: .04em;
+  --bs-table-bg: transparent;
+}
+
+.nl-imc-table td {
+  --bs-table-bg: transparent; /* Garante que nenhuma célula crie um fundo cinza/branco sozinho */
+}
 .c-blue    { color: #3b82f6; font-weight: 600; }
 .c-green   { color: #16a34a; font-weight: 600; }
 .c-yellow  { color: #ca8a04; font-weight: 600; }
@@ -640,6 +661,7 @@ body.dark-mode {
   --nl-text-muted:   #94a3b8; /* Texto secundário claro */
   --nl-navbar-bg:    #1e293b; /* Navbar escura */
   --nl-badge-bg:     #14532d; 
+  --nl-color-car:    #88E788;
 }
 
 /* Garante transições suaves ao alternar o tema */
@@ -652,7 +674,7 @@ body.dark-mode input,
 body.dark-mode select, 
 body.dark-mode textarea {
   background-color: #1e293b;
-  color: #f8fafc;
+  color: #fcf8f8;
   border-color: #334155;
 }
 
@@ -675,7 +697,7 @@ body.dark-mode .nl-display {
 }
 
 body.dark-mode .nl-footer {
-  background-color: var(--nl-bg-card) !important; /* Adota o fundo escuro do card ou --nl-bg se preferir */
+  background-color: var(--nl-bg-card); /* Adota o fundo escuro do card ou --nl-bg se preferir */
   color: var(--nl-text) !important;              /* Garante que o texto fique claro */
   border-top: 1px solid var(--nl-border);        /* Opcional: adiciona uma linha sutil divisória */
 }
