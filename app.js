@@ -148,7 +148,8 @@ function clearMeal() {
 
 function salvarRefeicaoNaRotina() {
   const diaSelecionado = document.getElementById('select-dia-semana').value;
-  const categoriaSelecionada = document.getElementById('select-categoria-refeicao').value;
+  const selectCategoria = document.getElementById('select-categoria-refeicao');
+  const categoriaSelecionada = selectCategoria.value;
 
   if (!diaSelecionado || !categoriaSelecionada) {
     alert("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.");
@@ -162,24 +163,44 @@ function salvarRefeicaoNaRotina() {
 
   let rotinaSemanal = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
 
+  // 1º Nível: Garante a existência do dia (ex: "Segunda-feira")
   if (!rotinaSemanal[diaSelecionado]) {
     rotinaSemanal[diaSelecionado] = {};
   }
 
-  // Mapeia usando as propriedades reais do seu app.js (name, qty, cal)
-  rotinaSemanal[diaSelecionado][categoriaSelecionada] = {
-    alimentos: [...meal], 
+  // 2º Nível: Garante a existência da categoria mãe (ex: "almoco")
+  if (!rotinaSemanal[diaSelecionado][categoriaSelecionada]) {
+    rotinaSemanal[diaSelecionado][categoriaSelecionada] = {};
+  }
+
+  // 3º Nível: Descoberta dinâmica do número da sub-refeição
+  // Se for a primeira, vira "almoco 1". Se já tiver uma, vira "almoco 2", e assim por diante.
+  const subExistentes = Object.keys(rotinaSemanal[diaSelecionado][categoriaSelecionada]);
+  const proximoNumero = subExistentes.length + 1;
+  const chaveSubRefeicao = `${categoriaSelecionada}_${proximoNumero}`;
+
+  // Injeta os dados da sub-refeição mantendo o histórico
+  rotinaSemanal[diaSelecionado][categoriaSelecionada][chaveSubRefeicao] = {
+    nomeExibicao: `${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}`,
+    alimentos: [...meal],
     totalKcal: Math.round(meal.reduce((total, item) => total + (item.cal || 0), 0))
   };
 
   localStorage.setItem('nl-rotina-semanal', JSON.stringify(rotinaSemanal));
 
-  alert(`Sucesso! Sua refeição foi salva na ${diaSelecionado} no bloco de ${document.getElementById('select-categoria-refeicao').options[document.getElementById('select-categoria-refeicao').selectedIndex].text}.`);
+  alert(`Sucesso! Salva como "${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}" na ${diaSelecionado}.`);
   
-  document.getElementById('select-dia-semana').selectedIndex = 0;
-  document.getElementById('select-categoria-refeicao').selectedIndex = 0;
-}
+  clearMeal();
 
+  document.getElementById('select-dia-semana').selectedIndex = 0;
+  selectCategoria.selectedIndex = 0;
+
+  // Atualiza a tela se o container estiver presente
+  const container = document.getElementById('semana-refeicoes-container');
+  if (container) {
+    renderizarRotinaSemanal();
+  }
+}
 // ==========================================================================
 // MÓDULO: ROTINA SEMANAL DE REFEIÇÕES (NutriLife)
 // ==========================================================================
@@ -196,102 +217,134 @@ const categoriasRefeicao = [
   { id: "janta", nome: "Jantar", icone: "bi-moon-stars", cor: "text-info" }
 ];
 
-function renderizarEstruturaSemana() {
+function renderizarRotinaSemanal() {
   const container = document.getElementById('semana-refeicoes-container');
-  if (!container) return; 
+  if (!container) return;
 
-  container.innerHTML = '';
-  const rotinaSemanal = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+  const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+  container.innerHTML = ''; 
 
-  diasSemana.forEach(dia => {
-    let categoriesHTML = '';
-    let totalKcalDia = 0;
-    const dadosDoDia = rotinaSemanal[dia] || {};
+  const diasDaSemana = [
+    "Segunda-feira", "Terça-feira", "Quarta-feira", 
+    "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
+  ];
 
-    categoriasRefeicao.forEach(cat => {
-      const refeicaoSalva = dadosDoDia[cat.id];
-      let conteudoAlimentosHTML = `<div class="text-muted fs-7 ps-3 placeholder-alimento">Nenhum alimento adicionado</div>`;
+  const mapaIcones = {
+    'cafe': { icone: 'bi-cup-hot', cor: 'text-success' },
+    'lanche': { icone: 'bi-apple', cor: 'text-warning' },
+    'almoco': { icone: 'bi-sun', cor: 'text-success' },
+    'janta': { icone: 'bi-moon-stars', cor: 'text-info' }
+  };
 
-      if (refeicaoSalva && refeicaoSalva.alimentos && refeicaoSalva.alimentos.length > 0) {
-        totalKcalDia += refeicaoSalva.totalKcal || 0;
-        conteudoAlimentosHTML = '<ul class="list-unstyled ps-3 m-0">';
+  diasDaSemana.forEach((dia, indexDia) => {
+    const categoriasDoDia = dadosSemana[dia] || {};
+    let htmlCategorias = '';
+    let indexCategoria = 0;
+
+    // 1º Nível: Percorre as Categorias Mãe (ex: "cafe", "almoco")
+    for (const categoriaMae in categoriasDoDia) {
+      const subRefeicoes = categoriasDoDia[categoriaMae] || {};
+      let htmlSubRefeicoes = '';
+      let indexSub = 0;
+
+      // 2º Nível: Percorre as Sub-refeições (ex: "almoco_1", "almoco_2")
+      for (const idSub in subRefeicoes) {
+        const dadosSub = subRefeicoes[idSub] || {};
+        const alimentos = dadosSub.alimentos || [];
         
-        refeicaoSalva.alimentos.forEach(alimento => {
-          conteudoAlimentosHTML += `
-            <li class="fs-7 mb-1 d-flex justify-content-between align-items-center">
-              <span>• ${alimento.name} <small class="text-muted">(${alimento.qty || 0}g)</small></span>
-              <span class="text-muted fw-medium fs-8">${alimento.cal || 0} kcal</span>
-            </li>
-          `;
-        });
-        conteudoAlimentosHTML += '</ul>';
+        if (alimentos.length === 0) continue;
+
+        // 3º Nível: Transforma a lista de alimentos em HTML
+        const htmlAlimentos = alimentos.map(alimento => `
+          <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-translucent fs-7">
+            <span>${alimento.name} <small class="text-muted">(${alimento.qty}g)</small></span>
+            <span class="badge bg-light text-dark fw-normal">${alimento.cal.toFixed(1)} kcal</span>
+          </div>
+        `).join('');
+
+        const idColapso = `collapse-${indexDia}-${indexCategoria}-${indexSub}`;
+        const infoVisual = mapaIcones[categoriaMae] || { icone: 'bi-egg-fried', cor: 'text-secondary' };
+
+        htmlSubRefeicoes += `
+          <div class="sub-refeicao-item mb-3 ps-2 border-start border-2 border-success">
+            <div class="d-flex justify-content-between align-items-center py-1">
+              <div>
+                <span class="fw-bold text-uppercase fs-8 text-muted tracking-wide d-block">
+                  <i class="bi ${infoVisual.icone} ${infoVisual.cor} me-1"></i>${dadosSub.nomeExibicao || categoriaMae}
+                </span>
+                <span class="badge bg-success-subtle text-success fs-8 mt-1">${dadosSub.totalKcal || 0} kcal</span>
+              </div>
+              <button class="btn btn-link btn-sm p-0 text-decoration-none fs-7 align-self-end" 
+                      type="button" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#${idColapso}" 
+                      aria-expanded="false">
+                Detalhes <i class="bi bi-chevron-down fs-8"></i>
+              </button>
+            </div>
+            
+            <div class="collapse mt-1 p-2 bg-light-subtle rounded" id="${idColapso}">
+              ${htmlAlimentos}
+            </div>
+          </div>
+        `;
+        indexSub++;
       }
 
-      categoriesHTML += `
-        <div class="nl-periodo-bloco mb-3" data-categoria="${cat.id}">
-          <h6 class="nl-label mb-1 fw-bold ${cat.cor}">
-            <i class="bi ${cat.icone} me-1"></i>${cat.nome}
-          </h6>
-          ${conteudoAlimentosHTML}
-        </div>
-      `;
-    });
+      if (htmlSubRefeicoes) {
+        htmlCategorias += `<div class="categoria-mae-box">${htmlSubRefeicoes}</div>`;
+        indexCategoria++;
+      }
+    }
 
-    const badgeClasse = totalKcalDia > 0 ? "badge bg-success-subtle text-success fs-7" : "badge bg-success-subtle text-success fs-7 d-none";
+    const corpoCardHtml = htmlCategorias || `
+      <div class="text-center py-4 text-muted">
+        <i class="bi bi-calendar-x d-block fs-4 mb-2 opacity-50"></i>
+        <p class="m-0 fs-7">Nenhuma refeição planejada.</p>
+      </div>
+    `;
 
-    const cardDia = `
-      <div class="col-12 col-md-6 col-xl-4">
-        <div class="nl-card p-3 rounded-3 h-100">
-          <h3 class="nl-h3 border-bottom pb-2 mb-3 d-flex justify-content-between align-items-center">
-            <span>${dia}</span>
-            <span class="${badgeClasse}">${totalKcalDia} kcal</span>
-          </h3>
-          ${categoriesHTML}
+    const cardDiaHtml = `
+      <div class="col-12 col-md-4 col-lg-3 mb-4">
+        <div class="card nl-card shadow-sm h-100">
+          <div class="card-header bg-transparent border-0 pt-3 pb-0">
+            <h5 class="card-title fw-bold m-0 text-success">${dia}</h5>
+          </div>
+          <div class="card-body">
+            ${corpoCardHtml}
+          </div>
         </div>
       </div>
     `;
-    container.innerHTML += cardDia;
+
+    container.innerHTML += cardDiaHtml;
   });
 }
 
 function exportarRotinaParaPDF() {
   const elementoContainer = document.getElementById('semana-refeicoes-container');
-
   if (!elementoContainer || elementoContainer.children.length === 0) {
     alert("Não há dados de refeições para exportar.");
     return;
   }
-
-  // Verifica se o usuário está com o Dark Mode ativo para fazer um ajuste fino temporário
   const isDarkMode = document.body.classList.contains('dark-mode');
-
-  // Configurações avançadas do PDF impresso
   const configuracoes = {
-    margin:       [15, 12, 15, 12], // Margens: topo, esquerda, baixo, direita (em mm)
+    margin:       [15, 12, 15, 12],
     filename:     'NutriLife_Rotina_Semanal.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { 
-      scale: 2, // Aumenta a resolução do texto e dos badges
+      scale: 2, 
       useCORS: true, 
-      backgroundColor: isDarkMode ? '#121212' : '#faf8f5' // Respeita a cor de fundo do seu tema
+      backgroundColor: isDarkMode ? '#121212' : '#faf8f5'
     },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } // Paisagem (horizontal) funciona melhor para tabelas/cards semanais
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
   };
 
-  // Executa o fluxo de geração e download automático
-  html2pdf()
-    .set(configuracoes)
-    .from(elementoContainer)
-    .save()
-    .catch(erro => {
-      console.error("Erro na geração do PDF: ", erro);
-      alert("Ocorreu um erro ao gerar o seu PDF. Verifique o console.");
-    });
+  html2pdf().set(configuracoes).from(elementoContainer).save().catch(erro => {
+    console.error("Erro na geração do PDF: ", erro);
+  });
 }
 
-/**
- * Gerenciador global do Dark Mode (Funciona em todas as páginas)
- */
 function toggleDarkMode() {
   const html = document.documentElement;
   const body = document.body;
@@ -310,12 +363,13 @@ function toggleDarkMode() {
   }
 }
 
-// Inicialização única para eventos disparados após o carregamento do DOM
+// CORREÇÃO DA INICIALIZAÇÃO ÚNICA:
 document.addEventListener('DOMContentLoaded', () => {
-  // Executa a renderização (a função interna possui o tratamento para não quebrar outras páginas)
-  renderizarEstruturaSemana();
+  console.log("DOM totalmente carregado. Iniciando renderização da rotina...");
   
-  // Sincroniza o ícone do Dark Mode baseado no tema que a função autoexecutável do HTML aplicou
+  // Chama o nome REAL e correto da função
+  renderizarRotinaSemanal();
+  
   const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
   const iconEl = document.querySelector('#btn-dark-mode i');
   
@@ -327,7 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (iconEl) iconEl.className = 'bi bi-moon-fill';
   }
 });
-
 /* ---------- CALCULADORA IMC ---------- */
 
 function calcIMC() {
