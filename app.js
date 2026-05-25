@@ -283,7 +283,7 @@ function renderizarRotinaSemanal() {
               </button>
             </div>
             
-            <div class="collapse mt-1 p-2 bg-light-subtle rounded" id="${idColapso}">
+            <div class="collapse mt-1 p-2 bg-transparent rounded" id="${idColapso}">
               ${htmlAlimentos}
             </div>
           </div>
@@ -322,45 +322,114 @@ function renderizarRotinaSemanal() {
 }
 
 function exportarRotinaParaPDF() {
-  const elementoContainer = document.getElementById('semana-refeicoes-container');
-  if (!elementoContainer || elementoContainer.children.length === 0) {
+  // 1. Busca os dados reais e atualizados do localStorage
+  const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+  
+  if (Object.keys(dadosSemana).length === 0) {
     alert("Não há dados de refeições para exportar.");
     return;
   }
-  const isDarkMode = document.body.classList.contains('dark-mode');
+
+  const diasDaSemana = [
+    "Segunda-feira", "Terça-feira", "Quarta-feira", 
+    "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
+  ];
+
+  // 2. Constrói a estrutura do documento focada em impressão (Fundo branco, texto escuro)
+  let conteudoHTML = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #2D3748; padding: 20px; max-width: 800px; margin: 0 auto;">
+      <div style="text-align: center; border-bottom: 2px solid #2F855A; padding-bottom: 15px; margin-bottom: 30px;">
+        <h1 style="color: #2F855A; margin: 0 0 5px 0; font-size: 26px; font-weight: bold;">NutriLife</h1>
+        <p style="color: #718096; margin: 0; font-size: 14px; text-transform: uppercase; tracking-wide: 1px;">Planejamento de Rotina Semanal</p>
+      </div>
+  `;
+
+  let temDados = false;
+
+  // 3. Varre os 3 níveis dos dados para montar o texto corrido
+  diasDaSemana.forEach(dia => {
+    const categoriasDoDia = dadosSemana[dia] || {};
+    
+    // Verifica se o dia de fato tem algum alimento válido antes de desenhar o título do dia
+    let temAlimentoNoDia = false;
+    for (const cat in categoriasDoDia) {
+      for (const sub in categoriasDoDia[cat]) {
+        if (categoriasDoDia[cat][sub].alimentos && categoriasDoDia[cat][sub].alimentos.length > 0) {
+          temAlimentoNoDia = true;
+          temDados = true;
+        }
+      }
+    }
+
+    if (temAlimentoNoDia) {
+      conteudoHTML += `
+        <div style="margin-bottom: 25px; page-break-inside: avoid;">
+          <h2 style="color: #2F855A; font-size: 18px; border-bottom: 1px solid #E2E8F0; padding-bottom: 5px; margin-bottom: 12px;">${dia}</h2>
+      `;
+
+      for (const categoriaMae in categoriasDoDia) {
+        const subRefeicoes = categoriasDoDia[categoriaMae] || {};
+
+        for (const idSub in subRefeicoes) {
+          const dadosSub = subRefeicoes[idSub] || {};
+          const alimentos = dadosSub.alimentos || [];
+
+          if (alimentos.length === 0) continue;
+
+          // Cria a string amigável mapeando: Nome (Qtd g)
+          const stringAlimentos = alimentos
+            .map(alimento => `${alimento.name} (${alimento.qty}g)`)
+            .join(', ');
+
+          // Monta o bloco de texto minimalista da refeição
+          conteudoHTML += `
+            <div style="margin-bottom: 10px; padding-left: 10px;">
+              <strong style="font-size: 14px; color: #4A5568;">${dadosSub.nomeExibicao || categoriaMae}</strong> 
+              <span style="font-size: 12px; color: #A0AEC0; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
+              <p style="margin: 3px 0 0 0; font-size: 14px; color: #4A5568; line-height: 1.4;">${stringAlimentos}</p>
+            </div>
+          `;
+        }
+      }
+
+      conteudoHTML += `</div>`; // Fecha div do dia
+    }
+  });
+
+  conteudoHTML += `
+      <div style="margin-top: 40px; text-align: center; border-top: 1px solid #E2E8F0; padding-top: 15px;">
+        <small style="color: #A0AEC0; font-size: 11px;">Documento gerado automaticamente pelo NutriLife.</small>
+      </div>
+    </div>
+  `;
+
+  if (!temDados) {
+    alert("Apesar de existirem chaves, não há alimentos adicionados para exportar.");
+    return;
+  }
+
+  // 4. Configuração focada em gerar páginas limpas de documento vertical (A4 Retrato)
   const configuracoes = {
-    margin:       [15, 12, 15, 12],
-    filename:     'NutriLife_Rotina_Semanal.pdf',
+    margin:       [20, 20, 20, 20], // Ótimas margens para leitura de listas
+    filename:     'NutriLife_Plano_Alimentar.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { 
       scale: 2, 
-      useCORS: true, 
-      backgroundColor: isDarkMode ? '#121212' : '#faf8f5'
+      useCORS: true,
+      backgroundColor: '#FFFFFF' // Força o PDF a ser gerado sempre com fundo branco limpo
     },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } // Formato retrato (vertical) para listas de texto
   };
 
-  html2pdf().set(configuracoes).from(elementoContainer).save().catch(erro => {
-    console.error("Erro na geração do PDF: ", erro);
-  });
-}
-
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const body = document.body;
-  const icon = document.querySelector('#btn-dark-mode i');
-  
-  body.classList.toggle('dark-mode');
-  
-  if (body.classList.contains('dark-mode')) {
-    html.setAttribute('data-bs-theme', 'dark');
-    if (icon) icon.className = 'bi bi-sun-fill';
-    localStorage.setItem('nl-theme', 'dark');
-  } else {
-    html.setAttribute('data-bs-theme', 'light');
-    if (icon) icon.className = 'bi bi-moon-fill';
-    localStorage.setItem('nl-theme', 'light');
-  }
+  // Executa a geração usando a string HTML construída
+  html2pdf()
+    .set(configuracoes)
+    .from(conteudoHTML)
+    .save()
+    .catch(erro => {
+      console.error("Erro na geração do PDF: ", erro);
+      alert("Ocorreu um erro ao gerar o seu PDF. Verifique o console.");
+    });
 }
 
 // CORREÇÃO DA INICIALIZAÇÃO ÚNICA:
