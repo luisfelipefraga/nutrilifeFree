@@ -159,8 +159,15 @@ function updateTotals() {
 }
 
 function clearMeal() {
-  meal = [];
-  renderMeal();
+  meal = []; // Esvazia o array de alimentos
+  renderMeal(); // Certifique-se que esta função redesenha a tela toda
+  
+  // Força a atualização manual dos campos de texto se eles não estiverem vinculados ao estado
+  document.getElementById('total-kcal').innerText = '0 kcal';
+  document.getElementById('t-prot').innerText = '0g';
+  document.getElementById('t-carb').innerText = '0g';
+  document.getElementById('t-fat').innerText = '0g';
+  document.getElementById('t-fib').innerText = '0g';
 }
 
 function salvarRefeicaoNaRotina() {
@@ -199,7 +206,7 @@ function salvarRefeicaoNaRotina() {
   // Injeta os dados da sub-refeição mantendo o histórico
   rotinaSemanal[diaSelecionado][categoriaSelecionada][chaveSubRefeicao] = {
     nomeExibicao: `${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}`,
-    alimentos: [...meal],
+    antos: [...meal],
     totalKcal: Math.round(meal.reduce((total, item) => total + (item.cal || 0), 0))
   };
 
