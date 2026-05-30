@@ -358,7 +358,7 @@ function renderizarRotinaSemanal() {
                   <input type="text" class="form-control form-control-sm border-0 bg-transparent text-muted p-0 shadow-none text-center" 
                          style="width: 45px; font-size: 0.75rem;" 
                          value="${refeicao.hora || ''}" 
-                         placeholder="00:00"
+                         placeholder="--:--"
                          maxlength="5"
                          oninput="mascaraHora(this)"
                          onchange="atualizarHoraRefeicao('${dia}', '${refeicao.categoriaMae}', '${refeicao.idSub}', this.value)" 
@@ -477,9 +477,8 @@ function exportarRotinaParaPDF() {
 
           if (alimentos.length === 0) continue;
 
-          // NOVO: Calcula os macros totais para o PDF
+          // Calcula os macros totais...
           let totalProt = 0, totalCarb = 0, totalFat = 0, totalFib = 0;
-
           const stringAlimentos = alimentos.map(alimento => {
             totalProt += Number(alimento.prot) || 0;
             totalCarb += Number(alimento.carb) || 0;
@@ -488,11 +487,20 @@ function exportarRotinaParaPDF() {
             return `${alimento.name} (${alimento.qty}g)`;
           }).join(', ');
 
-          // NOVO: Bloco HTML do PDF agora inclui a faixa de Macros Totais
+          // Captura a hora salva (ou define um valor padrão caso esteja vazia)
+          const horario = dadosSub.hora ? dadosSub.hora : '--:--';
+
+          // Bloco HTML atualizado com a inclusão da hora
           conteudoHTML += `
             <div style="margin-bottom: 15px; padding-left: 10px;">
-              <strong style="font-size: 14px; color: #4A5568;">${dadosSub.nomeExibicao || categoriaMae}</strong> 
-              <span style="font-size: 12px; color: #A0AEC0; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
+              <div style="display: flex; align-items: baseline;">
+                <strong style="font-size: 14px; color: #4A5568;">${dadosSub.nomeExibicao || categoriaMae}</strong> 
+                <span style="font-size: 12px; color: #718096; margin-left: 8px; font-weight: bold;">
+                  🕒 ${horario}
+                </span>
+                <span style="font-size: 12px; color: #A0AEC0; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
+              </div>
+              
               <p style="margin: 3px 0 0 0; font-size: 14px; color: #4A5568; line-height: 1.4;">${stringAlimentos}</p>
               
               <div style="margin-top: 6px; font-size: 11px; color: #718096; background-color: #F7FAFC; padding: 4px 8px; border-radius: 4px; display: inline-block;">
@@ -575,14 +583,34 @@ function atualizarHoraRefeicao(dia, categoriaMae, idSub, novaHora) {
   }
 }
 function mascaraHora(campo) {
-  // Remove tudo que não for número
-  let valor = campo.value.replace(/\D/g, ''); 
-  
-  // Coloca os dois pontos depois do segundo número
-  if (valor.length > 2) {
-    valor = valor.substring(0, 2) + ':' + valor.substring(2, 4);
+  // Remove tudo que não for número e limita a 4 caracteres no máximo
+  let valor = campo.value.replace(/\D/g, '').substring(0, 4);
+
+  if (valor.length > 0) {
+    // 1. Valida a parte das horas (primeiros 2 dígitos)
+    let horas = valor.substring(0, 2);
+    if (horas.length === 2 && parseInt(horas) > 23) {
+      horas = '23'; // Trava no máximo em 23h
+    } else if (horas.length === 1 && parseInt(horas) > 2) {
+      horas = '0' + horas; // Se digitar de 3 a 9 no 1º dígito, assume que é 03 a 09
+    }
+
+    // 2. Valida a parte dos minutos (últimos 2 dígitos)
+    let minutos = valor.substring(2, 4);
+    if (minutos.length === 2 && parseInt(minutos) > 59) {
+      minutos = '59'; // Trava no máximo em 59m
+    } else if (minutos.length === 1 && parseInt(minutos) > 5) {
+      minutos = '0' + minutos; // Se digitar de 6 a 9 no 1º dígito dos minutos, assume 06 a 09
+    }
+
+    // 3. Remonta o valor final com os dois pontos
+    if (valor.length > 2) {
+      valor = horas + ':' + minutos;
+    } else {
+      valor = horas;
+    }
   }
-  
+
   campo.value = valor;
 }
 
