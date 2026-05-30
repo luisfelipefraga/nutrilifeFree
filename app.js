@@ -37,27 +37,44 @@ function searchFoods() {
         <div class="d-flex align-items-center gap-2 flex-wrap">
           <span class="nl-food-name">${f.name}</span>
           <span class="nl-food-cat">${f.category || ''}</span>
-          </div>
-          <span class="nl-food-kcal flex-shrink-0">${f.cal} kcal</span>
         </div>
+        <span class="nl-food-kcal flex-shrink-0">
+          <span id="kcal-val-${f.id}" data-base="${f.cal}">${f.cal}</span> kcal
+        </span>
+      </div>
       <div class="nl-add-row">
         <label class="nl-label mb-0" style="white-space:nowrap">Qtd (g):</label>
         <input type="number" class="form-control nl-input nl-qty-input" id="qty-${f.id}"
-          value="100" min="1" max="2000" style="width:90px; flex-shrink:0">
+          value="100" min="1" max="2000" style="width:90px; flex-shrink:0" oninput="atualizarNutrientesDinamico(${f.id})">
         <button class="btn btn-sm btn-outline-secondary py-1" onclick="toggleDetails(${f.id})">
-            <i class="bi bi-info-circle"></i> Detalhes
-          </button>  
+          <i class="bi bi-info-circle"></i> Detalhes
+        </button>  
         <button class="btn nl-btn-add flex-grow-1 flex-sm-grow-0" onclick="addToMeal(${f.id})">
           <i class="bi bi-plus-circle me-1"></i>Adicionar à refeição
         </button>
       </div>
-      <div class="text-muted mt-1" style="font-size:11px">* valores por 100g</div>
       <div id="details-${f.id}" class="nl-food-details row g-2 mt-2 pt-2 border-top small text-muted">
-          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-prot-tag">💪 Prot: ${f.prot}g</span></div>
-          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-carb-tag">⚡ Carb: ${f.carb}g</span></div>
-          <div class="col-2 col-sm-3"><span class="nl-macro-tag nl-fat-tag">🫙 Gord: ${f.fat}g</span></div>
-          <div class="col-2 col-sm-"><span class="nl-macro-tag nl-fib-tag">🌿 Fib: ${f.fib}g</span></div>
-        </div>
+      <div class="col-6 col-sm-3">
+        <span class="nl-macro-tag nl-prot-tag d-block text-center text-sm-start">
+          💪 Prot: <span id="prot-val-${f.id}" data-base="${f.prot}">${f.prot}</span>g
+        </span>
+      </div>
+      <div class="col-6 col-sm-3">
+        <span class="nl-macro-tag nl-carb-tag d-block text-center text-sm-start">
+          ⚡ Carb: <span id="carb-val-${f.id}" data-base="${f.carb}">${f.carb}</span>g
+        </span>
+      </div>
+      <div class="col-6 col-sm-3">
+        <span class="nl-macro-tag nl-fat-tag d-block text-center text-sm-start">
+          🫙 Gord: <span id="fat-val-${f.id}" data-base="${f.fat}">${f.fat}</span>g
+        </span>
+      </div>
+      <div class="col-6 col-sm-3">
+        <span class="nl-macro-tag nl-fib-tag d-block text-center text-sm-start">
+          🌿 Fib: <span id="fib-val-${f.id}" data-base="${f.fib}">${f.fib}</span>g
+        </span>
+      </div>
+    </div>
   </div>
   `).join('');
 }
@@ -200,6 +217,42 @@ function salvarRefeicaoNaRotina() {
   if (container) {
     renderizarRotinaSemanal();
   }
+}
+
+function atualizarNutrientesDinamico(idAlimento) {
+  const inputQuantidade = document.getElementById(`qty-${idAlimento}`);
+  if (!inputQuantidade) return;
+
+  // Força o valor mínimo a ser 0 se o usuário apagar tudo no input
+  const quantidadeAtual = parseFloat(inputQuantidade.value) || 0;
+
+  // Lista todos os elementos que precisam mudar
+  const macros = ['kcal', 'prot', 'carb', 'fat', 'fib'];
+
+  macros.forEach(macro => {
+    const elementoValor = document.getElementById(`${macro}-val-${idAlimento}`);
+    if (!elementoValor) return;
+
+    // Se o data-base sumir por algum motivo, ele pega o texto atual do HTML como fallback
+    let valorBase100g = parseFloat(elementoValor.getAttribute('data-base'));
+    if (isNaN(valorBase100g)) {
+      valorBase100g = parseFloat(elementoValor.textContent) || 0;
+      // Salva de volta para não perder a referência na próxima digitação
+      elementoValor.setAttribute('data-base', valorBase100g);
+    }
+
+    // Regra de três: (Valor para 100g * Quantidade atual) / 100
+    const valorProporcional = (valorBase100g * quantidadeAtual) / 100;
+
+    // Exibição amigável dos números
+    if (valorProporcional === 0) {
+      elementoValor.textContent = "0";
+    } else if (valorProporcional % 1 === 0) {
+      elementoValor.textContent = valorProporcional.toFixed(0);
+    } else {
+      elementoValor.textContent = valorProporcional.toFixed(1);
+    }
+  });
 }
 // ==========================================================================
 // MÓDULO: ROTINA SEMANAL DE REFEIÇÕES (NutriLife)
