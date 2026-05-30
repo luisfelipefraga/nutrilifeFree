@@ -19,6 +19,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --nl-text-muted:   #64748b;
   --nl-color-car:    #88E788;
   --nl-navbar-bg:    #ffffff;
+  --nl-footer-bg:    #ffffff;
   --nl-badge-bg:     var(--nl-green-light);
   --nl-shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
   --nl-shadow-md:    0 4px 16px rgba(0,0,0,.10);
@@ -632,7 +633,7 @@ div[style*="padding-top"] {
   border: 1px solid #86efac;
   color: #15803d;
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   padding: 10px 14px;
   border-radius: 8px;
   text-align: center;
@@ -640,12 +641,11 @@ div[style*="padding-top"] {
 
 /* ---------- FOOTER ---------- */
 .nl-footer {
-  background: var(--nl-text);
-  color: #94a3b8;
+  background: var(--nl-navbar-bg);;
+  color: #000000;
   font-size: 0.85rem;
 }
-.nl-footer-brand { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 6px; }
-.nl-footer strong { color: #fff; }
+.nl-footer-brand {font-size: 1rem; display: flex; align-items: center; gap: 6px; }
 
 /* ---------- CURSOR ---------- */
 .cursor-pointer { cursor: pointer; }
@@ -659,7 +659,8 @@ body.dark-mode {
   --nl-border:       #334155; /* Bordas mais escuras */
   --nl-text:         #f8fafc; /* Texto claro */
   --nl-text-muted:   #94a3b8; /* Texto secundário claro */
-  --nl-navbar-bg:    #1e293b; /* Navbar escura */
+  --nl-navbar-bg:    #1e293b; 
+  --nl-footer-bg:    #1e293b;
   --nl-badge-bg:     #14532d; 
   --nl-color-car:    #88E788;
 }

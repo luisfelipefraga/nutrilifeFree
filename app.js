@@ -282,75 +282,127 @@ function renderizarRotinaSemanal() {
     "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
   ];
 
+  // Adicionamos a propriedade "nome" para forçar um título limpo sem números
   const mapaIcones = {
-    'cafe': { icone: 'bi-cup-hot', cor: 'text-success' },
-    'lanche': { icone: 'bi-apple', cor: 'text-warning' },
-    'almoco': { icone: 'bi-sun', cor: 'text-success' },
-    'janta': { icone: 'bi-moon-stars', cor: 'text-info' }
+    'cafe': { icone: 'bi-cup-hot', cor: 'text-success', nome: 'Café da Manhã' },
+    'lanche': { icone: 'bi-apple', cor: 'text-warning', nome: 'Lanche' },
+    'almoco': { icone: 'bi-sun', cor: 'text-success', nome: 'Almoço' },
+    'janta': { icone: 'bi-moon-stars', cor: 'text-info', nome: 'Jantar' }
   };
 
   diasDaSemana.forEach((dia, indexDia) => {
     const categoriasDoDia = dadosSemana[dia] || {};
-    let htmlCategorias = '';
-    let indexCategoria = 0;
+    let htmlSubRefeicoes = '';
 
-    // 1º Nível: Percorre as Categorias Mãe (ex: "cafe", "almoco")
+    // 1º Nível: Extrair todas as refeições do dia para um Array para podermos ordenar
+    let refeicoesDoDia = [];
     for (const categoriaMae in categoriasDoDia) {
       const subRefeicoes = categoriasDoDia[categoriaMae] || {};
-      let htmlSubRefeicoes = '';
-      let indexSub = 0;
-
-      // 2º Nível: Percorre as Sub-refeições (ex: "almoco_1", "almoco_2")
       for (const idSub in subRefeicoes) {
         const dadosSub = subRefeicoes[idSub] || {};
-        const alimentos = dadosSub.alimentos || [];
-        
-        if (alimentos.length === 0) continue;
-
-        // 3º Nível: Transforma a lista de alimentos em HTML
-        const htmlAlimentos = alimentos.map(alimento => `
-          <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-translucent fs-7">
-            <span>${alimento.name} <small class="text-muted">(${alimento.qty}g)</small></span>
-            <span class="badge bg-light text-dark fw-normal">${alimento.cal.toFixed(1)} kcal</span>
-          </div>
-        `).join('');
-
-        const idColapso = `collapse-${indexDia}-${indexCategoria}-${indexSub}`;
-        const infoVisual = mapaIcones[categoriaMae] || { icone: 'bi-egg-fried', cor: 'text-secondary' };
-
-        htmlSubRefeicoes += `
-          <div class="sub-refeicao-item mb-3 ps-2 border-start border-2 border-success">
-            <div class="d-flex justify-content-between align-items-center py-1">
-              <div>
-                <span class="fw-bold text-uppercase fs-8 text-muted tracking-wide d-block">
-                  <i class="bi ${infoVisual.icone} ${infoVisual.cor} me-1"></i>${dadosSub.nomeExibicao || categoriaMae}
-                </span>
-                <span class="badge bg-success-subtle text-success fs-8 mt-1">${dadosSub.totalKcal || 0} kcal</span>
-              </div>
-              <button class="btn btn-link btn-sm p-0 text-decoration-none fs-7 align-self-end" 
-                      type="button" 
-                      data-bs-toggle="collapse" 
-                      data-bs-target="#${idColapso}" 
-                      aria-expanded="false">
-                Detalhes <i class="bi bi-chevron-down fs-8"></i>
-              </button>
-            </div>
-            
-            <div class="collapse mt-1 p-2 bg-transparent rounded" id="${idColapso}">
-              ${htmlAlimentos}
-            </div>
-          </div>
-        `;
-        indexSub++;
-      }
-
-      if (htmlSubRefeicoes) {
-        htmlCategorias += `<div class="categoria-mae-box">${htmlSubRefeicoes}</div>`;
-        indexCategoria++;
+        if (dadosSub.alimentos && dadosSub.alimentos.length > 0) {
+          refeicoesDoDia.push({
+            categoriaMae,
+            idSub,
+            ...dadosSub
+          });
+        }
       }
     }
 
-    const corpoCardHtml = htmlCategorias || `
+    // 2º Nível: Ordenar as refeições pela hora (se não tiver hora, joga pro final '23:59')
+    refeicoesDoDia.sort((a, b) => {
+      const horaA = a.hora || '23:59';
+      const horaB = b.hora || '23:59';
+      return horaA.localeCompare(horaB);
+    });
+
+    // 3º Nível: Montar o HTML das refeições
+    refeicoesDoDia.forEach((refeicao, indexSub) => {
+      let totalProt = 0, totalCarb = 0, totalFat = 0, totalFib = 0;
+
+      const htmlAlimentos = refeicao.alimentos.map(alimento => {
+        totalProt += Number(alimento.prot) || 0;
+        totalCarb += Number(alimento.carb) || 0;
+        totalFat  += Number(alimento.fat) || 0;
+        totalFib  += Number(alimento.fib) || 0;
+
+        return `
+          <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-translucent fs-7">
+            <span>${alimento.name} <small class="text-muted">(${alimento.qty}g)</small></span>
+            <span class="badge bg-light text-dark fw-normal">${Number(alimento.cal).toFixed(1)} kcal</span>
+          </div>
+        `;
+      }).join('');
+
+      const idColapso = `collapse-${indexDia}-${indexSub}`;
+      const idColapsoNutri = `collapse-nutri-${indexDia}-${indexSub}`; 
+      
+      // Resgata os dados visuais limpos do mapa (ex: "Almoço" em vez de "Almoço 1")
+      const infoVisual = mapaIcones[refeicao.categoriaMae] || { icone: 'bi-egg-fried', cor: 'text-secondary', nome: refeicao.categoriaMae };
+
+      htmlSubRefeicoes += `
+        <div class="sub-refeicao-item mb-3 ps-2 border-start border-2 border-success">
+          <div class="d-flex justify-content-between align-items-start py-1">
+            
+            <div class="d-flex flex-column gap-1">
+              <span class="fw-bold text-uppercase fs-8 text-muted tracking-wide">
+                <i class="bi ${infoVisual.icone} ${infoVisual.cor} me-1"></i>${infoVisual.nome}
+              </span>
+              
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="badge bg-success-subtle text-success fs-8">${refeicao.totalKcal || 0} kcal</span>
+                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-clock fs-8 me-1"></i>
+                  <input type="text" class="form-control form-control-sm border-0 bg-transparent text-muted p-0 shadow-none text-center" 
+                         style="width: 45px; font-size: 0.75rem;" 
+                         value="${refeicao.hora || ''}" 
+                         placeholder="00:00"
+                         maxlength="5"
+                         oninput="mascaraHora(this)"
+                         onchange="atualizarHoraRefeicao('${dia}', '${refeicao.categoriaMae}', '${refeicao.idSub}', this.value)" 
+                         title="Definir horário (HH:MM)">
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex align-items-center gap-2 mt-1">
+              <button class="btn btn-link btn-sm p-0 text-decoration-none fs-7" 
+                      type="button" data-bs-toggle="collapse" data-bs-target="#${idColapso}" aria-expanded="false">
+                Detalhes <i class="bi bi-chevron-down fs-8"></i>
+              </button>
+              <button class="btn btn-link btn-sm p-0 text-danger ms-1" 
+                      onclick="excluirRefeicao('${dia}', '${refeicao.categoriaMae}', '${refeicao.idSub}')" title="Excluir refeição">
+                <i class="bi bi-trash fs-6"></i>
+              </button>
+            </div>
+
+          </div>
+          
+          <div class="collapse mt-1 p-2 bg-transparent rounded" id="${idColapso}">
+            ${htmlAlimentos}
+            
+            <div class="mt-2 pt-2 border-top border-translucent text-center">
+              <button class="btn btn-sm nl-btn-primary w-100 fs-8 text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#${idColapsoNutri}">
+                <i class="bi bi-bar-chart me-1"></i> Detalhes nutricionais
+              </button>
+              <div class="collapse mt-2" id="${idColapsoNutri}">
+                <div class="d-flex flex-wrap gap-1 justify-content-center">
+                  <span class="nl-macro-tag nl-prot-tag d-block text-center text-sm-start fs-8 px-2 py-1">💪 Prot: ${totalProt.toFixed(1)}g</span>
+                  <span class="nl-macro-tag nl-carb-tag d-block text-center text-sm-start fs-8 px-2 py-1">⚡ Carb: ${totalCarb.toFixed(1)}g</span>
+                  <span class="nl-macro-tag nl-fat-tag d-block text-center text-sm-start fs-8 px-2 py-1">🫙 Gord: ${totalFat.toFixed(1)}g</span>
+                  <span class="nl-macro-tag nl-fib-tag d-block text-center text-sm-start fs-8 px-2 py-1">🌿 Fib: ${totalFib.toFixed(1)}g</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    });
+
+    const corpoCardHtml = htmlSubRefeicoes ? `<div class="categoria-mae-box">${htmlSubRefeicoes}</div>` : `
       <div class="text-center py-4 text-muted">
         <i class="bi bi-calendar-x d-block fs-4 mb-2 opacity-50"></i>
         <p class="m-0 fs-7">Nenhuma refeição planejada.</p>
@@ -375,7 +427,6 @@ function renderizarRotinaSemanal() {
 }
 
 function exportarRotinaParaPDF() {
-  // 1. Busca os dados reais e atualizados do localStorage
   const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
   
   if (Object.keys(dadosSemana).length === 0) {
@@ -388,7 +439,6 @@ function exportarRotinaParaPDF() {
     "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"
   ];
 
-  // 2. Constrói a estrutura do documento focada em impressão (Fundo branco, texto escuro)
   let conteudoHTML = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #2D3748; padding: 20px; max-width: 800px; margin: 0 auto;">
       <div style="text-align: center; border-bottom: 2px solid #2F855A; padding-bottom: 15px; margin-bottom: 30px;">
@@ -399,11 +449,9 @@ function exportarRotinaParaPDF() {
 
   let temDados = false;
 
-  // 3. Varre os 3 níveis dos dados para montar o texto corrido
   diasDaSemana.forEach(dia => {
     const categoriasDoDia = dadosSemana[dia] || {};
     
-    // Verifica se o dia de fato tem algum alimento válido antes de desenhar o título do dia
     let temAlimentoNoDia = false;
     for (const cat in categoriasDoDia) {
       for (const sub in categoriasDoDia[cat]) {
@@ -429,23 +477,34 @@ function exportarRotinaParaPDF() {
 
           if (alimentos.length === 0) continue;
 
-          // Cria a string amigável mapeando: Nome (Qtd g)
-          const stringAlimentos = alimentos
-            .map(alimento => `${alimento.name} (${alimento.qty}g)`)
-            .join(', ');
+          // NOVO: Calcula os macros totais para o PDF
+          let totalProt = 0, totalCarb = 0, totalFat = 0, totalFib = 0;
 
-          // Monta o bloco de texto minimalista da refeição
+          const stringAlimentos = alimentos.map(alimento => {
+            totalProt += Number(alimento.prot) || 0;
+            totalCarb += Number(alimento.carb) || 0;
+            totalFat  += Number(alimento.fat) || 0;
+            totalFib  += Number(alimento.fib) || 0;
+            return `${alimento.name} (${alimento.qty}g)`;
+          }).join(', ');
+
+          // NOVO: Bloco HTML do PDF agora inclui a faixa de Macros Totais
           conteudoHTML += `
-            <div style="margin-bottom: 10px; padding-left: 10px;">
+            <div style="margin-bottom: 15px; padding-left: 10px;">
               <strong style="font-size: 14px; color: #4A5568;">${dadosSub.nomeExibicao || categoriaMae}</strong> 
               <span style="font-size: 12px; color: #A0AEC0; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
               <p style="margin: 3px 0 0 0; font-size: 14px; color: #4A5568; line-height: 1.4;">${stringAlimentos}</p>
+              
+              <div style="margin-top: 6px; font-size: 11px; color: #718096; background-color: #F7FAFC; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                <strong>Macros Totais:</strong> 
+                Prot: ${totalProt.toFixed(1)}g | Carb: ${totalCarb.toFixed(1)}g | Gord: ${totalFat.toFixed(1)}g | Fib: ${totalFib.toFixed(1)}g
+              </div>
             </div>
           `;
         }
       }
 
-      conteudoHTML += `</div>`; // Fecha div do dia
+      conteudoHTML += `</div>`;
     }
   });
 
@@ -461,20 +520,18 @@ function exportarRotinaParaPDF() {
     return;
   }
 
-  // 4. Configuração focada em gerar páginas limpas de documento vertical (A4 Retrato)
   const configuracoes = {
-    margin:       [20, 20, 20, 20], // Ótimas margens para leitura de listas
+    margin:       [20, 20, 20, 20],
     filename:     'NutriLife_Plano_Alimentar.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { 
       scale: 2, 
       useCORS: true,
-      backgroundColor: '#FFFFFF' // Força o PDF a ser gerado sempre com fundo branco limpo
+      backgroundColor: '#FFFFFF'
     },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } // Formato retrato (vertical) para listas de texto
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  // Executa a geração usando a string HTML construída
   html2pdf()
     .set(configuracoes)
     .from(conteudoHTML)
@@ -503,12 +560,64 @@ document.addEventListener('DOMContentLoaded', () => {
     if (iconEl) iconEl.className = 'bi bi-moon-fill';
   }
 });
+
+// Função para atualizar a hora direto do card
+function atualizarHoraRefeicao(dia, categoriaMae, idSub, novaHora) {
+  const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+  
+  if (dadosSemana[dia] && dadosSemana[dia][categoriaMae] && dadosSemana[dia][categoriaMae][idSub]) {
+    // Atualiza a hora no objeto
+    dadosSemana[dia][categoriaMae][idSub].hora = novaHora;
+    
+    // Salva no LocalStorage e renderiza de novo (para a refeição mudar de posição instantaneamente)
+    localStorage.setItem('nl-rotina-semanal', JSON.stringify(dadosSemana));
+    renderizarRotinaSemanal();
+  }
+}
+function mascaraHora(campo) {
+  // Remove tudo que não for número
+  let valor = campo.value.replace(/\D/g, ''); 
+  
+  // Coloca os dois pontos depois do segundo número
+  if (valor.length > 2) {
+    valor = valor.substring(0, 2) + ':' + valor.substring(2, 4);
+  }
+  
+  campo.value = valor;
+}
+
+// Função para excluir uma refeição específica
+function excluirRefeicao(dia, categoriaMae, idSub) {
+  // Alerta de confirmação nativo do navegador
+  if (confirm(`Tem certeza que deseja excluir esta refeição de ${dia}?`)) {
+    const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+    
+    if (dadosSemana[dia] && dadosSemana[dia][categoriaMae]) {
+      // Deleta a sub-refeição (ex: almoco_1)
+      delete dadosSemana[dia][categoriaMae][idSub];
+      
+      // Se a categoria mãe (ex: almoco) ficar vazia, deleta ela também para limpar o objeto
+      if (Object.keys(dadosSemana[dia][categoriaMae]).length === 0) {
+        delete dadosSemana[dia][categoriaMae];
+      }
+      
+      // Salva e atualiza a tela
+      localStorage.setItem('nl-rotina-semanal', JSON.stringify(dadosSemana));
+      renderizarRotinaSemanal();
+    }
+  }
+}
+
+
 /* ---------- CALCULADORA IMC ---------- */
 
 function calcIMC() {
   const h = parseFloat(document.getElementById('imc-altura')?.value);
   const w = parseFloat(document.getElementById('imc-peso')?.value);
-  if (!h || !w || h < 100 || w < 30) { alert('Preencha altura e peso corretamente.'); return; }
+  if (!w) { alert('Preencha algum valor de peso.'); return; }
+  if (!h) { alert('Preencha algum valor de altura.'); return; }
+  if (h < 100 || h > 270 ) { alert('Preencha a altura com valores válidos.'); return; }
+  if (w < 29 || w > 673) { alert('Preencha o peso com valores válidos.'); return; }
 
   const imc = w / Math.pow(h / 100, 2);
   document.getElementById('imc-result')?.classList.remove('d-none');
@@ -545,6 +654,11 @@ function calcTMB() {
   const fator  = parseFloat(document.getElementById('tmb-atividade')?.value);
 
   if (!idade || !altura || !peso) { alert('Preencha todos os campos.'); return; }
+  if (!peso) { alert('Preencha algum valor de peso.'); return; }
+  if (!altura) { alert('Preencha algum valor de altura.'); return; }
+  if (altura < 100 || altura > 270 ) { alert('Preencha a altura com valores válidos.'); return; }
+  if (peso < 29 || peso > 673) { alert('Preencha p peso com valores válidos.'); return; }
+  if (idade <=0 || idade >=150) { alert('Preencha a idade com valores válidos.'); return; }
 
   const tmb = sexo === 'm'
     ? 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade)
