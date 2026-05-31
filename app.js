@@ -115,7 +115,7 @@ function removeFromMeal(uid) {
 }
 
 function renderMeal() {
-  const container = document.getElementById('meal-items');
+  const container = document.getElementById('meal-items'); 
   const countEl   = document.getElementById('meal-count');
   if (!container) return;
 
@@ -175,13 +175,13 @@ function salvarRefeicaoNaRotina() {
   const selectCategoria = document.getElementById('select-categoria-refeicao');
   const categoriaSelecionada = selectCategoria.value;
 
-  if (!diaSelecionado || !categoriaSelecionada) {
-    alert("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.");
+  if (!meal || meal.length === 0) {
+    alert("Sua refeição está vazia! Adicione alimentos na busca antes de salvar.");
     return;
   }
 
-  if (!meal || meal.length === 0) {
-    alert("Sua refeição está vazia! Adicione alimentos na busca antes de salvar.");
+  if (!diaSelecionado || !categoriaSelecionada) {
+    alert("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.");
     return;
   }
 
@@ -206,7 +206,7 @@ function salvarRefeicaoNaRotina() {
   // Injeta os dados da sub-refeição mantendo o histórico
   rotinaSemanal[diaSelecionado][categoriaSelecionada][chaveSubRefeicao] = {
     nomeExibicao: `${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}`,
-    antos: [...meal],
+    alimentos: [...meal],
     totalKcal: Math.round(meal.reduce((total, item) => total + (item.cal || 0), 0))
   };
 
@@ -328,16 +328,16 @@ function renderizarRotinaSemanal() {
     refeicoesDoDia.forEach((refeicao, indexSub) => {
       let totalProt = 0, totalCarb = 0, totalFat = 0, totalFib = 0;
 
-      const htmlAlimentos = refeicao.alimentos.map(alimento => {
-        totalProt += Number(alimento.prot) || 0;
-        totalCarb += Number(alimento.carb) || 0;
-        totalFat  += Number(alimento.fat) || 0;
-        totalFib  += Number(alimento.fib) || 0;
+      const htmlAlimentos = refeicao.alimentos.map(f => {
+        totalProt += Number(f.prot) || 0;
+        totalCarb += Number(f.carb) || 0;
+        totalFat  += Number(f.fat) || 0;
+        totalFib  += Number(f.fib) || 0;
 
         return `
           <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-translucent fs-7">
-            <span>${alimento.name} <small class="text-muted">(${alimento.qty}g)</small></span>
-            <span class="badge bg-light text-dark fw-normal">${Number(alimento.cal).toFixed(1)} kcal</span>
+            <span>${f.name} <small class="text-muted">(${f.qty}g)</small></span>
+            <span class="badge bg-light text-dark fw-normal">${Number(f.cal).toFixed(1)} kcal</span>
           </div>
         `;
       }).join('');
@@ -374,12 +374,12 @@ function renderizarRotinaSemanal() {
               </div>
             </div>
             
-            <div class="d-flex align-items-center gap-2 mt-1">
+            <div class="d-flex-wrap align-items-center gap-2 mt-1">
               <button class="btn btn-link btn-sm p-0 text-decoration-none fs-7" 
                       type="button" data-bs-toggle="collapse" data-bs-target="#${idColapso}" aria-expanded="false">
                 Detalhes <i class="bi bi-chevron-down fs-8"></i>
               </button>
-              <button class="btn btn-link btn-sm p-0 text-danger ms-1" 
+              <button class="btn btn-link btn-sm p-0 text-danger ms-auto" 
                       onclick="excluirRefeicao('${dia}', '${refeicao.categoriaMae}', '${refeicao.idSub}')" title="Excluir refeição">
                 <i class="bi bi-trash fs-6"></i>
               </button>

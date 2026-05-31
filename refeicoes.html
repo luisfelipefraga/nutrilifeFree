@@ -58,7 +58,8 @@
 
     <div class="d-flex align-items-center gap-2 ms-auto order-lg-last">
       
-      <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" onclick="toggleDarkMode()">
+      <button id="btn-dark-mode" class="btn btn-sm btn-outline-secondary rounded-circle" type="button" 
+              onclick="toggleDarkMode()">
         <i class="bi bi-moon-fill"></i>
       </button>
 
@@ -83,45 +84,43 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nl-nav-btn" href="calculadoras.html">
+          <a class="nav-link nl-nav-btn active" href="calculadoras.html">
             <i class="bi bi-calculator me-1"></i>Calculadoras
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nl-nav-btn active" href="refeicoes.html">
+          <a class="nav-link nl-nav-btn" href="refeicoes.html">
             <i class="bi bi-book me-1"></i>Refeições
           </a>
         </li>
       </ul>
     </div>
-
-    </div>
+  </div>
 </nav>
 
-  <main class="flex-grow-1 container py-4 topMainPages">
-    
-    <div class="nl-page-header mb-4">
-      <h1 class="nl-h1">Minha Rotina Semanal</h1>
-      <p class="text-muted m-0">Visualize e organize os alimentos montados na aba de nutrição ao longo da sua semana.</p>
-      <button class="btn btn-outline-danger btn-sm mt-3 d-inline-flex align-items-center gap-2" onclick="exportarRotinaParaPDF()">
-        <i class="bi bi-file-earmark-pdf-fill"></i> Exportar Rotina em PDF
-      </button>
-    </div>
-
-    <div class="row g-4" id="semana-refeicoes-container">
-      
+  <main class="flex-grow-1 container topMainPages">
+    <section>
+      <div class="nl-page-header mb-4">
+        <h1 class="nl-h1">Minha Rotina Semanal</h1>
+        <p class="text-muted m-0">Visualize e organize os alimentos montados na aba de nutrição ao longo da sua semana.</p>
+        <button class="btn btn-outline-danger btn-sm mt-3 d-inline-flex align-items-center gap-2" onclick="exportarRotinaParaPDF()">
+          <i class="bi bi-file-earmark-pdf-fill"></i> Exportar Rotina em PDF
+        </button>
       </div>
+      <div class="row g-4" id="semana-refeicoes-container">
+      </div>
+    </section>  
   </main>
 
-  <footer class="nl-footer py-4 bg-body-tertiary border-top border-translucent">
-    <div class="container d-flex justify-content-between align-items-center">
-      <div class="nl-footer-brand">
+  <footer class="nl-footer py-4 border-top">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="nl-footer-brand">
         <img src="assets/img/logo/logo.png" alt="NutriLife" width="24" height="24">
         <strong>NutriLife</strong>
       </div>
-      <p class="m-0 opacity-75">&copy; 2026 NutriLife. Todos os direitos reservados.</p>
-    </div>
-  </footer>
+        <p class="mb-0 small">© 2026 NutriLife · Sua jornada para uma vida mais saudável 🌱</p>
+      </div>
+    </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="data.js"></script>
