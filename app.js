@@ -170,18 +170,41 @@ function clearMeal() {
   document.getElementById('t-fib').innerText = '0g';
 }
 
+function mostrarNotificacao(mensagem, tipo = 'success') {
+    const toastEl = document.getElementById('meuToast');
+    const toastMsg = document.getElementById('toast-mensagem');
+    
+    // Define a cor baseada no tipo (bootstrap classes)
+    toastEl.className = `toast align-items-center text-white bg-${tipo} border-0`;
+    toastMsg.textContent = mensagem;
+
+    // Inicializa e mostra o Toast
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+}
+
 function salvarRefeicaoNaRotina() {
   const diaSelecionado = document.getElementById('select-dia-semana').value;
   const selectCategoria = document.getElementById('select-categoria-refeicao');
   const categoriaSelecionada = selectCategoria.value;
 
   if (!meal || meal.length === 0) {
-    alert("Sua refeição está vazia! Adicione alimentos na busca antes de salvar.");
+        mostrarNotificacao("Adicione pelo menos um alimento antes de salvar!", "warning");
+        return; // Interrompe a execução aqui
+    }
+
+  if (!diaSelecionado || !categoriaSelecionada) {
+    mostrarNotificacao("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.", "warning");
     return;
   }
 
-  if (!diaSelecionado || !categoriaSelecionada) {
-    alert("Por favor, selecione o Dia da Semana e o Tipo de Refeição antes de salvar.");
+  if (!diaSelecionado) {
+    mostrarNotificacao("Por favor, selecione o Dia da Semana antes de salvar.", "warning");
+    return;
+  }
+
+  if (!categoriaSelecionada) {
+    mostrarNotificacao("Por favor, selecione o Tipo de Refeição antes de salvar.", "warning");
     return;
   }
 
@@ -212,7 +235,8 @@ function salvarRefeicaoNaRotina() {
 
   localStorage.setItem('nl-rotina-semanal', JSON.stringify(rotinaSemanal));
 
-  alert(`Sucesso! Salva como "${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}" na ${diaSelecionado}.`);
+  mostrarNotificacao(`Sucesso! Salva como "${selectCategoria.options[selectCategoria.selectedIndex].text} ${proximoNumero}" na ${diaSelecionado}.`, "success");
+  
   
   clearMeal();
 
@@ -437,7 +461,7 @@ function exportarRotinaParaPDF() {
   const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
   
   if (Object.keys(dadosSemana).length === 0) {
-    alert("Não há dados de refeições para exportar.");
+    mostrarNotificacao("Não há dados de refeições para exportar!", "warning");
     return;
   }
 
@@ -502,16 +526,16 @@ function exportarRotinaParaPDF() {
             <div style="margin-bottom: 15px; padding-left: 10px;">
               <div style="display: flex; align-items: baseline;">
                 <strong style="font-size: 14px; color: #4A5568;">${dadosSub.nomeExibicao || categoriaMae}</strong> 
-                <span style="font-size: 12px; color: #718096; margin-left: 8px; font-weight: bold;">
+                <span style="font-size: 12px; color: #4d4d4d; margin-left: 8px; font-weight: bold;">
                   🕒 ${horario}
                 </span>
-                <span style="font-size: 12px; color: #A0AEC0; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
+                <span style="font-size: 12px; color: #3e3f41; margin-left: 8px;">(${dadosSub.totalKcal || 0} kcal)</span>
               </div>
               
-              <p style="margin: 3px 0 0 0; font-size: 14px; color: #4A5568; line-height: 1.4;">${stringAlimentos}</p>
+              <p style="margin: 3px 0 0 0; font-size: 14px; color: 4d4d4d; line-height: 1.4;">${stringAlimentos}</p>
               
-              <div style="margin-top: 6px; font-size: 11px; color: #718096; background-color: #F7FAFC; padding: 4px 8px; border-radius: 4px; display: inline-block;">
-                <strong>Macros Totais:</strong> 
+              <div style="margin-top: 6px; font-size: 11px; color: 4d4d4d; background-color: #F7FAFC; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                <strong>Valores Totais:</strong> 
                 Prot: ${totalProt.toFixed(1)}g | Carb: ${totalCarb.toFixed(1)}g | Gord: ${totalFat.toFixed(1)}g | Fib: ${totalFib.toFixed(1)}g
               </div>
             </div>
@@ -525,13 +549,13 @@ function exportarRotinaParaPDF() {
 
   conteudoHTML += `
       <div style="margin-top: 40px; text-align: center; border-top: 1px solid #E2E8F0; padding-top: 15px;">
-        <small style="color: #A0AEC0; font-size: 11px;">Documento gerado automaticamente pelo NutriLife.</small>
+        <small style="color: #4d4d4d; font-size: 11px;">Documento gerado automaticamente pelo NutriLife.</small>
       </div>
     </div>
   `;
 
   if (!temDados) {
-    alert("Apesar de existirem chaves, não há alimentos adicionados para exportar.");
+    mostrarNotificacao("Não há Refeições adicionadas para exportar.", "warning");
     return;
   }
 
@@ -553,7 +577,7 @@ function exportarRotinaParaPDF() {
     .save()
     .catch(erro => {
       console.error("Erro na geração do PDF: ", erro);
-      alert("Ocorreu um erro ao gerar o seu PDF. Verifique o console.");
+      mostrarNotificacao("Ocorreu um erro ao gerar o seu PDF. Verifique o console!", "danger");
     });
 }
 
@@ -622,26 +646,39 @@ function mascaraHora(campo) {
 }
 
 // Função para excluir uma refeição específica
+let dadosParaExcluir = {};
+
 function excluirRefeicao(dia, categoriaMae, idSub) {
-  // Alerta de confirmação nativo do navegador
-  if (confirm(`Tem certeza que deseja excluir esta refeição de ${dia}?`)) {
-    const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
-    
-    if (dadosSemana[dia] && dadosSemana[dia][categoriaMae]) {
-      // Deleta a sub-refeição (ex: almoco_1)
-      delete dadosSemana[dia][categoriaMae][idSub];
-      
-      // Se a categoria mãe (ex: almoco) ficar vazia, deleta ela também para limpar o objeto
-      if (Object.keys(dadosSemana[dia][categoriaMae]).length === 0) {
-        delete dadosSemana[dia][categoriaMae];
-      }
-      
-      // Salva e atualiza a tela
-      localStorage.setItem('nl-rotina-semanal', JSON.stringify(dadosSemana));
-      renderizarRotinaSemanal();
+  // Armazena os dados
+  dadosParaExcluir = { dia, categoriaMae, idSub };
+  
+  // Atualiza o texto e abre o modal
+  document.getElementById('modalMensagem').textContent = `Tem certeza que deseja excluir esta refeição de ${dia}?`;
+  const modal = new bootstrap.Modal(document.getElementById('modalConfirmacao'));
+  modal.show();
+
+  document.getElementById('btnConfirmarExclusao').addEventListener('click', function() {
+  const { dia, categoriaMae, idSub } = dadosParaExcluir;
+  
+  const dadosSemana = JSON.parse(localStorage.getItem('nl-rotina-semanal')) || {};
+  
+  if (dadosSemana[dia] && dadosSemana[dia][categoriaMae]) {
+    delete dadosSemana[dia][categoriaMae][idSub];
+    if (Object.keys(dadosSemana[dia][categoriaMae]).length === 0) {
+      delete dadosSemana[dia][categoriaMae];
     }
+    localStorage.setItem('nl-rotina-semanal', JSON.stringify(dadosSemana));
+    renderizarRotinaSemanal();
+    
+    // Fecha o modal e mostra a notificação de sucesso
+    bootstrap.Modal.getInstance(document.getElementById('modalConfirmacao')).hide();
+    mostrarNotificacao("Refeição excluída com sucesso!", "success");
   }
+});
 }
+
+// Evento disparado quando clica no botão "Sim, excluir" dentro do modal
+
 
 
 /* ---------- CALCULADORA IMC ---------- */
@@ -649,10 +686,10 @@ function excluirRefeicao(dia, categoriaMae, idSub) {
 function calcIMC() {
   const h = parseFloat(document.getElementById('imc-altura')?.value);
   const w = parseFloat(document.getElementById('imc-peso')?.value);
-  if (!w) { alert('Preencha algum valor de peso.'); return; }
-  if (!h) { alert('Preencha algum valor de altura.'); return; }
-  if (h < 100 || h > 270 ) { alert('Preencha a altura com valores válidos.'); return; }
-  if (w < 29 || w > 673) { alert('Preencha o peso com valores válidos.'); return; }
+  if (!w) { mostrarNotificacao("Preencha algum valor de peso!", "warning"); return; } 
+  if (!h) { mostrarNotificacao("Preencha algum valor de altura!", "warning"); return; } 
+  if (h < 100 || h > 270 ) { mostrarNotificacao("Preencha a altura com valores válidos!", "warning"); return; } 
+  if (w < 29 || w > 673) { mostrarNotificacao("Preencha o peso com valores válidos!", "warning"); return; } 
 
   const imc = w / Math.pow(h / 100, 2);
   document.getElementById('imc-result')?.classList.remove('d-none');
@@ -688,13 +725,13 @@ function calcTMB() {
   const peso   = parseFloat(document.getElementById('tmb-peso')?.value);
   const fator  = parseFloat(document.getElementById('tmb-atividade')?.value);
 
-  if (!idade || !altura || !peso) { alert('Preencha todos os campos.'); return; }
-  if (!peso) { alert('Preencha algum valor de peso.'); return; }
-  if (!altura) { alert('Preencha algum valor de altura.'); return; }
-  if (altura < 100 || altura > 270 ) { alert('Preencha a altura com valores válidos.'); return; }
-  if (peso < 29 || peso > 673) { alert('Preencha p peso com valores válidos.'); return; }
-  if (idade <=0 || idade >=150) { alert('Preencha a idade com valores válidos.'); return; }
-
+  if (!idade || !altura || !peso) { mostrarNotificacao("Preencha todos os campos.", "warning"); return; } 
+  if (!peso) { mostrarNotificacao("Preencha algum valor de peso!", "warning"); return; } 
+  if (!altura) { mostrarNotificacao("Preencha algum valor de altura!", "warning"); return; } 
+  if (!idade) { mostrarNotificacao("Preencha algum valor de idade!", "warning"); return; } 
+  if (altura < 100 || altura > 270 ) { mostrarNotificacao("Preencha a altura com valores válidos!", "warning"); return; } 
+  if (peso < 29 || peso > 673) { mostrarNotificacao("Preencha o peso com valores válidos!", "warning"); return; } 
+  if (idade <=0 || idade >=150) { mostrarNotificacao("Preencha a idade com valores válidos.", "warning"); return; } 
   const tmb = sexo === 'm'
     ? 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade)
     : 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
